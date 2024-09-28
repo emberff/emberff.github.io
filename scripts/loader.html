@@ -19,13 +19,15 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="website">
+    <meta name="description" content="$(function(){ 		   $(&quot;#Loadanimation&quot;).fadeOut(540); 		});">
+<meta property="og:type" content="website">
 <meta property="og:title" content="page.title">
 <meta property="og:url" content="http://example.com/scripts/loader.html">
 <meta property="og:site_name" content="Emberff Blog">
+<meta property="og:description" content="$(function(){ 		   $(&quot;#Loadanimation&quot;).fadeOut(540); 		});">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-28T12:37:15.550Z">
-<meta property="article:modified_time" content="2024-09-28T12:20:09.578Z">
+<meta property="article:published_time" content="2024-09-28T12:42:00.352Z">
+<meta property="article:modified_time" content="2024-09-28T12:42:00.352Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -225,7 +227,7 @@
                 
 
 <article class="page-content">
-  <div class="loader"></div>
+  <!-- <div class="loader"></div>
 	<div class="loader-inner">
 		<div class="loader-line-wrap">
 			<div class="loader-line"></div>
@@ -243,7 +245,23 @@
 			<div class="loader-line"></div>
 		</div>
 	</div>
-</div>
+</div> -->
+
+<div id="Loadanimation" style="z-index:999999;">
+	<div id="Loadanimation-center">
+	   <div id="Loadanimation-center-absolute">
+		   <div class="xccx_object" id="xccx_four"></div>
+		   <div class="xccx_object" id="xccx_three"></div>
+		   <div class="xccx_object" id="xccx_two"></div>
+		   <div class="xccx_object" id="xccx_one"></div>
+	   </div>
+	</div>
+	</div>
+	<script>
+		$(function(){
+		   $("#Loadanimation").fadeOut(540);
+		});
+		</script>
 
   
 
@@ -360,6 +378,7 @@
   
 <script src="/js/custom.js"></script>
 <script src="/js/firework.js"></script>
+<script src="/js/loader.js"></script>
 
 
 

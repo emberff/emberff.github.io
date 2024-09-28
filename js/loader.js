@@ -1,3 +1,5 @@
-$(function(){
-   $("#loader").fadeOut(540);
-});
+// $(function(){
+//    $("#loader").fadeOut(540);
+// });
+
+
