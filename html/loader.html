@@ -19,15 +19,15 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="$(function(){ 		   $(&quot;#Loadanimation&quot;).fadeOut(540); 		});">
+    <meta name="description" content="$(function(){ 		$(&quot;#loader&quot;).fadeOut(540); 	});">
 <meta property="og:type" content="website">
 <meta property="og:title" content="page.title">
-<meta property="og:url" content="http://example.com/scripts/loader.html">
+<meta property="og:url" content="http://example.com/html/loader.html">
 <meta property="og:site_name" content="Emberff Blog">
-<meta property="og:description" content="$(function(){ 		   $(&quot;#Loadanimation&quot;).fadeOut(540); 		});">
+<meta property="og:description" content="$(function(){ 		$(&quot;#loader&quot;).fadeOut(540); 	});">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-09-28T12:42:00.352Z">
-<meta property="article:modified_time" content="2024-09-28T12:42:00.352Z">
+<meta property="article:published_time" content="2024-09-28T15:27:39.857Z">
+<meta property="article:modified_time" content="2024-09-28T13:08:08.223Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -64,7 +64,6 @@
   
 <link rel="stylesheet" href="/css/custom.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/toubudaziji.css">
-<link rel="stylesheet" href="/css/loader.css">
 
 
 
@@ -227,7 +226,7 @@
                 
 
 <article class="page-content">
-  <!-- <div class="loader"></div>
+  <div class="loader">
 	<div class="loader-inner">
 		<div class="loader-line-wrap">
 			<div class="loader-line"></div>
@@ -245,23 +244,13 @@
 			<div class="loader-line"></div>
 		</div>
 	</div>
-</div> -->
+</div>
+<script>
+	$(function(){
+		$("#loader").fadeOut(540);
+	});
+</script>
 
-<div id="Loadanimation" style="z-index:999999;">
-	<div id="Loadanimation-center">
-	   <div id="Loadanimation-center-absolute">
-		   <div class="xccx_object" id="xccx_four"></div>
-		   <div class="xccx_object" id="xccx_three"></div>
-		   <div class="xccx_object" id="xccx_two"></div>
-		   <div class="xccx_object" id="xccx_one"></div>
-	   </div>
-	</div>
-	</div>
-	<script>
-		$(function(){
-		   $("#Loadanimation").fadeOut(540);
-		});
-		</script>
 
   
 
@@ -313,10 +302,11 @@
     <div class="footer-inner">
   
     <div class="footer-content">
-       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
-<div class="statistics"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?c=h&c=i&c=k&encode=js&select=%23hitokoto" defer></script> </div>
-<div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div>
-<a href="https://icp.gov.moe/?keyword=20242442" target="_blank">萌ICP备20242442号</a> 
+       <!-- fluid链接 --> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+<!-- 一言 --> <div class="statistics"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?c=h&c=i&c=k&encode=js&select=%23hitokoto" defer></script> </div>
+<!-- 博客上线天数 --> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div>
+<!--梦ICP备案号--> <a href="https://icp.gov.moe/?keyword=20242442" target="_blank">萌ICP备20242442号</a>
+<!--鼠标点击爆裂特效--> <canvas class="fireworks" style="position:fixed;left:0;top:0;z-index:99999999;pointer-events:none;">  </canvas> 
     </div>
   
   
@@ -377,8 +367,8 @@
 
   
 <script src="/js/custom.js"></script>
-<script src="/js/firework.js"></script>
-<script src="/js/loader.js"></script>
+<script src="/js/anime.js"></script>
+<script src="/js/fireworks.js"></script>
 
 
 
