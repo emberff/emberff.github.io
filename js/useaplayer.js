@@ -6,7 +6,7 @@ const ap = new APlayer({
         artist: '后海大鲨鱼',
         autoplay: true,
         volume: 0.1,
-        url: '../src/后海大鲨鱼 - Bling Bling Bling.mp3',
-        cover: '../src/cover.jpg',
+        url: '../js/src/后海大鲨鱼 - Bling Bling Bling.mp3',
+        cover: '../js/src/cover.jpg',
         }]
 });
