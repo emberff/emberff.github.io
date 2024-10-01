@@ -13,7 +13,7 @@ function loadScript(url, callback) {
 // 加载 jQuery
 loadScript('https://code.jquery.com/jquery-3.6.0.min.js', function() {
     $(function(){
-        $("#loader-container").fadeOut(600);
+        $("#loader-container").fadeOut(560);
     });
 });
 
