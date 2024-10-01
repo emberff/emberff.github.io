@@ -71,8 +71,8 @@
 
   
 <link rel="stylesheet" href="/css/custom.css">
-<link rel="stylesheet" href="/css/loader.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/toubudaziji.css">
+<link rel="stylesheet" href="/css/loader.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
 
 
@@ -97,7 +97,36 @@
 
 
 <body>
+  <!-- <link rel="stylesheet" href="../css/loader.css"> -->
+
+<div id="loader-container">
+    <div id="loader" class="loader"></div>
+    <div class="loader-inner">
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+    </div>
+</div>
   
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(function(){
+       $("#loader-container").fadeOut(600);
+    });
+</script> -->
+
 
   <header>
     
@@ -458,7 +487,7 @@
       <div class="col-lg-7 mx-auto nopadding-x-md">
         <div class="container custom mx-auto">
           
-<!-- 音乐播放器 --> <meting-js server="netease" type="playlist" id="7069797967" autoplay="true" fixed="true" volume="0.1" loop="all" order="random"> </meting-js>
+<!-- 音乐播放器 --> <meting-js server="netease" type="playlist" id="7069797967" autoplay="true" fixed="true" volume="0.1" loop="all" order="random"> </meting-js> 
         </div>
       </div>
     
@@ -628,9 +657,9 @@
 <script src="/js/custom.js"></script>
 <script src="/js/anime.js"></script>
 <script src="/js/fireworks.js"></script>
-<script src="/js/loader.js"></script>
 <script src="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<script src="/js/loader.js"></script>
 
 
 
