@@ -13,7 +13,7 @@ function createTime() {
     minutes = String(minutes).padStart(2, '0');
     seconds = String(seconds).padStart(2, '0');
 
-    document.getElementById("timeDate").innerHTML = "本站已运行 " + days + " 天 ";
+    document.getElementById("timeDate").innerHTML = "本站已在夹缝中生存 " + days + " 天 ";
     document.getElementById("times").innerHTML = hours + " 小时 " + minutes + " 分 " + seconds + " 秒";
 }
 
