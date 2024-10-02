@@ -23,7 +23,7 @@
   
     <meta name="description" content="作为一个学计算机的人,不做个人博客就像四大名著不看红楼梦……简单的折腾几天也是终于把样子搭好了!下面简单记录一下搭建的过程.  1. hexo 的本地环境搭建hexo本地环境需要Nodejs和git,nodejs作用是在本地编译,git是将编译完成的文件上传到仓库,由于我很早就完成了安装,且网上教程很多,此处不再赘述. (1) 在需要的环境配置完成后,使用npm安装heox 1npm insta">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo+fluid博客搭建">
+<meta property="og:title" content="Hexo + Fluid博客搭建">
 <meta property="og:url" content="http://example.com/2024/10/01/hexo-fluid%E6%90%AD%E5%BB%BA/index.html">
 <meta property="og:site_name" content="Emberffの小破站">
 <meta property="og:description" content="作为一个学计算机的人,不做个人博客就像四大名著不看红楼梦……简单的折腾几天也是终于把样子搭好了!下面简单记录一下搭建的过程.  1. hexo 的本地环境搭建hexo本地环境需要Nodejs和git,nodejs作用是在本地编译,git是将编译完成的文件上传到仓库,由于我很早就完成了安装,且网上教程很多,此处不再赘述. (1) 在需要的环境配置完成后,使用npm安装heox 1npm insta">
@@ -35,15 +35,16 @@
 <meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410012032052.png">
 <meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410012032956.png">
 <meta property="article:published_time" content="2024-10-01T08:11:24.000Z">
-<meta property="article:modified_time" content="2024-10-01T12:36:31.015Z">
+<meta property="article:modified_time" content="2024-10-02T14:01:50.221Z">
 <meta property="article:author" content="Emberff">
-<meta property="article:tag" content="fluid">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Fluid">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/20241001202737.png">
   
   
   
-  <title>hexo+fluid博客搭建 - Emberffの小破站</title>
+  <title>Hexo + Fluid博客搭建 - Emberffの小破站</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -78,7 +79,6 @@
 
 
   
-<link rel="stylesheet" href="/css/custom.css">
 <link rel="stylesheet" href="/css/subtitle.css">
 <link rel="stylesheet" href="/css/scrollbar.css">
 <link rel="stylesheet" href="/css/loader.css">
@@ -239,7 +239,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="hexo+fluid博客搭建"></span>
+            <span id="subtitle" data-typed-text="Hexo + Fluid博客搭建"></span>
           
         </div>
 
@@ -273,7 +273,7 @@
         
         
         
-          12 分钟
+          13 分钟
         
       </span>
     
@@ -310,7 +310,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">hexo+fluid博客搭建</h1>
+            <h1 id="seo-header">Hexo + Fluid博客搭建</h1>
             
             
               <div class="markdown-body">
@@ -372,9 +372,9 @@
 <p>切换至<code>git</code>用户,在<code>~</code>目录下创建.ssh文件夹</p>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">su git<br><span class="hljs-keyword">cd</span> ~<br>mkdir <span class="hljs-string">.ssh</span><br><span class="hljs-keyword">cd</span> <span class="hljs-string">.ssh</span><br></code></pre></td></tr></table></figure>
 
-<p>创建公钥,执行命令后无需输入,只要按回车即可</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs .ssh```文件下会生成一个```authorized_keys```的文件">```<br>ssh-keygen<br></code></pre></td></tr></table></figure>
-<p>![alt text]<img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410012032052.png" srcset="/img/loading.gif" lazyload><br>修改其权限:</p>
+<p>创建公钥,执行命令后无需输入,只要按回车即可<br><code>.ssh</code>文件下会生成一个<code>authorized_keys</code>的文件</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">ssh-keygen</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410012032052.png" srcset="/img/loading.gif" lazyload><br>修改其权限:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chmod</span> 600 ~/.ssh/authorized_keys<br><span class="hljs-built_in">chmod</span> 700 ~/.ssh<br></code></pre></td></tr></table></figure>
 <p>将本地电脑上的公钥<code>id_rsa.pub</code>文件中的内容添加至<code>authorized_keys</code>中<br>后,在本地命令给中尝试与服务器进行 ssh 连接,无报错且成功显示服务器的bash则成功</p>
 <figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">ssh -v <span class="hljs-symbol">git@</span>服务器ip<br></code></pre></td></tr></table></figure>
@@ -388,6 +388,8 @@
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">git --work-tree=<span class="hljs-regexp">/var/</span>www<span class="hljs-regexp">/hexo --git-dir=/</span><span class="hljs-keyword">var</span><span class="hljs-regexp">/repo/</span>blog.git checkout -f<br></code></pre></td></tr></table></figure>
 <p>保存退出并添加可执行权限:</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">chmod +x <span class="hljs-regexp">/var/</span>repo<span class="hljs-regexp">/blog.git/</span>hooks/post-receive<br></code></pre></td></tr></table></figure>
+<p>为仓库添加权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">chown</span> -R git:git /var/repo     <span class="hljs-comment">#将仓库目录的所有权移交给git用户</span><br><span class="hljs-built_in">chown</span> -R git:git /var/www/hexo     <span class="hljs-comment">#将hexo部署目录的所有权移交给git用户</span><br></code></pre></td></tr></table></figure>
 <h1 id="3-在本地配置服务器信息"><a href="#3-在本地配置服务器信息" class="headerlink" title="3. 在本地配置服务器信息"></a>3. 在本地配置服务器信息</h1><p>打开bolg文件目录中的配置文件<code>config.yml</code>,在最下面的<code>deploy</code>中修改配置信息,其中<code>repo</code>若无域名则以ip替代,<code>:</code>后填写服务器下git目录的位置:</p>
 <figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">deploy:</span><br><span class="hljs-symbol">  type:</span> git<br><span class="hljs-symbol">  repo:</span> git@blog.xxx.com:<span class="hljs-keyword">/var/</span>repo/blog.git<br><span class="hljs-symbol">  branch:</span> master<br></code></pre></td></tr></table></figure>
 <p>完成后用命令行在本地博客的根目录位置执行部署命令,应该能在服务器&#x2F;var&#x2F;www&#x2F;hexo目录中看到相应的内容,并且访问服务器可以看到博客界面了</p>
@@ -424,7 +426,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/fluid/" class="print-no-link">#fluid</a>
+        <a href="/tags/Hexo/" class="print-no-link">#Hexo</a>
+      
+        <a href="/tags/Fluid/" class="print-no-link">#Fluid</a>
       
     </div>
   
@@ -436,7 +440,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>hexo+fluid博客搭建</div>
+      <div>Hexo + Fluid博客搭建</div>
       <div>http://example.com/2024/10/01/hexo-fluid搭建/</div>
     </div>
     <div class="license-meta">
@@ -480,6 +484,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/10/02/Hexo-Fluid%E4%B8%BB%E9%A2%98%E5%8D%9A%E5%AE%A2%E7%BE%8E%E5%8C%96/" title="Hexo+Fluid主题博客美化">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hexo+Fluid主题博客美化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
@@ -586,6 +596,7 @@
       <div class="col-lg-7 mx-auto nopadding-x-md">
         <div class="container custom mx-auto">
           
+<!-- 鼠标点击特效 --> <canvas class="fireworks" style="position:fixed;left:0;top:0;z-index:99999999;pointer-events:none;"> </canvas>
 <!-- 音乐播放器 --> <meting-js server="netease" type="playlist" id="7069797967" autoplay="true" fixed="true" volume="0.1" loop="all" order="random"> </meting-js> 
         </div>
       </div>
@@ -598,9 +609,11 @@
     <div class="footer-content">
        <!-- fluid链接 --> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
 <!-- 一言 --> <div class="statistics"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?c=h&c=i&c=k&encode=js&select=%23hitokoto" defer></script> </div>
-<!-- 博客上线天数 --> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div>
+<!-- 博客上线天数 --> <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span>
+</div>
 <!--梦ICP备案号--> <a href="https://icp.gov.moe/?keyword=20242442" target="_blank">萌ICP备20242442号</a>
-<!--鼠标点击爆裂特效--> <canvas class="fireworks" style="position:fixed;left:0;top:0;z-index:99999999;pointer-events:none;">  </canvas> 
+
+
     </div>
   
   
@@ -753,6 +766,7 @@
 
 
   
+<script src="/js/duration.js"></script>
 <script src="/js/custom.js"></script>
 <script src="/js/anime.js"></script>
 <script src="/js/fireworks.js"></script>
