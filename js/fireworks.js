@@ -1,3 +1,4 @@
+
 function updateCoords(e) {
   pointerX = (e.clientX || e.touches[0].clientX) - canvasEl.getBoundingClientRect().left,
   pointerY = e.clientY || e.touches[0].clientY - canvasEl.getBoundingClientRect().top;
@@ -5,7 +6,7 @@ function updateCoords(e) {
 
 function setParticuleDirection(e) {
   var t = anime.random(0, 360) * Math.PI / 180,
-      a = anime.random(50, 180),
+      a = anime.random(35, 130), // 粒子扩散范围调整
       n = [-1, 1][anime.random(0, 1)] * a;
   return {
       x: e.x + n * Math.cos(t),
@@ -18,7 +19,7 @@ function createParticule(e, t) {
   a.x = e;
   a.y = t;
   a.color = colors[anime.random(0, colors.length - 1)];
-  a.radius = anime.random(16, 32);
+  a.radius = anime.random(11.2, 22.4); // 粒子效果圆半径
   a.endPos = setParticuleDirection(a);
   a.draw = function() {
       ctx.beginPath();
@@ -30,30 +31,33 @@ function createParticule(e, t) {
 }
 
 function createCircle(e, t, particleColors) {
-  var a = {};
-  a.x = e;
-  a.y = t;
-  a.radius = .1;
-  a.alpha = .5;
-  a.lineWidth = 6;
-
-  // 创建渐变色
-  var gradient = ctx.createRadialGradient(a.x, a.y, 0, a.x, a.y, a.radius * 2);
-  particleColors.forEach((color, index) => {
-      gradient.addColorStop(index / (particleColors.length - 1), color);
-  });
-
-  a.draw = function() {
-      ctx.globalAlpha = a.alpha;
-      ctx.beginPath();
-      ctx.arc(a.x, a.y, a.radius, 0, 2 * Math.PI, !0);
-      ctx.lineWidth = a.lineWidth;
-      ctx.strokeStyle = gradient; // 使用渐变色
-      ctx.stroke();
-      ctx.globalAlpha = 1;
-  };
-  return a;
-}
+    var a = {};
+    a.x = e;
+    a.y = t;
+    a.radius = 0.1;
+    a.alpha = 0.5;
+    a.lineWidth = 6;
+  
+    // 选择粒子颜色中数量最少的颜色
+    var colorCounts = {};
+    particleColors.forEach(color => {
+        colorCounts[color] = (colorCounts[color] || 0) + 1;
+    });
+  
+    var minColor = Object.keys(colorCounts).reduce((a, b) => colorCounts[a] < colorCounts[b] ? a : b);
+  
+    a.draw = function() {
+        ctx.globalAlpha = a.alpha;
+        ctx.beginPath();
+        ctx.arc(a.x, a.y, a.radius, 0, 2 * Math.PI, true);
+        ctx.lineWidth = a.lineWidth;
+        ctx.strokeStyle = minColor; // 使用数量最少的颜色
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+    };
+    return a;
+  }
+  
 
 function renderParticule(e) {
   for (var t = 0; t < e.animatables.length; t++)
@@ -61,12 +65,12 @@ function renderParticule(e) {
 }
 
 function animateParticules(e, t) {
-  var particleColors = []; // 存储粒子颜色
+  var particleColors = [];
   var n = [];
   for (var i = 0; i < numberOfParticules; i++) {
       var particule = createParticule(e, t);
       n.push(particule);
-      particleColors.push(particule.color); // 收集粒子颜色
+      particleColors.push(particule.color);
   }
   var a = createCircle(e, t, particleColors);
   
@@ -84,7 +88,7 @@ function animateParticules(e, t) {
       update: renderParticule
   }).add({
       targets: a,
-      radius: anime.random(80, 160),
+      radius: anime.random(80, 160) * 0.5, // 空心圆半径
       lineWidth: 0,
       alpha: {
           value: 0,
