@@ -837,15 +837,15 @@ i.iconfont {
   --color-mode: "light";
   --body-bg-color: #eee;
   --board-bg-color: #fff;
-  --text-color: #3c4858;
-  --sec-text-color: #718096;
+  --text-color: #363433;
+  --sec-text-color: #5e7987;
   --post-text-color: #2c3e50;
   --post-heading-color: #1a202c;
   --post-link-color: #0366d6;
   --link-hover-color: #30a9de;
   --link-hover-bg-color: #f8f9fa;
   --line-color: #eaecef;
-  --navbar-bg-color: #2f4154;
+  --navbar-bg-color: #394A67;
   --navbar-text-color: #fff;
   --subtitle-color: #fff;
   --scrollbar-color: #c4c6c9;
@@ -854,7 +854,7 @@ i.iconfont {
   --button-hover-bg-color: #f2f3f5;
   --highlight-bg-color: #f6f8fa;
   --inlinecode-bg-color: rgba(175,184,193,0.2);
-  --fold-title-color: #3c4858;
+  --fold-title-color: #363433;
   --fold-border-color: #eaecef;
 }
 @media (prefers-color-scheme: dark) {
