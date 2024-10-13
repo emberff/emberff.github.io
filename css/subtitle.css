@@ -15,6 +15,7 @@
     -webkit-text-fill-color: transparent;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    font-size: 0.85em; /* 设置文本大小为当前大小的 85% */
 }
 
 #subtitle:before {
@@ -32,4 +33,5 @@
     -webkit-text-fill-color: transparent;
     display: inline-block; /* 确保能够正确显示背景 */
     margin-left: 5px; /* 可选：增加与文本的间距 */
+    font-size: 0.85em; /* 设置文本大小为当前大小的 85% */
 }
