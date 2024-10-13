@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410131410906.png">
 <meta property="article:published_time" content="2024-10-13T04:14:36.000Z">
-<meta property="article:modified_time" content="2024-10-13T07:39:01.054Z">
+<meta property="article:modified_time" content="2024-10-13T07:48:46.691Z">
 <meta property="article:author" content="Emberff">
 <meta property="article:tag" content="Hexo">
 <meta property="article:tag" content="Fluid">
@@ -443,7 +443,9 @@
 <td>存储播放器设置的 localStorage 键名</td>
 </tr>
 </tbody></table>
-<p>添加完成后执行 Hexo 三连就能看到效果了<br><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410131410906.png" srcset="/img/loading.gif" lazyload><br>对于歌词显示,参照 <code>MetingJS</code> 的 <a target="_blank" rel="noopener" href="https://github.com/metowolf/MetingJS/issues/23">Issue #23</a>, 简单的方式是将 <code>lrc-type</code>改为 <code>&quot;1&quot;</code>, 参数配置如下:</p>
+<p>添加完成后执行 Hexo 三连就能看到效果了</p>
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sas">hexo cl <span class="hljs-variable">&amp;&amp;</span> hexo g <span class="hljs-variable">&amp;&amp;</span> hexo s<br></code></pre></td></tr></table></figure>
+<p><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410131410906.png" srcset="/img/loading.gif" lazyload><br>对于歌词显示,参照 <code>MetingJS</code> 的 <a target="_blank" rel="noopener" href="https://github.com/metowolf/MetingJS/issues/23">Issue #23</a>, 简单的方式是将 <code>lrc-type</code>改为 <code>&quot;1&quot;</code>, 参数配置如下:</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- 音乐播放器 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">meting-js</span></span><br><span class="hljs-tag">    <span class="hljs-attr">server</span>=<span class="hljs-string">&quot;netease&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;playlist&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;7069797967&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">autoplay</span>=<span class="hljs-string">&quot;false&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">fixed</span>=<span class="hljs-string">&quot;true&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">volume</span>=<span class="hljs-string">&quot;0.1&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">loop</span>=<span class="hljs-string">&quot;all&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">order</span>=<span class="hljs-string">&quot;random&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">lrc-type</span>=<span class="hljs-string">&quot;1&quot;</span> &gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">meting-js</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <h1 id="使用注入的方式修改配置文件"><a href="#使用注入的方式修改配置文件" class="headerlink" title="使用注入的方式修改配置文件"></a>使用注入的方式修改配置文件</h1><p>虽然直接在页面中修改 <code>HTML</code> 就能使用, 但这相当的不美观! 根据 <code>Fluid</code> 提供的注入方法, 可以实现像主题的配置一样在 <code>_config.fluid.yml</code> 中修改配置信息</p>
