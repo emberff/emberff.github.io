@@ -32,4 +32,5 @@
     -webkit-text-fill-color: transparent;
     display: inline-block; /* 确保能够正确显示背景 */
     margin-left: 5px; /* 可选：增加与文本的间距 */
+    user-select: none; /* 禁止文本选择 */
 }

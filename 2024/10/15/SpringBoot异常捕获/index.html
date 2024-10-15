@@ -1,0 +1,757 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#394A67">
+  <meta name="author" content="Emberff">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="记录一下在学习 [MallChat](https:&#x2F;&#x2F;github.com&#x2F;zongzibinbin&#x2F;MallChat) 项目过程中学习到的几种异常捕获">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot异常捕获">
+<meta property="og:url" content="http://example.com/2024/10/15/SpringBoot%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7/index.html">
+<meta property="og:site_name" content="江上清风">
+<meta property="og:description" content="记录一下在学习 [MallChat](https:&#x2F;&#x2F;github.com&#x2F;zongzibinbin&#x2F;MallChat) 项目过程中学习到的几种异常捕获">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410151908995.png">
+<meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410151946927.png">
+<meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410151956645.png">
+<meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410152035451.png">
+<meta property="article:published_time" content="2024-10-15T10:37:19.000Z">
+<meta property="article:modified_time" content="2024-10-15T12:47:02.864Z">
+<meta property="article:author" content="Emberff">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410151908995.png">
+  
+  
+  
+  <title>SpringBoot异常捕获 - 江上清风</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/subtitle.css">
+<link rel="stylesheet" href="/css/scrollbar.css">
+<link rel="stylesheet" href="/css/loader.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<link rel="stylesheet" href="/css/macpanel.css">
+<link rel="stylesheet" href="/css/moeICP.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+
+
+  <!-- 渲染播放器 -->
+  <meting-js
+    server="netease"
+    type="playlist"
+    id="7069797967"
+    autoplay="false"
+    fixed="true"
+    volume="0.1"
+    loop="all"
+    order="random"
+    auto="false"
+    mini="true"
+    theme="#2980b9"
+    preload="auto"
+    mutex="false"
+    lrc-type="1"
+    list-folded="true"
+    list-max-height=""
+    storage-name="">
+  </meting-js>
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <div id="loader-container">
+    <div id="loader" class="loader"></div>
+    <div class="loader-inner">
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+    </div>
+</div>
+
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Emberffの小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="SpringBoot异常捕获"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-15 18:37" pubdate>
+          2024年10月15日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">SpringBoot异常捕获</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <div class="note note-info">
+            <p>记录一下在学习 <a target="_blank" rel="noopener" href="https://github.com/zongzibinbin/MallChat">MallChat</a> 项目过程中学习到的几种异常捕获</p>
+          </div>
+<h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><p>众所周知，默认情况下，<code>ThreadPoolTaskExecutor</code> 中的线程在执行过程中如果出现未捕获的异常，异常信息不会自动输出到日志中，这会使得排查错误变得困难。为了增强对线程池中未捕获异常的处理，可以通过实现 <code>Thread.UncaughtExceptionHandler</code> 来捕获异常，并将异常日志记录下来</p>
+<h2 id="实现自定义异常处理器"><a href="#实现自定义异常处理器" class="headerlink" title="实现自定义异常处理器"></a>实现自定义异常处理器</h2><p>自定义一个 <code>UncaughtExceptionHandler</code>，用于捕获并记录线程中的未捕获的异常:</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs aspectj"><span class="hljs-meta">@Slf</span>4j<br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyUncaughtExceptionHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Thread</span>.<span class="hljs-title">UncaughtExceptionHandler</span> </span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">uncaughtException</span><span class="hljs-params">(Thread t, Throwable e)</span> </span>&#123;<br>      log.<span class="hljs-keyword">error</span>(<span class="hljs-string">&quot;Exception in thread&quot;</span> , e);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="创建自定义的-ThreadFactory"><a href="#创建自定义的-ThreadFactory" class="headerlink" title="创建自定义的 ThreadFactory"></a>创建自定义的 <code>ThreadFactory</code></h2><p>在自定义的 <code>ThreadFactory</code> 中，将该异常处理机制应用到每个线程上：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyThreadFactory</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ThreadFactory</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">MyUncaughtExceptionHandler</span> <span class="hljs-variable">MY_UNCAUGHT_EXCEPTION_HANDLER</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyUncaughtExceptionHandler</span>();<br>    <span class="hljs-keyword">private</span> ThreadFactory original;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Thread <span class="hljs-title function_">newThread</span><span class="hljs-params">(Runnable r)</span> &#123;<br>        <span class="hljs-type">Thread</span> <span class="hljs-variable">thread</span> <span class="hljs-operator">=</span> original.newThread(r);<span class="hljs-comment">// 执行spring线程自己的创建逻辑</span><br>        <span class="hljs-comment">// 额外装饰需要的创建逻辑</span><br>        thread.setUncaughtExceptionHandler(MY_UNCAUGHT_EXCEPTION_HANDLER);<br>        <span class="hljs-keyword">return</span> thread;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="在线程池中应用自定义的-ThreadFactory"><a href="#在线程池中应用自定义的-ThreadFactory" class="headerlink" title="在线程池中应用自定义的 ThreadFactory"></a>在线程池中应用自定义的 <code>ThreadFactory</code></h2><p>将自定义的 <code>MyThreadFacroty</code> 设置进线程池配置中: </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Bean(MALLCHAT_EXECUTOR)</span><br><span class="hljs-meta">@Primary</span><br><span class="hljs-keyword">public</span> ThreadPoolTaskExecutor <span class="hljs-title function_">mallchatExecutor</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">ThreadPoolTaskExecutor</span> <span class="hljs-variable">executor</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThreadPoolTaskExecutor</span>();<br>    executor.setWaitForTasksToCompleteOnShutdown(<span class="hljs-literal">true</span>);<br>    executor.setCorePoolSize(<span class="hljs-number">10</span>);<br>    executor.setMaxPoolSize(<span class="hljs-number">10</span>);<br>    executor.setQueueCapacity(<span class="hljs-number">200</span>);<br>    executor.setThreadNamePrefix(<span class="hljs-string">&quot;mallchat-executor-&quot;</span>);<br>    executor.setRejectedExecutionHandler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ThreadPoolExecutor</span>.CallerRunsPolicy());<span class="hljs-comment">//满了调用线程执行，认为重要任务</span><br>    executor.setThreadFactory(<span class="hljs-keyword">new</span> <span class="hljs-title class_">MyThreadFactory</span>(executor)); <span class="hljs-comment">// 设置自定义的ThreadFactory</span><br>    executor.initialize();<br>    <span class="hljs-keyword">return</span> executor;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="测试捕获结果"><a href="#测试捕获结果" class="headerlink" title="测试捕获结果"></a>测试捕获结果</h2><p>使用以下代码进行测试: </p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs livescript">@Autowired<br>private ThreadPoolTaskExecutor threadPoolTaskExecutor;<br>@Test<br>public <span class="hljs-literal">void</span> thread1() throws InterruptedException &#123;<br>    Thread thread = <span class="hljs-keyword">new</span> Thread<span class="hljs-function"><span class="hljs-params">( ()-&gt;&#123;</span></span><br><span class="hljs-params"><span class="hljs-function">        <span class="hljs-keyword">if</span> (<span class="hljs-number">1</span> == <span class="hljs-number">1</span>) &#123;</span></span><br><span class="hljs-params"><span class="hljs-function">            log.error(<span class="hljs-string">&quot;1234&quot;</span>);</span></span><br><span class="hljs-params"><span class="hljs-function">            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;1234&quot;</span>);</span></span><br><span class="hljs-params"><span class="hljs-function">        &#125;</span></span><br><span class="hljs-params"><span class="hljs-function">    &#125;)</span>;</span><br><span class="hljs-function">    <span class="hljs-title">thread</span>.<span class="hljs-title">setUncaughtExceptionHandler</span><span class="hljs-params">(<span class="hljs-keyword">new</span> MyUncaughtExceptionHandler())</span>;</span><br><span class="hljs-function">    <span class="hljs-title">thread</span>.<span class="hljs-title">start</span><span class="hljs-params">()</span>;</span><br><span class="hljs-function">    <span class="hljs-title">Thread</span>.<span class="hljs-title">sleep</span><span class="hljs-params">(<span class="hljs-number">200</span>)</span>;</span><br><span class="hljs-function">&#125;</span><br></code></pre></td></tr></table></figure>
+<p>可以看到异常在log中的打印<br><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410151908995.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="对于项目中参数错误异常的捕获以及返回"><a href="#对于项目中参数错误异常的捕获以及返回" class="headerlink" title="对于项目中参数错误异常的捕获以及返回"></a>对于项目中参数错误异常的捕获以及返回</h1><p><code>Spring</code> 框架中提供了对于传参的限制条件的注解，如 <code>@NotBlank</code>, <code>@Length</code>, <code>@NotNull</code> 等注解，非常利于开发。然而，这些注解的报错信息只会在 log 中打印，而不会返回给前端。以下是一个示例：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@Data</span><br>public class ModifyNameReq &#123;<br>    <span class="hljs-variable">@ApiModelProperty</span>(<span class="hljs-string">&quot;用户名&quot;</span>)<br>    <span class="hljs-variable">@NotBlank</span><br>    <span class="hljs-variable">@Length</span>(max = <span class="hljs-number">2</span>, message = <span class="hljs-string">&quot;用户名过长&quot;</span>)<br>    private String name;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>当我传参为</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;name&quot;</span> <span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;江上清风1111111&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<p>返回的结果: </p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;timestamp&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1728992170171</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">400</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;error&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Bad Request&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;path&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/capi/user/name&quot;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<p>而错误信息只是在系统日志中进行打印</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs delphi"><span class="hljs-number">2024</span>-<span class="hljs-number">10</span>-<span class="hljs-number">15</span> <span class="hljs-number">19</span>:<span class="hljs-number">36</span>:<span class="hljs-number">10.159</span>  WARN <span class="hljs-number">40880</span> --- [nio-<span class="hljs-number">8080</span>-exec-<span class="hljs-number">1</span>] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed <span class="hljs-keyword">for</span> argument [<span class="hljs-number">0</span>] <span class="hljs-keyword">in</span> <span class="hljs-keyword">public</span> com.chat.mallchat.common.common.domain.vo.resp.ApiResult&lt;java.lang.Void&gt; com.chat.mallchat.common.user.controller.UserController.modifyName(com.chat.mallchat.common.user.domain.vo.req.ModifyNameReq) <span class="hljs-keyword">with</span> <span class="hljs-number">2</span> errors: [Field error <span class="hljs-keyword">in</span> <span class="hljs-keyword">object</span> <span class="hljs-string">&#x27;modifyNameReq&#x27;</span> <span class="hljs-keyword">on</span> field <span class="hljs-string">&#x27;name&#x27;</span>: rejected value [江上清风<span class="hljs-number">1111111</span>]; codes [Length.modifyNameReq.<span class="hljs-keyword">name</span>,Length.<span class="hljs-keyword">name</span>,Length.java.lang.<span class="hljs-keyword">String</span>,Length]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [modifyNameReq.<span class="hljs-keyword">name</span>,<span class="hljs-keyword">name</span>]; arguments []; <span class="hljs-keyword">default</span> <span class="hljs-keyword">message</span> [<span class="hljs-keyword">name</span>],<span class="hljs-number">2</span>,<span class="hljs-number">0</span>]; <span class="hljs-keyword">default</span> <span class="hljs-keyword">message</span> [用户名过长]] [Field error <span class="hljs-keyword">in</span> <span class="hljs-keyword">object</span> <span class="hljs-string">&#x27;modifyNameReq&#x27;</span> <span class="hljs-keyword">on</span> field <span class="hljs-string">&#x27;id&#x27;</span>: rejected value [null]; codes [NotNull.modifyNameReq.id,NotNull.id,NotNull.java.lang.Long,NotNull]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [modifyNameReq.id,id]; arguments []; <span class="hljs-keyword">default</span> <span class="hljs-keyword">message</span> [id]]; <span class="hljs-keyword">default</span> <span class="hljs-keyword">message</span> [别忘记传id]] ]<br></code></pre></td></tr></table></figure>
+<p>因此，我们需要捕获抛出的异常中的错误信息，并利用自定义的 ApiResult 前后端交互协议进行返回。</p>
+<h2 id="捕获异常"><a href="#捕获异常" class="headerlink" title="捕获异常"></a>捕获异常</h2><p>在 <code>log</code> 中可以看到抛出异常的类<br><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410151946927.png" srcset="/img/loading.gif" lazyload><br>新建一个异常捕获的处理类, 其中</p>
+<ul>
+<li><code>@RestControllerAdvice</code> 用于标记 <code>GlobalExceptionHandler</code> 类为全局异常处理类，专门处理 REST 控制器中的异常，并以 JSON 格式返回响应;</li>
+<li><code>@ExceptionHandler</code> 注解用于指定捕获特定类型的异常<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@RestControllerAdvice</span><br><span class="hljs-variable">@Slf4j</span><br>public class GlobalExceptionHandler &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 前端传参数据据格式错误的异常捕获</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-variable">@ExceptionHandler</span>(value = MethodArgumentNotValidException.class)<br>    public ApiResult&lt;?&gt; <span class="hljs-built_in">methodArgumentNotValidException</span>(MethodArgumentNotValidException e) &#123;<br>        <span class="hljs-selector-tag">System</span><span class="hljs-selector-class">.out</span><span class="hljs-selector-class">.println</span>();<br>        <span class="hljs-selector-tag">return</span> <span class="hljs-selector-tag">ApiResult</span><span class="hljs-selector-class">.fail</span>(null, null);<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="查看异常数据"><a href="#查看异常数据" class="headerlink" title="查看异常数据"></a>查看异常数据</h2><p>进行断点查看抛出异常时的数据:<br><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410151956645.png" srcset="/img/loading.gif" lazyload alt="报错断点"><br>可以看到, 异常的信息在 <code>bindingResult</code> 下的 <code>errors</code> 中, 其中 <code>field</code> 时发生错误的字段, <code>defaultMessage</code> 是在 <code>vo类</code> 中设置的错误信息.<br>在 <code>Handler类</code> 中对这些信息进行处理。其中, 不同属性的报错以逗号隔开:</p>
+<figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs gml">@ExceptionHandler(value = MethodArgumentNotValidException.class)<br>public ApiResult&lt;?&gt; methodArgumentNotValidException(MethodArgumentNotValidException e) &#123;<br>    StringBuilder errorMsg = <span class="hljs-keyword">new</span> StringBuilder();<br>    e.getBindingResult().getFieldErrors().forEach(<span class="hljs-variable language_">x</span> -&gt; errorMsg.append(<span class="hljs-variable language_">x</span>.getField()).append(<span class="hljs-variable language_">x</span>.getDefaultMessage()).append(<span class="hljs-string">&quot;,&quot;</span>));<br>    String <span class="hljs-variable language_">message</span> = errorMsg.toString();<br>    <span class="hljs-keyword">return</span> ApiResult.fail(CommonErrorEnum.PARAM_INVALID.getCode(), <span class="hljs-variable language_">message</span>.substring(<span class="hljs-number">0</span>, <span class="hljs-variable language_">message</span>.length() - <span class="hljs-number">1</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="接口返回结果"><a href="#接口返回结果" class="headerlink" title="接口返回结果"></a>接口返回结果</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;errCode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">-2</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;errMsg&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;name用户名过长&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<p>可以看到在 <code>errMsg</code> 中有处理过的信息了</p>
+<h1 id="对系统内部异常的拦截"><a href="#对系统内部异常的拦截" class="headerlink" title="对系统内部异常的拦截"></a>对系统内部异常的拦截</h1><h2 id="捕获异常并处理"><a href="#捕获异常并处理" class="headerlink" title="捕获异常并处理"></a>捕获异常并处理</h2><p>当系统发生错误时，如果直接将详细的错误信息返回给前端（堆栈跟踪、异常类型等），可能会暴露内部实现细节或敏感数据，给潜在的攻击者提供利用漏洞的机会。因此，通过全局异常拦截，只返回固定的错误信息，如 “系统出错，请稍后再试”，可以有效地避免暴露内部信息，提升系统的安全性。<br>与上面对于 <code>参数异常捕获</code> 的方式一样, 不同的是只需要设置一个固定的返回信息就行。<br>对于 <code>Throwable.class</code> 的处理类</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 拦截系统内部错误信息,防止暴露给前端</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> e</span><br><span class="hljs-comment"> */</span><br>@<span class="hljs-title function_ invoke__">ExceptionHandler</span>(value = <span class="hljs-built_in">Throwable</span>.<span class="hljs-keyword">class</span>)<br><span class="hljs-keyword">public</span> ApiResult<span class="hljs-meta">&lt;?</span>&gt; <span class="hljs-title function_ invoke__">throwable</span>(<span class="hljs-built_in">Throwable</span> e) &#123;<br>    log.<span class="hljs-title function_ invoke__">error</span>(<span class="hljs-string">&quot;system exception! the reason is: &#123;&#125;&quot;</span>, e.<span class="hljs-title function_ invoke__">getMessage</span>(), e);<br>    <span class="hljs-keyword">return</span> ApiResult.<span class="hljs-title function_ invoke__">fail</span>(CommonErrorEnum.SYSTEM_ERROR);<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="编写测试接口"><a href="#编写测试接口" class="headerlink" title="编写测试接口"></a>编写测试接口</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp">@GetMapping(<span class="hljs-string">&quot;/test&quot;</span>)<br><span class="hljs-function"><span class="hljs-keyword">public</span> ApiResult&lt;UserInfoResp&gt; <span class="hljs-title">getUserInfo</span>()</span> &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-number">1</span> == <span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-built_in">int</span> i = <span class="hljs-number">1</span>/<span class="hljs-number">0</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> ApiResult.success()<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="测试捕获以及接口返回结果"><a href="#测试捕获以及接口返回结果" class="headerlink" title="测试捕获以及接口返回结果"></a>测试捕获以及接口返回结果</h2><p>接口测试:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;errCode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">-1</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;errMsg&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;系统出小差了, 请稍后再试哦~~&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<p>系统日志:<br><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410152035451.png" srcset="/img/loading.gif" lazyload></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+        <a href="/tags/SpringBoot/" class="print-no-link">#SpringBoot</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>SpringBoot异常捕获</div>
+      <div>http://example.com/2024/10/15/SpringBoot异常捕获/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Emberff</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/10/13/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E9%9F%B3%E4%B9%90%E6%92%AD%E6%94%BE%E5%99%A8/" title="为博客添加音乐播放器">
+                        <span class="hidden-mobile">为博客添加音乐播放器</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+          <!-- 鼠标点击特效 --> <canvas class="fireworks" style="position:fixed;left:0;top:0;z-index:99999999;pointer-events:none;"> </canvas>
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <!-- fluid链接 --> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+<!-- 一言 --> <div class="statistics"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?c=h&c=i&c=k&encode=js&select=%23hitokoto" defer></script> </div>
+<!-- 博客上线天数 --> <div> <span id="timeDate" style="font-size:0.85em;">载入天数...</span> <span id="times" style="font-size:0.85em;">载入时分秒...</span> </div>
+<!--梦ICP备案号--> <a href="https://icp.gov.moe/?keyword=20242442" target="_blank" class="moe-icp">萌ICP备20242442号</a>
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      苏ICP备2024134417号-1
+    </a>
+  </span>
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/duration.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/anime.js"></script>
+<script src="/js/fireworks.js"></script>
+<script src="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<script src="/js/loader.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
