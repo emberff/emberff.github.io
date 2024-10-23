@@ -337,7 +337,7 @@
             
               <div class="markdown-body">
                 
-                <div class="note note-info">
+                <div class="note note-success">
             <p>搭建完了博客,第一步当然是对博客进行美化.简单记录一下我对自己博客的美化过程</p>
           </div>
 
@@ -505,6 +505,21 @@
 
   
 
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
 
 
 

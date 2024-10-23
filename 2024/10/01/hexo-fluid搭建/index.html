@@ -340,7 +340,7 @@
             
               <div class="markdown-body">
                 
-                <div class="note note-info">
+                <div class="note note-success">
             <p>作为一个学计算机的人,不做个人博客就像四大名著不看红楼梦……<br>简单的折腾几天也是终于把样子搭好了!下面简单记录一下搭建的过程.</p>
           </div>
 
@@ -580,6 +580,21 @@
 
   
 
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
 
 
 

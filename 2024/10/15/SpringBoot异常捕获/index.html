@@ -337,7 +337,7 @@
             
               <div class="markdown-body">
                 
-                <div class="note note-info">
+                <div class="note note-success">
             <p>记录一下在学习 <a target="_blank" rel="noopener" href="https://github.com/zongzibinbin/MallChat">MallChat</a> 项目过程中学习到的几种异常捕获</p>
           </div>
 <h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><p>众所周知，默认情况下，<code>ThreadPoolTaskExecutor</code> 中的线程在执行过程中如果出现未捕获的异常，异常信息不会自动输出到日志中，这会使得排查错误变得困难。为了增强对线程池中未捕获异常的处理，可以通过实现 <code>Thread.UncaughtExceptionHandler</code> 来捕获异常，并将异常日志记录下来</p>
@@ -518,6 +518,21 @@
 
   
 
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
 
 
 

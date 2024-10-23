@@ -1,0 +1,809 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#394A67">
+  <meta name="author" content="Emberff">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="在MallChat 项目过程中学习到的游标翻页方式            深翻页问题在前端与后端的交互过程中, 当涉及翻页时, 一般的方式是前端将需要的分页页数 pagerNo 以及每页的记录条数 pageSize 发送给后端, 然后后端返回对应的记录。例如, 当前端要查询 pageNo &#x3D; 11, pageSize &#x3D; 10 的记录时, 对应的 SQ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="游标翻页--对于深翻页问题的解决">
+<meta property="og:url" content="http://example.com/2024/10/23/%E6%B8%B8%E6%A0%87%E7%BF%BB%E9%A1%B5-%E5%AF%B9%E4%BA%8E%E6%B7%B1%E7%BF%BB%E9%A1%B5%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3/index.html">
+<meta property="og:site_name" content="江上清风">
+<meta property="og:description" content="在MallChat 项目过程中学习到的游标翻页方式            深翻页问题在前端与后端的交互过程中, 当涉及翻页时, 一般的方式是前端将需要的分页页数 pagerNo 以及每页的记录条数 pageSize 发送给后端, 然后后端返回对应的记录。例如, 当前端要查询 pageNo &#x3D; 11, pageSize &#x3D; 10 的记录时, 对应的 SQ">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-10-23T11:42:13.000Z">
+<meta property="article:modified_time" content="2024-10-23T14:51:32.932Z">
+<meta property="article:author" content="Emberff">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>游标翻页--对于深翻页问题的解决 - 江上清风</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/subtitle.css">
+<link rel="stylesheet" href="/css/scrollbar.css">
+<link rel="stylesheet" href="/css/loader.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<link rel="stylesheet" href="/css/macpanel.css">
+<link rel="stylesheet" href="/css/moeICP.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+
+
+  <!-- 渲染播放器 -->
+  <meting-js
+    server="netease"
+    type="playlist"
+    id="7069797967"
+    autoplay="false"
+    fixed="true"
+    volume="0.1"
+    loop="all"
+    order="random"
+    auto="false"
+    mini="true"
+    theme="#2980b9"
+    preload="auto"
+    mutex="false"
+    lrc-type="1"
+    list-folded="true"
+    list-max-height=""
+    storage-name="">
+  </meting-js>
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <div id="loader-container">
+    <div id="loader" class="loader"></div>
+    <div class="loader-inner">
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+    </div>
+</div>
+
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Emberffの小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="游标翻页--对于深翻页问题的解决"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-10-23 19:42" pubdate>
+          2024年10月23日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">游标翻页--对于深翻页问题的解决</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <div class="note note-success">
+            <p>在<a target="_blank" rel="noopener" href="https://github.com/zongzibinbin/MallChat">MallChat</a> 项目过程中学习到的游标翻页方式</p>
+          </div>
+<h1 id="深翻页问题"><a href="#深翻页问题" class="headerlink" title="深翻页问题"></a>深翻页问题</h1><p>在前端与后端的交互过程中, 当涉及翻页时, 一般的方式是前端将需要的分页页数 <code>pagerNo</code> 以及每页的记录条数 <code>pageSize</code> 发送给后端, 然后后端返回对应的记录。<br>例如, 当前端要查询 <code>pageNo</code> &#x3D; 11, <code>pageSize</code> &#x3D; 10 的记录时, 对应的 SQL 查询语句为:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">limit</span> <span class="hljs-number">100</span>,<span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+<p>然而, 它的问题是虽然我们并不需要查询前面的100条记录, <code>MySQL</code> 在执行时仍会对前面的记录进行扫描, 然后再跳过那些记录。这里是一个可以优化的点。如果在 <code>SQL</code> 查询中使用了 <code>WHERE</code> 子句来限制结果集，并且在该限制字段上添加了索引，那么数据库可以更有效地检索所需的记录，而不需要扫描前面不需要的记录:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">where</span> id&gt;<span class="hljs-number">100</span> <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> id <span class="hljs-keyword">limit</span> <span class="hljs-number">10</span><br></code></pre></td></tr></table></figure>
+<p>在这个语句中, 如果在 <code>id</code> 字段上添加了索引, 那么 <code>MySQL</code> 就能直接定位到需要的记录并返回后面十条, 而不是做扫描前面100条记录然后再丢弃那样的无用功。这样效率会大大提升, 这就是以游标翻页的方式进行查询, 而 <code>id</code> 字段就是游标。</p>
+<h1 id="游标翻页"><a href="#游标翻页" class="headerlink" title="游标翻页"></a>游标翻页</h1><p>以游标翻页的方式进行查询, <code>id</code> 字段是最重要的, 它关乎数据库在查询记录时的定位, 因此前后端交互时发送的请求和返回的数据也要进行相应的修改: </p>
+<pre><code class=" mermaid">sequenceDiagram
+    participant Frontend as 前端
+    participant Backend as 后端
+
+    Frontend-&gt;&gt;Backend: 发送请求（包含最后一条记录的 id）
+    Backend-&gt;&gt;Backend: 处理请求，查询数据
+    Backend--&gt;&gt;Frontend: 返回查询结果（包含最后一条记录的 id）
+    Frontend-&gt;&gt;Frontend: 更新最后一条记录的 id
+</code></pre>
+<p>在使用游标翻页时, 需要注意:</p>
+<ul>
+<li><p>数据库表中 <code>id</code> 必须 <strong>单调</strong>, 如果 <code>id</code> 不是单调的，可能会导致查询中出现跳页或记录缺失的问题。<br>例子如下:假设有一张 <code>UserFriend</code> 表:</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>101</td>
+<td>Alice</td>
+</tr>
+<tr>
+<td>105</td>
+<td>Bob</td>
+</tr>
+<tr>
+<td>103</td>
+<td>Charlie</td>
+</tr>
+<tr>
+<td>104</td>
+<td>David</td>
+</tr>
+<tr>
+<td>102</td>
+<td>Eve</td>
+</tr>
+</tbody></table>
+  <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs n1ql">// 第一次查询<br><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> UserFriend <span class="hljs-keyword">WHERE</span> id &lt; <span class="hljs-number">105</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> id <span class="hljs-keyword">DESC</span> <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">3</span>;<br><br>// 第二次查询<br><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> UserFriend <span class="hljs-keyword">WHERE</span> id &lt; <span class="hljs-number">102</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> id <span class="hljs-keyword">DESC</span> <span class="hljs-keyword">LIMIT</span> <span class="hljs-number">3</span>;<br><br></code></pre></td></tr></table></figure>
+<p>  在首次查询时以 <code>105</code> 为游标, 得到的结果是 <code>103</code>, <code>104</code>, <code>102</code>三条记录, 此时的游标变为 <code>102</code>。而在第二次查询时, 结果就是 <code>101</code> 了很明显出现了跳页的情况!<br>  因此如果 <code>id</code> 使用 <code>UUID</code> 是不能使用游标翻页的方式的, 至于 <code>雪花算法生成id</code>, 在单节点下它是能保证单调递增的, 但在多实例中没法保证……(八股文吟唱开始!)<br>  有关雪花算法可以参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/fujuacm/article/details/108917165">雪花算法 Snowflake 生成分布式自增 ID 详解</a></p>
+</li>
+</ul>
+<h1 id="游标翻页的实现"><a href="#游标翻页的实现" class="headerlink" title="游标翻页的实现"></a>游标翻页的实现</h1><p>首先定义前后端交互的 <code>reqVO</code> 以及 <code>respVO</code> :<br><code>requsetVO</code></p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@Data</span><br><span class="hljs-variable">@ApiModel</span>(<span class="hljs-string">&quot;游标翻页请求&quot;</span>)<br><span class="hljs-variable">@AllArgsConstructor</span><br><span class="hljs-variable">@NoArgsConstructor</span><br>public class CursorPageBaseReq &#123;<br><br>    <span class="hljs-variable">@ApiModelProperty</span>(<span class="hljs-string">&quot;页面大小&quot;</span>)<br>    <span class="hljs-variable">@Min</span>(<span class="hljs-number">0</span>)<br>    <span class="hljs-variable">@Max</span>(<span class="hljs-number">100</span>)<br>    private Integer pageSize = <span class="hljs-number">10</span>;<br><br>    <span class="hljs-variable">@ApiModelProperty</span>(<span class="hljs-string">&quot;游标（初始为null，后续请求附带上次翻页的游标）&quot;</span>)<br>    private String cursor;<br><br>    <span class="hljs-selector-tag">public</span> <span class="hljs-selector-tag">Page</span> <span class="hljs-selector-tag">plusPage</span>() &#123;<br>        <span class="hljs-selector-tag">return</span> <span class="hljs-selector-tag">new</span> <span class="hljs-selector-tag">Page</span>(<span class="hljs-number">1</span>, this.pageSize, false);<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 多获取一条记录的方法</span><br><span class="hljs-comment">     * @return</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-selector-tag">public</span> <span class="hljs-selector-tag">Page</span> <span class="hljs-selector-tag">plusPageWithExtraRecord</span>() &#123;<br>        <span class="hljs-selector-tag">return</span> <span class="hljs-selector-tag">new</span> <span class="hljs-selector-tag">Page</span>(<span class="hljs-number">1</span>, this.pageSize + <span class="hljs-number">1</span>, false);<br>    &#125;<br><br>    @<span class="hljs-selector-tag">JsonIgnore</span><br>    <span class="hljs-selector-tag">public</span> <span class="hljs-selector-tag">Boolean</span> <span class="hljs-selector-tag">isFirstPage</span>() &#123;<br>        <span class="hljs-selector-tag">return</span> <span class="hljs-selector-tag">StringUtils</span><span class="hljs-selector-class">.isEmpty</span>(cursor);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><code>responseVO</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-meta">@Data</span><br><span class="hljs-meta">@ApiModel</span>(<span class="hljs-string">&quot;游标翻页返回&quot;</span>)<br><span class="hljs-meta">@AllArgsConstructor</span><br><span class="hljs-meta">@NoArgsConstructor</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CursorPageBaseResp</span>&lt;T&gt; &#123;<br><br>    <span class="hljs-meta">@ApiModelProperty</span>(<span class="hljs-string">&quot;游标（下次翻页带上这参数）&quot;</span>)<br>    <span class="hljs-keyword">private</span> <span class="hljs-title class_">String</span> cursor;<br><br>    <span class="hljs-meta">@ApiModelProperty</span>(<span class="hljs-string">&quot;是否最后一页&quot;</span>)<br>    <span class="hljs-keyword">private</span> <span class="hljs-title class_">Boolean</span> isLast = <span class="hljs-title class_">Boolean</span>.<span class="hljs-property">FALSE</span>;<br><br>    <span class="hljs-meta">@ApiModelProperty</span>(<span class="hljs-string">&quot;数据列表&quot;</span>)<br>    <span class="hljs-keyword">private</span> <span class="hljs-title class_">List</span>&lt;T&gt; list;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-title class_">CursorPageBaseResp</span>&lt;T&gt; <span class="hljs-title function_">init</span>(<span class="hljs-params"><span class="hljs-title class_">CursorPageBaseResp</span> cursorPage, <span class="hljs-title class_">List</span>&lt;T&gt; list</span>) &#123;<br>        <span class="hljs-title class_">CursorPageBaseResp</span>&lt;T&gt; cursorPageBaseResp = <span class="hljs-keyword">new</span> <span class="hljs-title class_">CursorPageBaseResp</span>&lt;T&gt;();<br>        cursorPageBaseResp.<span class="hljs-title function_">setIsLast</span>(cursorPage.<span class="hljs-title function_">getIsLast</span>());<br>        cursorPageBaseResp.<span class="hljs-title function_">setList</span>(list);<br>        cursorPageBaseResp.<span class="hljs-title function_">setCursor</span>(cursorPage.<span class="hljs-title function_">getCursor</span>());<br>        <span class="hljs-keyword">return</span> cursorPageBaseResp;<br>    &#125;<br><br>    <span class="hljs-meta">@JsonIgnore</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title class_">Boolean</span> <span class="hljs-title function_">isEmpty</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-title class_">CollectionUtil</span>.<span class="hljs-title function_">isEmpty</span>(list);<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-title class_">CursorPageBaseResp</span>&lt;T&gt; <span class="hljs-title function_">empty</span>(<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-title class_">CursorPageBaseResp</span>&lt;T&gt; cursorPageBaseResp = <span class="hljs-keyword">new</span> <span class="hljs-title class_">CursorPageBaseResp</span>&lt;T&gt;();<br>        cursorPageBaseResp.<span class="hljs-title function_">setIsLast</span>(<span class="hljs-literal">true</span>);<br>        cursorPageBaseResp.<span class="hljs-title function_">setList</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;T&gt;());<br>        <span class="hljs-keyword">return</span> cursorPageBaseResp;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>在 <code>DAO</code> 层基于 <code>MybatisPlus</code> 对游标处理, 在这里要判断是否为最后一页有一个 <code>bug</code>, 那就是如果记录的总条目数是查询条数的总数倍的话, 并不能正确判断下一页是否为空。解决的方式是每次在查询时多查询一条记录, 如果最后一条为空那么当前页就是最后一页, 然后丢弃多查询的那条记录再返回前端。当然, 现在这样做如果判断错了, 要付出的代价也就是前端多请求一次罢了! </p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-built_in">public</span> CursorPageBaseResp&lt;UserFriend&gt; getFriendPage(Long uid, CursorPageBaseReq req) &#123;<br>    LambdaQueryChainWrapper&lt;UserFriend&gt; <span class="hljs-keyword">wrapper</span> = lambdaQuery();<br>    // 游标字段     倒序查询, 查询id比传来的游标小的记录<br>    <span class="hljs-keyword">wrapper</span>.lt(UserFriend::getId, req.getCursor());<br>    // 游标方向<br>    <span class="hljs-keyword">wrapper</span>.orderByDesc(UserFriend::getId);<br>    // 查询条件     此处为对应uid的好友<br>    <span class="hljs-keyword">wrapper</span>.eq(UserFriend::getId, uid);<br>    // 游标翻页结果<br>    Page&lt;UserFriend&gt; page = page(req.plusPage(), <span class="hljs-keyword">wrapper</span>);<br>    // 计算游标位置: 查询出的最后一条记录的id<br>    String <span class="hljs-keyword">cursor</span> = Optional.ofNullable(CollectionUtil.getLast(page.getRecords()))<br>            .map(UserFriend::getId)<br>            .map(String::valueOf)<br>            .orElse(<span class="hljs-keyword">null</span>);<br>    // 判断是否最后一页<br>    <span class="hljs-type">boolean</span> isLast = page.getRecords().size() != req.getPageSize();<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">new</span> CursorPageBaseResp&lt;&gt;(<span class="hljs-keyword">cursor</span>, isLast, page.getRecords());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="对于游标翻页工具类的封装"><a href="#对于游标翻页工具类的封装" class="headerlink" title="对于游标翻页工具类的封装"></a>对于游标翻页工具类的封装</h1><p>在上面的代码中, 只有 <code>查询条件</code> 以及 <code>游标字段</code> 是常变的, 因此可以考虑将其他代码抽离成一个工具类。<br>入参：<br><code>mapper</code>：<code>mybatisplus</code> 的数据库操作类，让工具类能调用一些基础的查询方法。<br><code>pageBaseReq</code>：就是前端给的对象，里面的字段是 <code>cursor</code> 和 <code>size</code><br><code>wrapperComsumer</code>：提供的扩展点，业务方可以在 <code>sql</code> 中拼接一些查询条件。比如只查状态正常的<br><code>cursorColumn</code>：游标字段，用于游标查询，以及后续的游标计算。</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-built_in">public</span> <span class="hljs-keyword">class</span> CursorUtils &#123;<br>    <span class="hljs-built_in">public</span> static &lt;T&gt; CursorPageBaseResp&lt;T&gt; getCursorPageByMysql(IService&lt;T&gt; mapper, CursorPageBaseReq request, Consumer&lt;LambdaQueryWrapper&lt;T&gt;&gt; initWrapper, SFunction&lt;T, ?&gt; cursorColumn) &#123;<br>        //游标字段类型<br>        <span class="hljs-keyword">Class</span>&lt;?&gt; cursorType = LambdaUtils.getReturnType(cursorColumn);<br>        LambdaQueryWrapper&lt;T&gt; <span class="hljs-keyword">wrapper</span> = <span class="hljs-built_in">new</span> LambdaQueryWrapper&lt;&gt;();<br>        //额外条件<br>        initWrapper.accept(<span class="hljs-keyword">wrapper</span>);<br>        //游标条件<br>        <span class="hljs-keyword">if</span> (StrUtil.isNotBlank(request.getCursor())) &#123;<br>            <span class="hljs-keyword">wrapper</span>.lt(cursorColumn, parseCursor(request.getCursor(), cursorType));<br>        &#125;<br>        //游标方向<br>        <span class="hljs-keyword">wrapper</span>.orderByDesc(cursorColumn);<br><br>        Page&lt;T&gt; page = mapper.page(request.plusPage(), <span class="hljs-keyword">wrapper</span>);<br>        //取出游标<br>        String <span class="hljs-keyword">cursor</span> = Optional.ofNullable(CollectionUtil.getLast(page.getRecords()))<br>                .map(cursorColumn)<br>                .map(CursorUtils::toCursor)<br>                .orElse(<span class="hljs-keyword">null</span>);<br>        //判断是否最后一页<br>        <span class="hljs-type">Boolean</span> isLast = page.getRecords().size() != request.getPageSize();<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">new</span> CursorPageBaseResp&lt;&gt;(<span class="hljs-keyword">cursor</span>, isLast, page.getRecords());<br>    &#125;<br><br>    private static String toCursor(<span class="hljs-keyword">Object</span> o) &#123;<br>        <span class="hljs-keyword">if</span> (o instanceof <span class="hljs-type">Date</span>) &#123;<br>            <span class="hljs-keyword">return</span> String.valueOf(((<span class="hljs-type">Date</span>) o).getTime());<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">return</span> o.toString();<br>        &#125;<br>    &#125;<br><br>    private static <span class="hljs-keyword">Object</span> parseCursor(String <span class="hljs-keyword">cursor</span>, <span class="hljs-keyword">Class</span>&lt;?&gt; cursorClass) &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-type">Date</span>.<span class="hljs-keyword">class</span>.isAssignableFrom(cursorClass)) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">new</span> <span class="hljs-type">Date</span>(Long.parseLong(<span class="hljs-keyword">cursor</span>));<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">cursor</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>其中的 <code>LambdaUtils</code> 的 <code>getReturnType()</code> 方法:</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs ruby"><span class="hljs-variable">@SneakyThrows</span><br><span class="hljs-keyword">public</span> static &lt;T&gt; <span class="hljs-title class_">Class</span>&lt;<span class="hljs-string">?&gt;</span> getReturnType(<span class="hljs-title class_">SFunction</span>&lt;T, <span class="hljs-string">?&gt;</span> func) &#123;<br>    com.baomidou.mybatisplus.core.toolkit.support.<span class="hljs-title class_">SerializedLambda</span> <span class="hljs-built_in">lambda</span> = com.baomidou.mybatisplus.core.toolkit.<span class="hljs-title class_">LambdaUtils</span>.resolve(func);<br>    <span class="hljs-title class_">Class</span>&lt;<span class="hljs-string">?&gt;</span> aClass = <span class="hljs-built_in">lambda</span>.getInstantiatedType();<br>    <span class="hljs-title class_">String</span> fieldName = <span class="hljs-title class_">PropertyNamer</span>.methodToProperty(<span class="hljs-built_in">lambda</span>.getImplMethodName());<br>    <span class="hljs-title class_">Field</span> field = aClass.getDeclaredField(fieldName);<br>    field.setAccessible(<span class="hljs-literal">true</span>);<br>    <span class="hljs-keyword">return</span> field.getType();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>由于在 <code>mallchat</code> 项目中, 游标有可能有两种类型: 除了 <code>uid</code> 对应 <code>Long</code>,  还有涉及时间的 <code>date</code> 字段(时间戳)对应 <code>String</code> 类型因此需要判断传入变量的类, 再依据类型做不同的处理并返回。这里用到了 <code>mybatisplus</code> 中的方法来进行判断。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>游标翻页--对于深翻页问题的解决</div>
+      <div>http://example.com/2024/10/23/游标翻页-对于深翻页问题的解决/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Emberff</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年10月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/10/17/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%B7%A5%E5%85%B7%E7%B1%BB/" title="分布式锁工具类">
+                        <span class="hidden-mobile">分布式锁工具类</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+          <!-- 鼠标点击特效 --> <canvas class="fireworks" style="position:fixed;left:0;top:0;z-index:99999999;pointer-events:none;"> </canvas>
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <!-- fluid链接 --> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+<!-- 一言 --> <div class="statistics"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?c=h&c=i&c=k&encode=js&select=%23hitokoto" defer></script> </div>
+<!-- 博客上线天数 --> <div> <span id="timeDate" style="font-size:0.85em;">载入天数...</span> <span id="times" style="font-size:0.85em;">载入时分秒...</span> </div>
+<!--梦ICP备案号--> <a href="https://icp.gov.moe/?keyword=20242442" target="_blank" class="moe-icp">萌ICP备20242442号</a>
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      苏ICP备2024134417号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32050702011867"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>苏公网安备32050702011867号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/duration.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/anime.js"></script>
+<script src="/js/fireworks.js"></script>
+<script src="//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<script src="/js/loader.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

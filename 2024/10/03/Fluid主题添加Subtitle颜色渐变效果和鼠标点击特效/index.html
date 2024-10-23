@@ -337,7 +337,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Slogan-颜色渐变"><a href="#Slogan-颜色渐变" class="headerlink" title="Slogan 颜色渐变"></a>Slogan 颜色渐变</h1><div class="note note-info">
+                <h1 id="Slogan-颜色渐变"><a href="#Slogan-颜色渐变" class="headerlink" title="Slogan 颜色渐变"></a>Slogan 颜色渐变</h1><div class="note note-success">
             <p>在 <code>Fluid</code> 主题下,每个页面都有一个 <code>Slogan</code> 标题, 虽然 <code>Fluid</code> 本身提供了打字机特效,但白色的字体太过单薄,不适合我这种喜欢花里胡哨的人.</p>
           </div>
 
@@ -499,6 +499,21 @@
 
   
 
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
 
 
 
