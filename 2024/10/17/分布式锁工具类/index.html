@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410171622605.png">
 <meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410171621757.png">
 <meta property="article:published_time" content="2024-10-17T06:14:13.000Z">
-<meta property="article:modified_time" content="2024-10-17T08:29:08.633Z">
+<meta property="article:modified_time" content="2024-10-23T11:00:55.464Z">
 <meta property="article:author" content="Emberff">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
@@ -283,7 +283,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          946 字
+          1k 字
         
       </span>
     
@@ -294,7 +294,7 @@
         
         
         
-          8 分钟
+          9 分钟
         
       </span>
     
@@ -347,7 +347,46 @@
 <li><code>tryLock()</code> 方法中需要的参数 <code>time</code>、<code>timeUtil</code></li>
 <li>&#96;业务的执行代码<br><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410171456421.png" srcset="/img/loading.gif" lazyload alt="tryLock() 方法的参数"></li>
 </ul>
-<h1 id="分布式锁工具类的编写"><a href="#分布式锁工具类的编写" class="headerlink" title="分布式锁工具类的编写"></a>分布式锁工具类的编写</h1><p>对于传递的业务代码, 可以使用 <code>Supplier&lt;T&gt;</code> , <code>Supplier&lt;T&gt;</code> 是一个函数式接口，它的 <code>get()</code> 方法没有任何参数，并且返回一个类型为 <code>T</code> 的对象。(与之对应的是 <code>Function&lt;T&gt;</code>, 接收参数并返回一个类型为 <code>T</code> 的对象)</p>
+<h1 id="分布式锁工具类的编写"><a href="#分布式锁工具类的编写" class="headerlink" title="分布式锁工具类的编写"></a>分布式锁工具类的编写</h1><p>对于传递的业务代码, 可以使用 <code>Supplier&lt;T&gt;</code> , <code>Supplier&lt;T&gt;</code> 是一个函数式接口，它的 <code>get()</code> 方法没有任何参数，并且返回一个类型为 <code>T</code> 的对象。<br>以下为几种函数式接口的区别:</p>
+<table>
+<thead>
+<tr>
+<th>接口名称</th>
+<th>输入参数类型</th>
+<th>返回值类型</th>
+<th>主要方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Consumer<T></td>
+<td>T</td>
+<td>void</td>
+<td>void accept(T t)</td>
+<td>接收一个参数，执行操作，无返回值</td>
+</tr>
+<tr>
+<td>Function&lt;T, R&gt;</td>
+<td>T</td>
+<td>R</td>
+<td>R apply(T t)</td>
+<td>接收一个参数，返回一个结果</td>
+</tr>
+<tr>
+<td>Runnable</td>
+<td>无</td>
+<td>void</td>
+<td>void run()</td>
+<td>不接受参数，执行操作，无返回值</td>
+</tr>
+<tr>
+<td>Supplier<T></td>
+<td>无</td>
+<td>T</td>
+<td>T get()</td>
+<td>不接受参数，返回一个结果</td>
+</tr>
+</tbody></table>
 <figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs aspectj"><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LockService</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> RedissonClient redissonClient;<br><br>    <span class="hljs-meta">@SneakyThrows</span><br>    <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">T <span class="hljs-title">executeWithLock</span><span class="hljs-params">(String key, <span class="hljs-keyword">int</span> waitTime, TimeUnit timeUnit, Supplier&lt;T&gt; supplier)</span> </span>&#123;<span class="hljs-comment">//Supplier: 无入参,</span><br>        RLock lock = redissonClient.getLock(key);<br>        <span class="hljs-keyword">boolean</span> success = lock.tryLock(waitTime, timeUnit);<br>        <span class="hljs-comment">// 抛出获取锁太频繁的异常</span><br>        <span class="hljs-keyword">if</span> (!success)&#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> BusinessException(CommonErrorEnum.LOCK_LIMIT);<br>        &#125;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-function"><span class="hljs-keyword">return</span> supplier.<span class="hljs-title">get</span><span class="hljs-params">()</span></span>;<span class="hljs-comment">// 此处执行业务</span><br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            lock.unlock();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <p>对 <code>executeWithLock</code> 方法进行<strong>重载</strong>, 编写一个 <code>waitTime</code> 以及 <code>timeUnit</code> 为默认的方法:</p>
 <figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs processing"><span class="hljs-keyword">public</span> &lt;T&gt; T <span class="hljs-title function_">executeWithLock</span>(<span class="hljs-built_in">String</span> <span class="hljs-built_in">key</span>, Supplier&lt;T&gt; supplier)&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-title function_">executeWithLock</span>(<span class="hljs-built_in">key</span>, <span class="hljs-number">-1</span>, TimeUnit.<span class="hljs-property">MILLISECONDS</span>, supplier);<br>&#125;<br></code></pre></td></tr></table></figure>
