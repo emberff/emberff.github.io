@@ -1,2 +1,1 @@
-emberff.fra1.zeabur.app
-emberff.github.io
+[emberff.fra1.zeabur.app](emberff.fra1.zeabur.app)
