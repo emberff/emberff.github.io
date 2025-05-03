@@ -1,0 +1,964 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#475164">
+  <meta name="author" content="Emberff">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="首页樱花飘落特效, 页脚养鱼">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为博客添加樱花飘落特效以及页脚美化">
+<meta property="og:url" content="http://example.com/2024/11/17/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E6%A8%B1%E8%8A%B1%E9%A3%98%E8%90%BD%E5%8A%A8%E6%80%81%E8%83%8C%E6%99%AF%E4%BB%A5%E5%8F%8A%E9%A1%B5%E8%84%9A%E7%BE%8E%E5%8C%96/index.html">
+<meta property="og:site_name" content="江上清风">
+<meta property="og:description" content="首页樱花飘落特效, 页脚养鱼">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411171620402.png">
+<meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411171621711.png">
+<meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411171633115.gif">
+<meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411171658250.png">
+<meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411171809349.gif">
+<meta property="article:published_time" content="2024-11-17T04:55:57.000Z">
+<meta property="article:modified_time" content="2025-04-22T13:55:00.598Z">
+<meta property="article:author" content="Emberff">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Fluid">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411171620402.png">
+  
+  
+  
+  <title>为博客添加樱花飘落特效以及页脚美化 - 江上清风</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/subtitle.css">
+<link rel="stylesheet" href="/css/scrollbar.css">
+<link rel="stylesheet" href="/css/loader.css">
+<link rel="stylesheet" href="//fastly.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<link rel="stylesheet" href="/css/macpanel.css">
+<link rel="stylesheet" href="/css/moeICP.css">
+<link rel="stylesheet" href="/css/fishes.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":"http://113.44.44.71:3000/script.js","website_id":"ccd09e3b-3cea-4660-8af1-dc4c52b803d7","domains":null,"start_time":null,"token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        let umami = document.createElement('script');
+        umami.async = true;
+        umami.src = "http://113.44.44.71:3000/script.js";
+        umami.setAttribute("data-website-id", "ccd09e3b-3cea-4660-8af1-dc4c52b803d7");
+        umami.setAttribute("data-domains", "");
+        document.head.appendChild(umami);
+      }
+    </script>
+  
+
+  
+
+  
+
+
+
+  
+
+
+  <!-- 渲染播放器 -->
+  <meting-js
+    server="netease"
+    type="playlist"
+    id="7069797967"
+    autoplay="false"
+    fixed="true"
+    volume="0.1"
+    loop="all"
+    order="random"
+    auto="false"
+    mini="true"
+    theme="#2980b9"
+    preload="auto"
+    mutex="false"
+    lrc-type="1"
+    list-folded="true"
+    list-max-height=""
+    storage-name="">
+  </meting-js>
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <div id="loader-container">
+    <div id="loader" class="loader"></div>
+    <div class="loader-inner">
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+    </div>
+</div>
+
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Emberffの小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/shuoshuo/" target="_self">
+                <i class="iconfont icon-wechat2-fill"></i>
+                <span>说说</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-books"></i>
+                <span>文章</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/archives/" target="_self">
+                    <i class="iconfont icon-archive-fill"></i>
+                    <span>归档</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/" target="_self">
+                    <i class="iconfont icon-category-fill"></i>
+                    <span>分类</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/tags/" target="_self">
+                    <i class="iconfont icon-tags-fill"></i>
+                    <span>标签</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/background/arch.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="为博客添加樱花飘落特效以及页脚美化"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-11-17 12:55" pubdate>
+          2024年11月17日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">为博客添加樱花飘落特效以及页脚美化</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <div class="note note-success">
+            <p>在魔改主题的路上越走越远哩</p>
+          </div>
+
+<h1 id="樱花飘落特效"><a href="#樱花飘落特效" class="headerlink" title="樱花飘落特效"></a>樱花飘落特效</h1><h2 id="特效源码以及修改"><a href="#特效源码以及修改" class="headerlink" title="特效源码以及修改"></a>特效源码以及修改</h2><p>虽然 <code>Fluid</code> 主题开屏的标题打字机效果已经相当好看了, 但只有一张图片和一句话还是有些单调了。看到很多人的博客首页有动态效果, 决定自己也整一个, 参考了这篇<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1943699">博客</a>。<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="[Hexo添加樱花动态效果背景](https://cloud.tencent.com/developer/article/1943699)">[1]</span></a></sup><br>源码可以在这里获取: <a target="_blank" rel="noopener" href="https://blog.emb42.com/js/sakura.js">sakura.js</a><br>其中 <code>img.src</code> 是飘落物的图片, 可以自行修改成其他样式<br>飘落物的数量在下面这段循环中修改, <code>i</code> 是数量:</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs lisp">for (<span class="hljs-name">var</span> i = <span class="hljs-number">0</span><span class="hljs-comment">; i &lt; 12; i++) &#123;</span><br>    var sakura, randomX, randomY, randomS, randomR, randomFnx, randomFny<span class="hljs-comment">;</span><br>    randomX = getRandom(&#x27;x&#x27;)<span class="hljs-comment">;</span><br>    randomY = getRandom(&#x27;y&#x27;)<span class="hljs-comment">;</span><br>    randomR = getRandom(&#x27;r&#x27;)<span class="hljs-comment">;</span><br>    randomS = getRandom(&#x27;s&#x27;)<span class="hljs-comment">;</span><br>    randomFnx = getRandom(&#x27;fnx&#x27;)<span class="hljs-comment">;</span><br>    randomFny = getRandom(&#x27;fny&#x27;)<span class="hljs-comment">;</span><br>    randomFnR = getRandom(&#x27;fnr&#x27;)<span class="hljs-comment">;</span><br>    sakura = new Sakura(<span class="hljs-name">randomX</span>, randomY, randomS, randomR, &#123;<br>        x: randomFnx,<br>        y: randomFny,<br>        r: randomFnR<br>    &#125;)<span class="hljs-comment">;</span><br>    sakura.draw(<span class="hljs-name">cxt</span>)<span class="hljs-comment">;</span><br>    sakuraList.push(<span class="hljs-name">sakura</span>)<span class="hljs-comment">;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>飘落的速度在下面这个函数中修改, <code>fnx</code> 控制的是水平摆动范围, <code>fny</code> 控制的是飘落物速度, 可以自行修改它们的基值或范围以获得不同的效果: </p>
+<figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs gml"><span class="hljs-keyword">function</span> getRandom(option) &#123;<br>    <span class="hljs-keyword">var</span> ret, <span class="hljs-built_in">random</span>;<br>    <span class="hljs-keyword">switch</span> (option) &#123;<br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;x&#x27;</span>:<br>            ret = Math.<span class="hljs-built_in">random</span>() * window.innerWidth;<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;y&#x27;</span>:<br>            ret = Math.<span class="hljs-built_in">random</span>() * window.innerHeight;<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;s&#x27;</span>:<br>            ret = Math.<span class="hljs-built_in">random</span>();<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;r&#x27;</span>:<br>            ret = Math.<span class="hljs-built_in">random</span>() * <span class="hljs-number">6</span>;<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;fnx&#x27;</span>:<br>            <span class="hljs-built_in">random</span> = <span class="hljs-number">-0.5</span> + Math.<span class="hljs-built_in">random</span>() * <span class="hljs-number">1</span>;<br>            ret = <span class="hljs-keyword">function</span> (<span class="hljs-variable language_">x</span>, <span class="hljs-variable language_">y</span>) &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-variable language_">x</span> + <span class="hljs-number">0.5</span> * <span class="hljs-built_in">random</span> - <span class="hljs-number">1.7</span>;<br>            &#125;;<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;fny&#x27;</span>:<br>            <span class="hljs-built_in">random</span> = <span class="hljs-number">1.5</span> + Math.<span class="hljs-built_in">random</span>() * <span class="hljs-number">0.25</span><br>            ret = <span class="hljs-keyword">function</span> (<span class="hljs-variable language_">x</span>, <span class="hljs-variable language_">y</span>) &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-variable language_">y</span> + <span class="hljs-built_in">random</span>;<br>            &#125;;<br>            <span class="hljs-keyword">break</span>;<br>        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;fnr&#x27;</span>:<br>            <span class="hljs-built_in">random</span> = Math.<span class="hljs-built_in">random</span>() * <span class="hljs-number">0.03</span>;<br>            ret = <span class="hljs-keyword">function</span> (r) &#123;<br>                <span class="hljs-keyword">return</span> r + <span class="hljs-built_in">random</span>;<br>            &#125;;<br>            <span class="hljs-keyword">break</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> ret;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="将特效引入主题"><a href="#将特效引入主题" class="headerlink" title="将特效引入主题"></a>将特效引入主题</h2><p>像以前一样直接在配置文件 <code>_config.fluid.yml</code> 的 <code>custom_js</code> 处引入对应的脚本当然是没问题的, 通过这种方式引入的脚本会在博客的所有页面生效。但在查阅资料后发现使用 <code>hexo</code> 提供的注入方式可以选择生效界面, 这毫无疑问与我只在主页显示而不想在其他页面(如文章页, 归档页等)生效的想法所契合。<br>在博客根目录( <code>source</code> 同一级) 的 <code>scripts</code> 目录下的js文件中添加以下代码: </p>
+<figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vhdl">hexo.extend.injector.<span class="hljs-keyword">register</span>(<span class="hljs-symbol">&#x27;body_end</span>&#x27;, &#x27;&lt;script <span class="hljs-keyword">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span> src=<span class="hljs-string">&quot;/js/sakura.js&quot;</span>&gt;&lt;/script&gt;&#x27;, <span class="hljs-symbol">&#x27;home</span>&#x27;);<br></code></pre></td></tr></table></figure>
+<p><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411171620402.png" srcset="/img/loading.gif" lazyload alt="注入脚本目录"><br><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411171621711.png" srcset="/img/loading.gif" lazyload alt="注入脚本"><br>其中第一个参数 <code>body_end</code> 表示注入的位置, 第二个参数为注入的内容, 而第三个参数表示注入的页面类型, 它接受以下值：</p>
+<ul>
+<li><code>default</code>: 注入到每个页面（默认值）</li>
+<li><code>home</code>: 只注入到主页（<code>is_home()</code> 为 <code>true</code> 的页面）</li>
+<li><code>post</code>: 只注入到文章页面（<code>is_post()</code> 为 <code>true</code> 的页面）</li>
+<li><code>page</code>: 只注入到独立页面（<code>is_page()</code> 为 <code>true</code> 的页面）</li>
+<li><code>archive</code>: 只注入到归档页面（<code>is_archive()</code> 为 <code>true</code> 的页面）</li>
+<li><code>category</code>: 只注入到分类页面（<code>is_category()</code> 为 <code>true</code> 的页面）</li>
+<li><code>tag</code>: 只注入到标签页面（<code>is_tag()</code> 为 <code>true</code> 的页面）</li>
+<li>或是其他自定义 <code>layout</code> 名称，例如在<code>Fluid</code> 主题中 <code>about</code> 对应关于页、<code>links</code> 对应友联页</li>
+</ul>
+<p>其他使用方式可以参照 <code>Hexo</code> 以及 <code>Fluid</code> 提供的注入文档<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="[Fluid注入器文档](https://hexo.fluid-dev.com/docs/advance/#hexo-%E6%B3%A8%E5%85%A5%E4%BB%A3%E7%A0%81)">[2]</span></a></sup>。</p>
+<p><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411171633115.gif" srcset="/img/loading.gif" lazyload alt="效果图"></p>
+<h1 id="页脚美化-养鱼"><a href="#页脚美化-养鱼" class="headerlink" title="页脚美化: 养鱼!"></a>页脚美化: 养鱼!</h1><p>我的页脚只有一堆文字以及备案号, 过于单调且不雅观, 所以一直想美化一下! 最近看到了一篇<a target="_blank" rel="noopener" href="https://weilining.github.io/204.html">如何在页脚养鱼</a><sup id="fnref:3" class="footnote-ref"><a href="#fn:3" rel="footnote"><span class="hint--top hint--rounded" aria-label="[如何在页脚养鱼](https://weilining.github.io/204.html)">[3]</span></a></sup>的博客, 话不多说直接上手~~</p>
+<h2 id="源码以及修改"><a href="#源码以及修改" class="headerlink" title="源码以及修改"></a>源码以及修改</h2><p>上面提到的博客里是对 <code>butterfly 主题</code> 的修改, 使用 <code>Fluid</code> 主题的我们也要做相应的修改, 当然, 实质上也就是将对应 <code>js</code> 和 <code>css</code> 放到对应的位置罢了。</p>
+<h3 id="方式一-直接引入CDN"><a href="#方式一-直接引入CDN" class="headerlink" title="方式一: 直接引入CDN"></a>方式一: 直接引入CDN</h3><p>直接引入 <code>CDN</code> 当然是最简单直接的方式, 不过对于引入的脚本以及样式就不好修改了 —— <code>CDN</code> 引入的动画效果本身是白色为底色的, 比较适合将背景固定了的博客。方式是直接在 <code>_config.fluid.yml</code> 的 <code>custom_js</code> 处添加</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">- https:<span class="hljs-regexp">//</span>cdn.jsdelivr.net<span class="hljs-regexp">/gh/</span>xiabo2<span class="hljs-regexp">/CDN@latest/</span>fishes.js<br></code></pre></td></tr></table></figure>
+<p><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411171658250.png" srcset="/img/loading.gif" lazyload alt="效果图"><br>可以看到这效果简直就是吃饱了撑的没事干, 竹篮打水一场空……</p>
+<h3 id="方式二-手动引入"><a href="#方式二-手动引入" class="headerlink" title="方式二: 手动引入"></a>方式二: 手动引入</h3><p>要说为什么直接引入 <code>CDN</code> 的方式不行, 还得从它的源码看起。点入 <code>CDN</code> , 可以看到它是这样的:</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs applescript">fish();<br>function fish() &#123;<br><span class="hljs-built_in">    return</span> (<br>      $(<span class="hljs-string">&quot;#footer-wrap&quot;</span>).css(&#123;<br>        position: <span class="hljs-string">&quot;absolute&quot;</span>,<br>        <span class="hljs-string">&quot;text-align&quot;</span>: <span class="hljs-string">&quot;center&quot;</span>,<br>        top: <span class="hljs-number">0</span>,<br>        right: <span class="hljs-number">0</span>,<br>        left: <span class="hljs-number">0</span>,<br>        bottom: <span class="hljs-number">0</span>,<br>      &#125;),<br>      $(<span class="hljs-string">&quot;footer&quot;</span>).append(<br>        &#x27;&lt;<span class="hljs-keyword">div</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">&quot;container&quot;</span> <span class="hljs-built_in">id</span>=<span class="hljs-string">&quot;jsi-flying-fish-container&quot;</span>&gt;&lt;/<span class="hljs-keyword">div</span>&gt;&#x27;<br>      ),<br>      $(<span class="hljs-string">&quot;body&quot;</span>).append(<br>        &#x27;&lt;<span class="hljs-keyword">script</span> src=<span class="hljs-string">&quot;https://cdn.jsdelivr.net/gh/xiabo2/CDN@latest/fish.js&quot;</span>&gt;&lt;/<span class="hljs-keyword">script</span>&gt;&#x27;<br>      ),<br>      this<br>    );<br>  &#125;<br></code></pre></td></tr></table></figure>
+<p>实际上，fish()函数执行了以下操作：</p>
+<ul>
+<li>设置 <code>#footer-wrap</code> 的样式属性，使其在页面中位于固定位置。</li>
+<li>动态向 <code>footer</code> 标签中添加一个 <code>div</code> ，其 <code>id</code> 为 <code>jsi-flying-fish-container</code>，用于容纳动画的画布或其他内容。</li>
+<li>引用 <code>fish.js</code>。</li>
+</ul>
+<p>再查看 <code>fish.js</code> 的源码, 可以发现飞鱼动画的颜色配置隐藏在 <code>fish.js</code> 的 <code>render</code> 方法中，其中的 <code>fillStyle</code> 属性控制了动画区域的填充颜色，当前默认值为 <code>&#39;hsl(0, 0%, 95%)&#39;</code>（接近白色）。要修改颜色，需要调整源码中的 <code>fillStyle</code> 值。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs kotlin">render : function()&#123;<br>	requestAnimationFrame(<span class="hljs-keyword">this</span>.render);<br>	<span class="hljs-keyword">this</span>.controlStatus();<br>	<span class="hljs-keyword">this</span>.context.clearRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-keyword">this</span>.width, <span class="hljs-keyword">this</span>.height);<br>	<span class="hljs-keyword">this</span>.context.fillStyle = <span class="hljs-string">&#x27;hsl(0, 0%, 95%)&#x27;</span>;<br>	<br>	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, count = <span class="hljs-keyword">this</span>.fishes.length; i &lt; count; i++)&#123;<br>		<span class="hljs-keyword">this</span>.fishes[i].render(<span class="hljs-keyword">this</span>.context);<br>	&#125;<br>	<span class="hljs-keyword">this</span>.context.save();<br>	<span class="hljs-keyword">this</span>.context.globalCompositeOperation = <span class="hljs-string">&#x27;xor&#x27;</span>;<br>	<span class="hljs-keyword">this</span>.context.beginPath();<br>	<span class="hljs-keyword">this</span>.context.moveTo(<span class="hljs-number">0</span>, <span class="hljs-keyword">this</span>.reverse ? <span class="hljs-number">0</span> : <span class="hljs-keyword">this</span>.height);<br>	<br>	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, count = <span class="hljs-keyword">this</span>.points.length; i &lt; count; i++)&#123;<br>		<span class="hljs-keyword">this</span>.points[i].render(<span class="hljs-keyword">this</span>.context);<br>	&#125;<br>	<span class="hljs-keyword">this</span>.context.lineTo(<span class="hljs-keyword">this</span>.width, <span class="hljs-keyword">this</span>.reverse ? <span class="hljs-number">0</span> : <span class="hljs-keyword">this</span>.height);<br>	<span class="hljs-keyword">this</span>.context.closePath();<br>	<span class="hljs-keyword">this</span>.context.fill();<br>	<span class="hljs-keyword">this</span>.context.restore();<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>看到这里我们手动引入的文件结构也就相当清晰了 —— 一个两个个文件, <code>fishes.js</code> 以及 <code>fish.js</code>。<br>其中 </p>
+<ul>
+<li><code>fishes.js</code> 中需要将引用的 <code>fish.js</code> 的位置修改为本地路径 </li>
+<li><code>fish.js</code> 要修改的地方是 <code>fillStyle</code>, 将其改为自己想改的填充颜色即可</li>
+</ul>
+<p>源码文件可以从网站获取:<br><a target="_blank" rel="noopener" href="https://blog.emb42.com/js/fishes.js">fishes.js</a><br><a target="_blank" rel="noopener" href="https://blog.emb42.com/js/fish.js">fish.js</a><br>修改完成后只需要在主题的配置文件中引入 <code>fishes.js</code> 即可。</p>
+<h2 id="样式修改"><a href="#样式修改" class="headerlink" title="样式修改"></a>样式修改</h2><p>在上面对 <code>fishes.js</code> 的的解析中提到, 动画效果都在 <code>.jsi-flying-fish-container</code> 中, 因此要修改它的样式主要是对这个类样式修改。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-id">#jsi-flying-fish-container</span> &#123;<br>    <span class="hljs-attribute">display</span>: block;<br>    <span class="hljs-attribute">bottom</span>: <span class="hljs-number">0px</span>;<br>    <span class="hljs-attribute">right</span>: <span class="hljs-number">0px</span>;<br>    <span class="hljs-attribute">left</span>: <span class="hljs-number">0px</span>;<br>    <span class="hljs-attribute">position</span>: absolute; <span class="hljs-comment">/* 修改为 absolute，相对于父容器定位 */</span><br>    <span class="hljs-attribute">text-align</span>: center;<br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>; <span class="hljs-comment">/* 填满父容器宽度 */</span><br>    <span class="hljs-attribute">opacity</span>: <span class="hljs-number">1</span>; <span class="hljs-comment">/* 控制透明度 */</span><br>    <span class="hljs-attribute">height</span>: <span class="hljs-number">132px</span>; <span class="hljs-comment">/* 控制高度 */</span><br>    <span class="hljs-attribute">z-index</span>: -<span class="hljs-number">1</span>; <span class="hljs-comment">/* 确保在背景层 */</span><br>&#125;<br><br><span class="hljs-selector-tag">footer</span> &#123;<br>    <span class="hljs-attribute">position</span>: relative; <span class="hljs-comment">/* 确保子元素绝对定位生效 */</span><br>&#125;<br><br><span class="hljs-selector-tag">canvas</span> &#123;<br>    <span class="hljs-attribute">position</span>: absolute;<br>    <span class="hljs-attribute">bottom</span>: <span class="hljs-number">0px</span>;<br>    <span class="hljs-attribute">left</span>: <span class="hljs-number">0px</span>;<br>    <span class="hljs-attribute">height</span>: <span class="hljs-number">100%</span>;<br>    <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>将其引入配置文件的 <code>custom_css</code> 处就完成了!</p>
+<div class="note note-info">
+            <p>ps: 为什么高度是 <code>132px</code>: 动画效果的有色填充处与无色处分界线正好是画布的二分之一处, 而 <code>MetingJS</code> 播放器的高度是 <code>66px</code> , 这样会变得很规整捏。</p>
+          </div>
+<p><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411171809349.gif" srcset="/img/loading.gif" lazyload alt="养鱼!"></p>
+<section class="footnotes"><h1>参考资料</h1><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1943699">Hexo添加樱花动态效果背景</a>
+<a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://hexo.fluid-dev.com/docs/advance/#hexo-%E6%B3%A8%E5%85%A5%E4%BB%A3%E7%A0%81">Fluid注入器文档</a>
+<a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:3" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://weilining.github.io/204.html">如何在页脚养鱼</a>
+<a href="#fnref:3" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%8D%9A%E5%AE%A2/" class="category-chain-item">博客</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%8D%9A%E5%AE%A2/%E7%BE%8E%E5%8C%96/" class="category-chain-item">美化</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Hexo/" class="print-no-link">#Hexo</a>
+      
+        <a href="/tags/Fluid/" class="print-no-link">#Fluid</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>为博客添加樱花飘落特效以及页脚美化</div>
+      <div>http://example.com/2024/11/17/为博客添加樱花飘落动态背景以及页脚美化/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Emberff</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年11月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/11/18/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E6%B7%BB%E5%8A%A0%E7%AB%8B%E7%89%8C%E5%B0%8F%E7%BB%84%E4%BB%B6/" title="为博客添加立牌小组件">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">为博客添加立牌小组件</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/11/11/%E4%BD%BF%E7%94%A8CDN%E4%B8%BA%E5%8D%9A%E5%AE%A2%E5%8A%A0%E9%80%9F/" title="使用CDN为博客加速">
+                        <span class="hidden-mobile">使用CDN为博客加速</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'emberff/blog');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', '💬utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.4.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+          <!-- 鼠标点击特效 --> <canvas class="fireworks" style="position:fixed;left:0;top:0;z-index:99999999;pointer-events:none;"> </canvas>
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <!-- fluid链接 --> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+<!-- 一言 --> <div class="statistics"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?c=h&c=i&c=k&encode=js&select=%23hitokoto" defer></script> </div>
+<!-- 博客上线天数 --> <div> <span id="timeDate" style="font-size:0.85em;">载入天数...</span> <span id="times" style="font-size:0.85em;">载入时分秒...</span> </div>
+<!--梦ICP备案号--> <a href="https://icp.gov.moe/?keyword=20242442" target="_blank" class="moe-icp">萌ICP备20242442号</a>
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      苏ICP备2024134417号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32050702011867"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>苏公网安备32050702011867号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+</div>
+<script>
+  // 检查是否为移动设备
+  function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
+  // 初始化 Sakana Widget
+  function initSakanaWidget() {
+    if (isMobileDevice()) {
+      // 如果是手机端，退出函数不加载 Widget
+      return;
+    }
+    
+    // 获取角色
+    const takina = SakanaWidget.getCharacter('takina');
+    takina.initialState = {
+      ...takina.initialState,
+      i: 0.001,
+    };
+
+    const chisato = SakanaWidget.getCharacter('chisato');
+    chisato.initialState = {
+      ...chisato.initialState,
+      i: 0.001
+    };
+    
+    // 随机选择角色
+    const selectedCharacter = Math.floor(Math.random() * 2) === 0 ? takina : chisato;
+    SakanaWidget.registerCharacter('custom', selectedCharacter);
+    
+    // 使用构造函数初始化 SakanaWidget
+    new SakanaWidget({
+      character: 'custom',
+      controls: false
+    }).mount('#sakana-widget');
+  }
+</script>
+
+<!-- 仅在非手机端加载样式和脚本 -->
+<script>
+  if (!isMobileDevice()) {
+    document.write(`
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/sakana-widget@2.7.0/lib/sakana.min.css" />
+      <div id="sakana-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></div>
+      <script async onload="initSakanaWidget()" src="https://fastly.jsdelivr.net/npm/sakana-widget@2.7.0/lib/sakana.min.js"><\/script>
+    `);
+  }
+</script>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/duration.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/anime.js"></script>
+<script src="/js/fireworks.js"></script>
+<script src="//fastly.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script src="//fastly.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<script src="/js/loader.js"></script>
+<script src="/js/fishes.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

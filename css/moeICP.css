@@ -1,0 +1,17 @@
+.moe-icp {
+    position: relative;
+    padding-left: 20px; /* 给图标留出空间 */
+  }
+  
+  .moe-icp::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px; /* 图标宽度 */
+    height: 16px; /* 图标高度 */
+    background-image: url('/css/moeICPIcon.png');
+    background-size: cover; /* 确保图标覆盖整个区域 */
+  }
+  

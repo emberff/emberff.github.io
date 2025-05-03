@@ -1,0 +1,23 @@
+/* 修改颜色: 修改 fish.js 中 fillstyle */
+#jsi-flying-fish-container {
+  display: block;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  position: absolute; /* 修改为 absolute，相对于父容器定位 */
+  text-align: center;
+  width: 100%; /* 填满父容器宽度 */
+  opacity: 1; /* 控制透明度 */
+  height: 132px; /* 控制高度 */
+  z-index: -1; /* 确保在背景层 */
+}
+footer {
+  position: relative; /* 确保子元素绝对定位生效 */
+}
+canvas {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+}

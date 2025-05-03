@@ -1,0 +1,969 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#475164">
+  <meta name="author" content="Emberff">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="基于前缀树的地址格式化工具类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于前缀树的地址格式化工具类">
+<meta property="og:url" content="http://example.com/2025/04/05/%E5%9F%BA%E4%BA%8E%E5%89%8D%E7%BC%80%E6%A0%91%E7%9A%84%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%B7%A5%E5%85%B7%E7%B1%BB/index.html">
+<meta property="og:site_name" content="江上清风">
+<meta property="og:description" content="基于前缀树的地址格式化工具类">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/%E5%9F%BA%E4%BA%8E%E5%89%8D%E7%BC%80%E6%A0%91%E7%9A%84%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%B7%A5%E5%85%B7%E7%B1%BB202504051800488.png">
+<meta property="article:published_time" content="2025-04-05T07:47:51.000Z">
+<meta property="article:modified_time" content="2025-04-22T13:55:00.601Z">
+<meta property="article:author" content="Emberff">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/%E5%9F%BA%E4%BA%8E%E5%89%8D%E7%BC%80%E6%A0%91%E7%9A%84%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%B7%A5%E5%85%B7%E7%B1%BB202504051800488.png">
+  
+  
+  
+  <title>基于前缀树的地址格式化工具类 - 江上清风</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/subtitle.css">
+<link rel="stylesheet" href="/css/scrollbar.css">
+<link rel="stylesheet" href="/css/loader.css">
+<link rel="stylesheet" href="//fastly.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
+<link rel="stylesheet" href="/css/macpanel.css">
+<link rel="stylesheet" href="/css/moeICP.css">
+<link rel="stylesheet" href="/css/fishes.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":"http://113.44.44.71:3000/script.js","website_id":"ccd09e3b-3cea-4660-8af1-dc4c52b803d7","domains":null,"start_time":null,"token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        let umami = document.createElement('script');
+        umami.async = true;
+        umami.src = "http://113.44.44.71:3000/script.js";
+        umami.setAttribute("data-website-id", "ccd09e3b-3cea-4660-8af1-dc4c52b803d7");
+        umami.setAttribute("data-domains", "");
+        document.head.appendChild(umami);
+      }
+    </script>
+  
+
+  
+
+  
+
+
+
+  
+
+
+  <!-- 渲染播放器 -->
+  <meting-js
+    server="netease"
+    type="playlist"
+    id="7069797967"
+    autoplay="false"
+    fixed="true"
+    volume="0.1"
+    loop="all"
+    order="random"
+    auto="false"
+    mini="true"
+    theme="#2980b9"
+    preload="auto"
+    mutex="false"
+    lrc-type="1"
+    list-folded="true"
+    list-max-height=""
+    storage-name="">
+  </meting-js>
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <div id="loader-container">
+    <div id="loader" class="loader"></div>
+    <div class="loader-inner">
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+    </div>
+</div>
+
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Emberffの小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/shuoshuo/" target="_self">
+                <i class="iconfont icon-wechat2-fill"></i>
+                <span>说说</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-books"></i>
+                <span>文章</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/archives/" target="_self">
+                    <i class="iconfont icon-archive-fill"></i>
+                    <span>归档</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/" target="_self">
+                    <i class="iconfont icon-category-fill"></i>
+                    <span>分类</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/tags/" target="_self">
+                    <i class="iconfont icon-tags-fill"></i>
+                    <span>标签</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/background/arch.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="基于前缀树的地址格式化工具类"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-04-05 15:47" pubdate>
+          2025年4月5日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          25 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">基于前缀树的地址格式化工具类</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>这周在做项目的时候碰到一个问题: 要在项目的流程中接入阿里云SMS以及微信小程序订阅消息的发送功能, 而它们提供的发送接收参数里对于不同类型的参数长度是有限制的。<code>阿里云SMS</code> 接收位置参数最长为 <strong>32个字符</strong> , 而微信小程序根据模板的不同, 提供的接收参数最长长度也不同: <code>thing</code> 类型最多只能接收<strong>20个字符</strong>…<br>在最开始的开发版本, 和前端约定了依据地区编码, 将值通过接口发送给后端时在区和具体地址间以空格分隔, 后端再做简单处理: 通过空格分割字符串, 然后获取精确到区的文本。<br>然而现在前端改了获取精确地址的方式, 直接调用 <code>腾讯地图的api</code> 了! 所以后端不得不面临应该如何在有限的长度内尽量精确的长文本的问题。<br>恰好最近我看到前缀树的相关内容, 脑子一拍, 觉得这个数据结构相当符合我的需求, 索性直接做了一个工具类!</p>
+<h1 id="前缀树"><a href="#前缀树" class="headerlink" title="前缀树"></a>前缀树</h1><p>前缀树（Trie，也叫字典树）是一种用于高效存储和查找字符串集合的数据结构，特别适用于<strong>前缀匹配</strong>的场景。<br>对于现在面对的问题本质, 实际上就是对一个长字符串的匹配关键字的问题, 因此除了使用前缀树, 还可以使用正则匹配的方式来解决。</p>
+<h2 id="使用前缀树-vs-使用正则匹配的对比"><a href="#使用前缀树-vs-使用正则匹配的对比" class="headerlink" title="使用前缀树 vs 使用正则匹配的对比"></a>使用前缀树 vs 使用正则匹配的对比</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>使用前缀树 Trie</th>
+<th>使用正则表达式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>性能</td>
+<td>🔥 更高效（尤其是关键词多时）</td>
+<td>❗ 随关键词数量增加，性能下降</td>
+</tr>
+<tr>
+<td>匹配方式</td>
+<td>一次遍历字符流即可识别是否含有关键词（逐字符查字典）</td>
+<td>每次都需重新解释&#x2F;编译正则，进行模式匹配</td>
+</tr>
+<tr>
+<td>维护性</td>
+<td>增删关键词仅修改关键词数组</td>
+<td>修改正则表达式，易出错</td>
+</tr>
+<tr>
+<td>扩展性</td>
+<td>支持更复杂的匹配逻辑（比如词频统计、自动补全）</td>
+<td>只能简单匹配，难以扩展逻辑</td>
+</tr>
+<tr>
+<td>可读性</td>
+<td>代码逻辑清晰</td>
+<td>正则语法复杂，可读性差</td>
+</tr>
+<tr>
+<td>适合规模</td>
+<td>关键词多（几十到上百）时效果显著</td>
+<td>关键词少时比较方便快速</td>
+</tr>
+</tbody></table>
+<p>从性能角度考虑，前缀树在处理地址关键词的过滤时有显著优势，尤其是面对大量数据时。前缀树的查找时间复杂度是 O(n)，并且没有回溯问题，内存访问高效，适合用于大规模字符串匹配。而正则表达式在匹配时可能会遇到回溯问题，并且对于复杂模式的匹配开销较大，尤其在需要频繁检查多个字符串时性能较差。因此，使用前缀树作为过滤工具能显著提高效率，避免了正则表达式可能带来的性能瓶颈。</p>
+<h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><pre><code class=" mermaid">graph TD
+    A[输入地址和限制类型] --&gt; B&#123;输入是否合法?&#125;
+    B --&gt;|是| C&#123;包含地址关键词?&#125;
+    B --&gt;|否| Z1[返回空字符串]
+    C --&gt;|是| D&#123;长度 ≤ 限制长度?&#125;
+    C --&gt;|否| Z2[返回空字符串]
+    D --&gt;|是| E[直接返回原地址]
+    D --&gt;|否| F[使用前缀树分割地址]
+    F --&gt; G[逐步拼接分割部分]
+    G --&gt; H&#123;拼接后长度 ≤ 限制?&#125;
+    H --&gt;|是| I[更新有效结果]
+    H --&gt;|否| J[检查是否需要截断]
+    J --&gt; K&#123;存在有效关键词结尾?&#125;
+    K --&gt;|是| L[返回最近关键词截断]
+    K --&gt;|否| M[返回空字符串]
+    I --&gt; N[拼接完成?]
+    N --&gt;|是| O[返回完整拼接结果]
+    N --&gt;|否| G
+    O --&gt; END[结束]
+</code></pre>
+
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.ArrayList;<br><span class="hljs-keyword">import</span> java.util.HashMap;<br><span class="hljs-keyword">import</span> java.util.List;<br><span class="hljs-keyword">import</span> java.util.Map;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 基于前缀树的格式化地址工具类</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LocationFormatUtils</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">TrieNode</span> <span class="hljs-variable">root</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">TrieNode</span>();<br><br>    <span class="hljs-comment">// 省市区县等关键词</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String[] LOCATION_KEYWORDS = &#123;<br>            <span class="hljs-string">&quot;自治区&quot;</span>, <span class="hljs-string">&quot;省&quot;</span>, <span class="hljs-string">&quot;市&quot;</span>, <span class="hljs-string">&quot;区&quot;</span>, <span class="hljs-string">&quot;县&quot;</span>, <span class="hljs-string">&quot;自治县&quot;</span>, <span class="hljs-string">&quot;街道&quot;</span>, <span class="hljs-string">&quot;镇&quot;</span>, <span class="hljs-string">&quot;乡&quot;</span>, <span class="hljs-string">&quot;路&quot;</span>, <span class="hljs-string">&quot;街&quot;</span>, <span class="hljs-string">&quot;巷&quot;</span>, <span class="hljs-string">&quot;号&quot;</span>, <span class="hljs-string">&quot;小区&quot;</span>, <span class="hljs-string">&quot;栋&quot;</span>, <span class="hljs-string">&quot;幢&quot;</span>,<br>            <span class="hljs-string">&quot;村&quot;</span>, <span class="hljs-string">&quot;组&quot;</span>, <span class="hljs-string">&quot;单元&quot;</span>, <span class="hljs-string">&quot;弄&quot;</span>, <span class="hljs-string">&quot;层&quot;</span>, <span class="hljs-string">&quot;室&quot;</span>, <span class="hljs-string">&quot;场&quot;</span>, <span class="hljs-string">&quot;大厦&quot;</span>, <span class="hljs-string">&quot;道&quot;</span>, <span class="hljs-string">&quot;屯&quot;</span>, <span class="hljs-string">&quot;里&quot;</span>, <span class="hljs-string">&quot;园&quot;</span>, <span class="hljs-string">&quot;圈&quot;</span><br>    &#125;;<br><br>    <span class="hljs-keyword">static</span> &#123;<br>        <span class="hljs-comment">// 预构建 Trie 树</span><br>        <span class="hljs-keyword">for</span> (String keyword : LOCATION_KEYWORDS) &#123;<br>            insertIntoTrie(keyword);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取最合适的格式化地址，使用指定限制类型</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">getMostAccurateLocation</span><span class="hljs-params">(String location, LimitType type)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">maxLength</span> <span class="hljs-operator">=</span> type.getLength();<br><br>        <span class="hljs-keyword">if</span> (location == <span class="hljs-literal">null</span> || location.isEmpty()) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (location.replaceAll(<span class="hljs-string">&quot;[^\\p&#123;L&#125;\\p&#123;N&#125;]&quot;</span>, <span class="hljs-string">&quot;&quot;</span>).isEmpty()) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (!containsLocationKeyword(location)) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (location.length() &lt;= maxLength) &#123;<br>            <span class="hljs-keyword">return</span> location;<br>        &#125;<br><br>        List&lt;String&gt; partsList = splitByTrie(location);<br>        String[] parts = partsList.toArray(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[<span class="hljs-number">0</span>]);<br><br>        <span class="hljs-type">StringBuilder</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuilder</span>();<br>        <span class="hljs-type">int</span> <span class="hljs-variable">currentLength</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">lastValid</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>        <span class="hljs-keyword">for</span> (String part : parts) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">partLength</span> <span class="hljs-operator">=</span> part.length();<br>            <span class="hljs-keyword">if</span> (currentLength + partLength &lt;= maxLength) &#123;<br>                result.append(part);<br>                currentLength += partLength;<br>                lastValid = result.toString();<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> lastValid.isEmpty() ? truncateLocation(location, maxLength) : lastValid;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 使用前缀树分割地址字符串</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> List&lt;String&gt; <span class="hljs-title function_">splitByTrie</span><span class="hljs-params">(String location)</span> &#123;<br>        List&lt;Integer&gt; splitPoints = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        splitPoints.add(<span class="hljs-number">0</span>);<br>        <span class="hljs-type">int</span> <span class="hljs-variable">currentIndex</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">length</span> <span class="hljs-operator">=</span> location.length();<br>        <span class="hljs-keyword">while</span> (currentIndex &lt; length) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">maxLen</span> <span class="hljs-operator">=</span> findLongestKeyword(location, currentIndex);<br>            <span class="hljs-keyword">if</span> (maxLen &gt; <span class="hljs-number">0</span>) &#123;<br>                <span class="hljs-type">int</span> <span class="hljs-variable">splitPoint</span> <span class="hljs-operator">=</span> currentIndex + maxLen;<br>                splitPoints.add(splitPoint);<br>                currentIndex = splitPoint;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                currentIndex++;<br>            &#125;<br>        &#125;<br>        splitPoints.add(length); <span class="hljs-comment">// 添加结束点</span><br><br>        List&lt;String&gt; parts = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt; splitPoints.size(); i++) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">start</span> <span class="hljs-operator">=</span> splitPoints.get(i - <span class="hljs-number">1</span>);<br>            <span class="hljs-type">int</span> <span class="hljs-variable">end</span> <span class="hljs-operator">=</span> splitPoints.get(i);<br>            <span class="hljs-keyword">if</span> (start &lt; end) &#123;<br>                parts.add(location.substring(start, end));<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> parts;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 寻找从指定位置开始的最长关键词</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">findLongestKeyword</span><span class="hljs-params">(String s, <span class="hljs-type">int</span> start)</span> &#123;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">maxLen</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">TrieNode</span> <span class="hljs-variable">node</span> <span class="hljs-operator">=</span> root;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> start; i &lt; s.length(); i++) &#123;<br>            <span class="hljs-type">char</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> s.charAt(i);<br>            <span class="hljs-keyword">if</span> (node.children.containsKey(c)) &#123;<br>                node = node.children.get(c);<br>                <span class="hljs-keyword">if</span> (node.isEnd) &#123;<br>                    maxLen = i - start + <span class="hljs-number">1</span>;<br>                &#125;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> maxLen;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 判断字符串是否包含地址关键词</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">containsLocationKeyword</span><span class="hljs-params">(String location)</span> &#123;<br>        <span class="hljs-type">TrieNode</span> <span class="hljs-variable">node</span> <span class="hljs-operator">=</span> root;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> c : location.toCharArray()) &#123;<br>            <span class="hljs-keyword">if</span> (node.children.containsKey(c)) &#123;<br>                node = node.children.get(c);<br>                <span class="hljs-keyword">if</span> (node.isEnd) &#123;<br>                    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>                &#125;<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 截断地址至指定长度，并确保不截断关键字</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">truncateLocation</span><span class="hljs-params">(String location, <span class="hljs-type">int</span> maxLength)</span> &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">truncated</span> <span class="hljs-operator">=</span> location.substring(<span class="hljs-number">0</span>, maxLength);<br>        <span class="hljs-type">int</span> <span class="hljs-variable">lastValidIndex</span> <span class="hljs-operator">=</span> -<span class="hljs-number">1</span>;<br>        <span class="hljs-type">TrieNode</span> <span class="hljs-variable">node</span> <span class="hljs-operator">=</span> root;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">currentLength</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; truncated.length(); i++) &#123;<br>            <span class="hljs-type">char</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> truncated.charAt(i);<br>            <span class="hljs-keyword">if</span> (node.children.containsKey(c)) &#123;<br>                node = node.children.get(c);<br>                currentLength++;<br>                <span class="hljs-keyword">if</span> (node.isEnd) &#123;<br>                    lastValidIndex = i + <span class="hljs-number">1</span>;<br>                &#125;<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-comment">// 重置到根节点，继续寻找可能的匹配</span><br>                node = root;<br>                currentLength = <span class="hljs-number">0</span>;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> (lastValidIndex != -<span class="hljs-number">1</span>) ? truncated.substring(<span class="hljs-number">0</span>, lastValidIndex) : <span class="hljs-string">&quot;&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 在 Trie 树中插入关键词</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">insertIntoTrie</span><span class="hljs-params">(String word)</span> &#123;<br>        <span class="hljs-type">TrieNode</span> <span class="hljs-variable">node</span> <span class="hljs-operator">=</span> root;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">char</span> c : word.toCharArray()) &#123;<br>            node.children.putIfAbsent(c, <span class="hljs-keyword">new</span> <span class="hljs-title class_">TrieNode</span>());<br>            node = node.children.get(c);<br>        &#125;<br>        node.isEnd = <span class="hljs-literal">true</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * Trie 结构定义</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">TrieNode</span> &#123;<br>        Map&lt;Character, TrieNode&gt; children = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">isEnd</span> <span class="hljs-operator">=</span> <span class="hljs-literal">false</span>;<br>    &#125;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 地址长度限制类型枚举</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> <span class="hljs-title class_">LimitType</span> &#123;<br>        SMS(<span class="hljs-number">32</span>, <span class="hljs-string">&quot;SMS 地址长度&quot;</span>),<br>        SUBSCRIBE_MSG(<span class="hljs-number">20</span>, <span class="hljs-string">&quot;微信小程序订阅消息长度&quot;</span>);<br><br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> length;<br>        <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String desc;<br><br>        LimitType(<span class="hljs-type">int</span> length, String desc) &#123;<br>            <span class="hljs-built_in">this</span>.length = length;<br>            <span class="hljs-built_in">this</span>.desc = desc;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getLength</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">return</span> length;<br>        &#125;<br><br>        <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getDesc</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-keyword">return</span> desc;<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        System.out.println(getMostAccurateLocation(<span class="hljs-string">&quot;北京市朝阳区望京街道阜安西路8号&quot;</span>, LimitType.SMS));<br>        System.out.println(getMostAccurateLocation(<span class="hljs-string">&quot;北京市朝阳区望京街道阜安西路8号&quot;</span>, LimitType.SUBSCRIBE_MSG));<br>        System.out.println(getMostAccurateLocation(<span class="hljs-string">&quot;无地址关键字文本描述信息仅作测试用途&quot;</span>, LimitType.SMS));<br>        System.out.println(getMostAccurateLocation(<span class="hljs-string">&quot;###￥%@！@@#￥%……&amp;*&quot;</span>, LimitType.SUBSCRIBE_MSG));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LocationFormatUtilsTest</span> &#123;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-meta">@DisplayName(&quot;测试直辖市地址&quot;)</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">testDirectControlledMunicipality</span><span class="hljs-params">()</span> &#123;<br>        assertEquals(<span class="hljs-string">&quot;北京市朝阳区望京街道阜安西路8号&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;北京市朝阳区望京街道阜安西路8号&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;上海市黄浦区南京东路299弄1号&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;上海市黄浦区南京东路299弄1号&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;重庆市渝中区解放碑八一路238号&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;重庆市渝中区解放碑八一路238号&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;天津市南开区卫津南路66号&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;天津市南开区卫津南路66号&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>    &#125;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-meta">@DisplayName(&quot;测试短地址（直接返回）&quot;)</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">testShortAddress</span><span class="hljs-params">()</span> &#123;<br>        assertEquals(<span class="hljs-string">&quot;深圳市南山区&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;深圳市南山区&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;成都市武侯区&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;成都市武侯区&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;杭州市西湖区&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;杭州市西湖区&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>    &#125;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-meta">@DisplayName(&quot;测试直辖市超长地址（截断）&quot;)</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">testDirectControlledMunicipalityLong</span><span class="hljs-params">()</span> &#123;<br>        assertEquals(<span class="hljs-string">&quot;北京市朝阳区望京街道阜安西路8号国际大厦&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;北京市朝阳区望京街道阜安西路8号国际大厦A座12楼1208室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;上海市黄浦区南京东路299弄1号汇金大厦&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;上海市黄浦区南京东路299弄1号汇金大厦27层2701室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;重庆市渝中区解放碑八一路238号&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;重庆市渝中区解放碑八一路238号大都会广场写字楼A栋2208室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;天津市南开区卫津南路66号南开大学科技园&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;天津市南开区卫津南路66号南开大学科技园创新大厦5层501室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>    &#125;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-meta">@DisplayName(&quot;测试自治区超长地址（截断）&quot;)</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">testAutonomousRegionLong</span><span class="hljs-params">()</span> &#123;<br>        assertEquals(<span class="hljs-string">&quot;广西壮族自治区南宁市青秀区民族大道&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;广西壮族自治区南宁市青秀区民族大道166号航洋国际B座30楼3006室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;西藏自治区拉萨市城关区江苏东路36号&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;西藏自治区拉萨市城关区江苏东路36号藏医学院教学楼A座302室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;新疆维吾尔自治区乌鲁木齐市天山区人民路&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;新疆维吾尔自治区乌鲁木齐市天山区人民路88号国际商贸中心7层703室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;内蒙古自治区呼和浩特市赛罕区新华东街&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;内蒙古自治区呼和浩特市赛罕区新华东街89号世贸广场5栋21楼2102室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;宁夏回族自治区银川市兴庆区解放西街29号&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;宁夏回族自治区银川市兴庆区解放西街29号银川国际大厦22楼2201室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>    &#125;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-meta">@DisplayName(&quot;测试特别行政区超长地址（截断）&quot;)</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">testSpecialAdministrativeRegionLong</span><span class="hljs-params">()</span> &#123;<br>        assertEquals(<span class="hljs-string">&quot;香港特别行政区中西区中环皇后大道&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;香港特别行政区中西区中环皇后大道中101号国际金融中心二期56层5608室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;澳门特别行政区花地玛堂区友谊大马路&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;澳门特别行政区花地玛堂区友谊大马路399号南湾广场3楼301室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>    &#125;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-meta">@DisplayName(&quot;测试一般超长地址（截断）&quot;)</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">testLongGeneralAddress</span><span class="hljs-params">()</span> &#123;<br>        assertEquals(<span class="hljs-string">&quot;浙江省杭州市西湖区文二西路华星时代广场&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;浙江省杭州市西湖区文二西路华星时代广场A座12楼1209室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;广东省广州市天河区天河北路233号&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;广东省广州市天河区天河北路233号天汇大厦25楼2502室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>        assertEquals(<span class="hljs-string">&quot;四川省成都市锦江区春熙路太古里南里商圈&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;四川省成都市锦江区春熙路太古里南里商圈A栋18层1803室&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG));<br>    &#125;<br><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-meta">@DisplayName(&quot;测试特殊字符 &amp; 异常输入&quot;)</span><br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">testSpecialCases</span><span class="hljs-params">()</span> &#123;<br>        assertEquals(<span class="hljs-string">&quot;&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG)); <span class="hljs-comment">// 空字符串</span><br>        assertEquals(<span class="hljs-string">&quot;&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-literal">null</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG)); <span class="hljs-comment">// null</span><br>        assertEquals(<span class="hljs-string">&quot;&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;12345678901234567890&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG)); <span class="hljs-comment">// 无关键词</span><br>        assertEquals(<span class="hljs-string">&quot;&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;无地址关键字文本描述信息仅作测试用途&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG)); <span class="hljs-comment">// 无地址关键字</span><br>        assertEquals(<span class="hljs-string">&quot;&quot;</span>, LocationFormatUtils.getMostAccurateLocation(<span class="hljs-string">&quot;###￥%@！@@#￥%……&amp;*&quot;</span>, LocationFormatUtils.LimitType.SUBSCRIBE_MSG)); <span class="hljs-comment">// 特殊字符</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/%E5%9F%BA%E4%BA%8E%E5%89%8D%E7%BC%80%E6%A0%91%E7%9A%84%E5%9C%B0%E5%9D%80%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%B7%A5%E5%85%B7%E7%B1%BB202504051800488.png" srcset="/img/loading.gif" lazyload alt="测试类运行结果"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0/" class="category-chain-item">学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B9%A0/Java/" class="category-chain-item">Java</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>基于前缀树的地址格式化工具类</div>
+      <div>http://example.com/2025/04/05/基于前缀树的地址格式化工具类/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Emberff</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年4月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/04/27/%E5%AF%B9%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%91%E9%80%81%E4%BA%8B%E4%BB%B6(SSE)%E7%9A%84%E7%AE%80%E5%8D%95%E7%A0%94%E7%A9%B6%E5%92%8C%E5%BA%94%E7%94%A8/" title="对服务器发送事件(SSE)的简单研究和应用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">对服务器发送事件(SSE)的简单研究和应用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/03/19/%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0%E6%8E%A5%E5%8F%A3%E9%A2%91%E7%8E%87%E6%8E%A7%E5%88%B6/" title="注解实现接口频率控制">
+                        <span class="hidden-mobile">注解实现接口频率控制</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'emberff/blog');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', '💬utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.4.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+          <!-- 鼠标点击特效 --> <canvas class="fireworks" style="position:fixed;left:0;top:0;z-index:99999999;pointer-events:none;"> </canvas>
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <!-- fluid链接 --> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+<!-- 一言 --> <div class="statistics"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?c=h&c=i&c=k&encode=js&select=%23hitokoto" defer></script> </div>
+<!-- 博客上线天数 --> <div> <span id="timeDate" style="font-size:0.85em;">载入天数...</span> <span id="times" style="font-size:0.85em;">载入时分秒...</span> </div>
+<!--梦ICP备案号--> <a href="https://icp.gov.moe/?keyword=20242442" target="_blank" class="moe-icp">萌ICP备20242442号</a>
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      苏ICP备2024134417号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32050702011867"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>苏公网安备32050702011867号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+</div>
+<script>
+  // 检查是否为移动设备
+  function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
+  // 初始化 Sakana Widget
+  function initSakanaWidget() {
+    if (isMobileDevice()) {
+      // 如果是手机端，退出函数不加载 Widget
+      return;
+    }
+    
+    // 获取角色
+    const takina = SakanaWidget.getCharacter('takina');
+    takina.initialState = {
+      ...takina.initialState,
+      i: 0.001,
+    };
+
+    const chisato = SakanaWidget.getCharacter('chisato');
+    chisato.initialState = {
+      ...chisato.initialState,
+      i: 0.001
+    };
+    
+    // 随机选择角色
+    const selectedCharacter = Math.floor(Math.random() * 2) === 0 ? takina : chisato;
+    SakanaWidget.registerCharacter('custom', selectedCharacter);
+    
+    // 使用构造函数初始化 SakanaWidget
+    new SakanaWidget({
+      character: 'custom',
+      controls: false
+    }).mount('#sakana-widget');
+  }
+</script>
+
+<!-- 仅在非手机端加载样式和脚本 -->
+<script>
+  if (!isMobileDevice()) {
+    document.write(`
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/sakana-widget@2.7.0/lib/sakana.min.css" />
+      <div id="sakana-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></div>
+      <script async onload="initSakanaWidget()" src="https://fastly.jsdelivr.net/npm/sakana-widget@2.7.0/lib/sakana.min.js"><\/script>
+    `);
+  }
+</script>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/duration.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/anime.js"></script>
+<script src="/js/fireworks.js"></script>
+<script src="//fastly.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+<script src="//fastly.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+<script src="/js/loader.js"></script>
+<script src="/js/fishes.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
