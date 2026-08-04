@@ -1,0 +1,1043 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#475164">
+  <meta name="author" content="Emberff">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="引言本篇文章基于 AgentLearning&#x2F;paradigm 目录下的代码实现，对目前主流的三种 Agent 范式进行整理与研究：  ReAct（Reason + Act）：推理与行动交替进行，动态调用外部工具。 Plan-and-Solve：先规划、后执行，将复杂任务拆解为有序子任务。 Reflection：生成 → 反思 → 改进，通过自我评审打磨单一产出物。  三者共享同一个 LLM 客户">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Agent简单研究">
+<meta property="og:url" content="http://example.com/2026/08/04/Agent%E7%AE%80%E5%8D%95%E7%A0%94%E7%A9%B6/index.html">
+<meta property="og:site_name" content="江上清风">
+<meta property="og:description" content="引言本篇文章基于 AgentLearning&#x2F;paradigm 目录下的代码实现，对目前主流的三种 Agent 范式进行整理与研究：  ReAct（Reason + Act）：推理与行动交替进行，动态调用外部工具。 Plan-and-Solve：先规划、后执行，将复杂任务拆解为有序子任务。 Reflection：生成 → 反思 → 改进，通过自我评审打磨单一产出物。  三者共享同一个 LLM 客户">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-04T04:03:29.000Z">
+<meta property="article:modified_time" content="2026-08-04T04:43:40.849Z">
+<meta property="article:author" content="Emberff">
+<meta property="article:tag" content="Agent">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Agent简单研究 - 江上清风</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/subtitle.css">
+<link rel="stylesheet" href="/css/loader.css">
+<link rel="stylesheet" href="/css/macpanel.css">
+<link rel="stylesheet" href="/css/moeICP.css">
+<link rel="stylesheet" href="/css/fishes.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":"http://113.44.44.71:3000/script.js","website_id":"ccd09e3b-3cea-4660-8af1-dc4c52b803d7","domains":null,"start_time":null,"token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        let umami = document.createElement('script');
+        umami.async = true;
+        umami.src = "http://113.44.44.71:3000/script.js";
+        umami.setAttribute("data-website-id", "ccd09e3b-3cea-4660-8af1-dc4c52b803d7");
+        umami.setAttribute("data-domains", "");
+        document.head.appendChild(umami);
+      }
+    </script>
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <div id="loader-container">
+    <div id="loader" class="loader"></div>
+    <div class="loader-inner">
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+    </div>
+</div>
+
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Emberffの小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/shuoshuo/" target="_self">
+                <i class="iconfont icon-wechat2-fill"></i>
+                <span>说说</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-books"></i>
+                <span>文章</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/archives/" target="_self">
+                    <i class="iconfont icon-archive-fill"></i>
+                    <span>归档</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/" target="_self">
+                    <i class="iconfont icon-category-fill"></i>
+                    <span>分类</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/tags/" target="_self">
+                    <i class="iconfont icon-tags-fill"></i>
+                    <span>标签</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/background/arch.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Agent简单研究"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-08-04 12:03" pubdate>
+          2026年8月4日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Agent简单研究</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>本篇文章基于 <code>AgentLearning/paradigm</code> 目录下的代码实现，对目前主流的三种 Agent 范式进行整理与研究：</p>
+<ol>
+<li><strong>ReAct</strong>（Reason + Act）：推理与行动交替进行，动态调用外部工具。</li>
+<li><strong>Plan-and-Solve</strong>：先规划、后执行，将复杂任务拆解为有序子任务。</li>
+<li><strong>Reflection</strong>：生成 → 反思 → 改进，通过自我评审打磨单一产出物。</li>
+</ol>
+<p>三者共享同一个 LLM 客户端封装，却体现了截然不同的决策逻辑，本文将从「核心思想、流程、关键代码、异同对比」四个维度逐一展开。</p>
+<h1 id="公共基础"><a href="#公共基础" class="headerlink" title="公共基础"></a>公共基础</h1><p>三种范式都建立在同一个 LLM 客户端之上：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># LLMCilent.py</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloAgentsLLM</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">think</span>(<span class="hljs-params">self, messages, temperature=<span class="hljs-number">0</span></span>) -&gt; <span class="hljs-built_in">str</span>:<br>        <span class="hljs-comment"># 调用任意兼容 OpenAI 接口的服务，默认流式响应</span><br>        response = <span class="hljs-variable language_">self</span>.client.chat.completions.create(<br>            model=<span class="hljs-variable language_">self</span>.model, messages=messages, stream=<span class="hljs-literal">True</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>.join(chunk.choices[<span class="hljs-number">0</span>].delta.content <span class="hljs-keyword">or</span> <span class="hljs-string">&quot;&quot;</span> <span class="hljs-keyword">for</span> chunk <span class="hljs-keyword">in</span> response)<br></code></pre></td></tr></table></figure>
+
+<p>统一的消息封装形式（均为单轮 user 消息）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">messages = [&#123;<span class="hljs-string">&quot;roles&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: prompt&#125;]<br></code></pre></td></tr></table></figure>
+
+<p>也就是说，三种范式本质上都是<strong>「单智能体 + 多轮 LLM 调用」</strong>，区别在于每一轮”喂给 LLM 什么、期望 LLM 输出什么、拿到输出后怎么处理”。</p>
+<h1 id="一、ReAct-范式"><a href="#一、ReAct-范式" class="headerlink" title="一、ReAct 范式"></a>一、ReAct 范式</h1><p>目录：<code>paradigm/react/</code></p>
+<h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>ReAct 将<strong>推理（Reasoning）</strong>与<strong>行动（Acting）</strong>交替进行：LLM 先思考（Thought），再决定行动（Action）——要么调用工具（<code>Tool[input]</code>），要么给出最终答案（<code>Finish[answer]</code>）。工具返回的观察结果（Observation）会回填到历史中，作为下一轮思考的依据，形成 <strong>Thought → Action → Observation</strong> 的循环。</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><pre><code class=" mermaid">flowchart TD
+    A[输入问题 Question] --&gt; B[组装 Prompt&lt;br/&gt;工具列表 + 历史记录]
+    B --&gt; C[调用 LLM&lt;br/&gt;生成 Thought + Action]
+    C --&gt; D&#123;解析 Thought/Action&#125;
+    D -- 解析失败 --&gt; E[无法解析 Action, 中断]
+    D -- 成功 --&gt; F&#123;Action 类型&#125;
+    F -- Finish[最终答案] --&gt; G[输出最终答案]
+    F -- Tool[input] --&gt; H[ToolExecutor 执行工具]
+    H --&gt; I&#123;执行成功?&#125;
+    I -- 成功 --&gt; J[记录 Observation 到历史]
+    I -- 失败 --&gt; K[错误恢复策略&lt;br/&gt;同工具连续失败/累计失败计数]
+    K --&gt; J
+    K -- 失败次数过多 --&gt; L[终止任务]
+    J --&gt; B
+    B -- 超过 max_steps --&gt; M[达到最大推理步数]
+</code></pre>
+
+<h2 id="关键代码"><a href="#关键代码" class="headerlink" title="关键代码"></a>关键代码</h2><p>提示词模板约束输出格式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">REACT_PROMPT_TEMPLATE = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">可用工具如下:</span><br><span class="hljs-string">&#123;tools&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">请严格按照以下格式进行回应:</span><br><span class="hljs-string">Thought: 你的思考过程，用于分析问题、拆解任务和规划下一步行动。</span><br><span class="hljs-string">Action: 你决定采取的行动，必须是以下格式之一:</span><br><span class="hljs-string">- `&#123;&#123;tool_name&#125;&#125;[&#123;&#123;tool_input&#125;&#125;]`: 调用一个可用工具。</span><br><span class="hljs-string">- `Finish[最终答案]`: 当你认为已经获得最终答案时。</span><br><span class="hljs-string"></span><br><span class="hljs-string">Question: &#123;question&#125;</span><br><span class="hljs-string">History: &#123;history&#125;</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>核心循环（<code>reActAgent.py</code>）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">while</span> current_step &lt; <span class="hljs-variable language_">self</span>.max_steps:<br>    current_step += <span class="hljs-number">1</span><br>    tools_desc = <span class="hljs-variable language_">self</span>.tool_executor.getAvailableTools()<br>    history_str = <span class="hljs-string">&quot;\n&quot;</span>.join(<span class="hljs-variable language_">self</span>.history)<br><br>    prompt = REACT_PROMPT_TEMPLATE.<span class="hljs-built_in">format</span>(tools=tools_desc, question=question, history=history_str)<br>    response = <span class="hljs-variable language_">self</span>.llm_client.think([&#123;<span class="hljs-string">&quot;roles&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: prompt&#125;])<br><br>    thought, action = <span class="hljs-variable language_">self</span>._parse_output(response)          <span class="hljs-comment"># 正则提取 Thought / Action</span><br><br>    <span class="hljs-keyword">if</span> action.startswith(<span class="hljs-string">&quot;Finish&quot;</span>):                          <span class="hljs-comment"># Finish[最终答案]</span><br>        <span class="hljs-keyword">return</span> re.<span class="hljs-keyword">match</span>(<span class="hljs-string">r&quot;Finish\[(.*)\]&quot;</span>, action, re.DOTALL).group(<span class="hljs-number">1</span>)<br><br>    tool_name, tool_input = <span class="hljs-variable language_">self</span>._parse_action(action)       <span class="hljs-comment"># Tool[input]</span><br>    success, observation = <span class="hljs-variable language_">self</span>.tool_executor.execute(tool_name, tool_input)<br><br>    <span class="hljs-comment"># 错误恢复：连续 2 次调用同一失败工具 → 提示换工具；累计失败 3 次 → 提示重想；5 次 → 终止</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> success:<br>        <span class="hljs-variable language_">self</span>.failed_count += <span class="hljs-number">1</span><br>        ...<br><br>    <span class="hljs-variable language_">self</span>.history.append(<span class="hljs-string">f&quot;Action: <span class="hljs-subst">&#123;action&#125;</span>&quot;</span>)<br>    <span class="hljs-variable language_">self</span>.history.append(<span class="hljs-string">f&quot;Observation: <span class="hljs-subst">&#123;observation&#125;</span>&quot;</span>)       <span class="hljs-comment"># 观察回填，进入下一轮</span><br></code></pre></td></tr></table></figure>
+
+<p>工具统一通过 <code>ToolExecutor</code> 注册与执行，返回 <code>(success, observation)</code> 二元组：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ToolExecutor</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">registerTool</span>(<span class="hljs-params">self, name, description, func</span>): ...<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">execute</span>(<span class="hljs-params">self, tool_name, tool_input</span>):<br>        tool = <span class="hljs-variable language_">self</span>.tools.get(tool_name)<br>        <span class="hljs-keyword">if</span> tool <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>, <span class="hljs-string">f&quot;工具 &#x27;<span class="hljs-subst">&#123;tool_name&#125;</span>&#x27; 不存在。&quot;</span><br>        <span class="hljs-keyword">try</span>:<br>            result = tool[<span class="hljs-string">&quot;func&quot;</span>](tool_input)<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>, result<br>        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>, <span class="hljs-string">f&quot;工具 &#x27;<span class="hljs-subst">&#123;tool_name&#125;</span>&#x27; 执行失败：<span class="hljs-subst">&#123;<span class="hljs-built_in">str</span>(e)&#125;</span>&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>本项目提供了两个工具：基于 SymPy 的 <code>calculator</code>（数学计算）与基于 Tavily 的 <code>search</code>（网页搜索）。</p>
+<h2 id="设计要点"><a href="#设计要点" class="headerlink" title="设计要点"></a>设计要点</h2><ul>
+<li><strong>决策粒度最细</strong>：每一步都根据最新观察重新决策，路径自适应。</li>
+<li><strong>与环境交互</strong>：反馈来自真实工具的执行结果（Observation）。</li>
+<li><strong>完善的容错机制</strong>：针对”工具不存在、无有效返回、执行异常、连续失败”都有提示词层面的纠正引导。</li>
+</ul>
+<h1 id="二、Plan-and-Solve-范式"><a href="#二、Plan-and-Solve-范式" class="headerlink" title="二、Plan-and-Solve 范式"></a>二、Plan-and-Solve 范式</h1><p>目录：<code>paradigm/planAndSolve/</code></p>
+<h2 id="核心思想-1"><a href="#核心思想-1" class="headerlink" title="核心思想"></a>核心思想</h2><p>将 Agent 拆分为 <strong>Planner（规划器）</strong> 与 <strong>Executor（执行器）</strong> 两个角色：Planner 一次性把问题分解为有序步骤列表，Executor 再严格按照计划逐步执行，每步结果累积为历史供后续步骤参考。规划与执行彻底分离——执行阶段不再回头修改计划。</p>
+<h2 id="流程-1"><a href="#流程-1" class="headerlink" title="流程"></a>流程</h2><pre><code class=" mermaid">flowchart TD
+    A[输入问题 Question] --&gt; B[Planner: 调用 LLM&lt;br/&gt;生成 Python 列表形式的计划]
+    B --&gt; C&#123;解析计划&lt;br/&gt;ast.literal_eval&#125;
+    C -- 解析失败或为空 --&gt; D[任务终止&lt;br/&gt;无法生成有效计划]
+    C -- 成功 --&gt; E[Executor 逐步执行]
+    E --&gt; F[组装当前步骤 Prompt&lt;br/&gt;问题 + 完整计划 + 历史 + 当前步骤]
+    F --&gt; G[LLM 回答当前步骤]
+    G --&gt; H[步骤结果追加到历史]
+    H --&gt; I&#123;还有下一步?&#125;
+    I -- 是 --&gt; F
+    I -- 否 --&gt; J[最后一步的结果&lt;br/&gt;作为最终答案]
+</code></pre>
+
+<h2 id="关键代码-1"><a href="#关键代码-1" class="headerlink" title="关键代码"></a>关键代码</h2><p>Planner 要求 LLM 输出 <code>```python [&quot;步骤1&quot;,&quot;步骤2&quot;,...]</code> 的格式，再通过 <code>ast.literal_eval</code> 安全解析：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Planner</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">plan</span>(<span class="hljs-params">self, question: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>]:<br>        prompt = PLANNER_PROMPT_TEMPLATE.<span class="hljs-built_in">format</span>(question=question)<br>        response_text = <span class="hljs-variable language_">self</span>.LLMCilent.think([&#123;<span class="hljs-string">&quot;roles&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: prompt&#125;])<br><br>        plan_str = response_text.split(<span class="hljs-string">&quot;```python&quot;</span>)[<span class="hljs-number">1</span>].split(<span class="hljs-string">&quot;```&quot;</span>)[<span class="hljs-number">0</span>].strip()<br>        plan = ast.literal_eval(plan_str)      <span class="hljs-comment"># 安全地将字符串转为 Python 列表</span><br>        <span class="hljs-keyword">return</span> plan <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(plan, <span class="hljs-built_in">list</span>) <span class="hljs-keyword">else</span> []<br></code></pre></td></tr></table></figure>
+
+<p>Executor 逐步执行，历史持续累积：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Executor</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">execute</span>(<span class="hljs-params">self, question: <span class="hljs-built_in">str</span>, plan: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>]</span>) -&gt; <span class="hljs-built_in">str</span>:<br>        history = <span class="hljs-string">&quot;&quot;</span><br>        <span class="hljs-keyword">for</span> i, step <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(plan):<br>            prompt = EXECUTOR_PROMPT_TEMPLATE.<span class="hljs-built_in">format</span>(<br>                question=question, plan=plan,<br>                history=history <span class="hljs-keyword">if</span> history <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;无&quot;</span>, current_step=step)<br><br>            response_text = <span class="hljs-variable language_">self</span>.LLMCilent.think([&#123;<span class="hljs-string">&quot;roles&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: prompt&#125;])<br><br>            history += <span class="hljs-string">f&quot;步骤 <span class="hljs-subst">&#123;i+<span class="hljs-number">1</span>&#125;</span>: <span class="hljs-subst">&#123;step&#125;</span>\n结果: <span class="hljs-subst">&#123;response_text&#125;</span>\n\n&quot;</span><br><br>        <span class="hljs-keyword">return</span> response_text                   <span class="hljs-comment"># 最后一步的回答即最终答案</span><br></code></pre></td></tr></table></figure>
+
+<p>编排层将两者串起来：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PlanAndSolveAgent</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">run</span>(<span class="hljs-params">self, question: <span class="hljs-built_in">str</span></span>):<br>        plan = <span class="hljs-variable language_">self</span>.planner.plan(question)<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> plan:<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;无法生成有效的行动计划。&quot;</span><br>        final_answer = <span class="hljs-variable language_">self</span>.executor.execute(question, plan)<br></code></pre></td></tr></table></figure>
+
+<h2 id="设计要点-1"><a href="#设计要点-1" class="headerlink" title="设计要点"></a>设计要点</h2><ul>
+<li><strong>先总览后执行</strong>：计划阶段俯瞰全局，避免走一步看一步的短视。</li>
+<li><strong>无外部工具</strong>：本项目实现中执行阶段为纯 LLM 推理，不调用工具。</li>
+<li><strong>无反馈闭环</strong>：步骤结果只作为上下文喂给下一步，失败不重试、计划不修正，鲁棒性弱于 ReAct。</li>
+</ul>
+<h1 id="三、Reflection-范式"><a href="#三、Reflection-范式" class="headerlink" title="三、Reflection 范式"></a>三、Reflection 范式</h1><p>目录：<code>paradigm/reflection/</code></p>
+<h2 id="核心思想-2"><a href="#核心思想-2" class="headerlink" title="核心思想"></a>核心思想</h2><p>面向<strong>单一产出物的质量迭代</strong>：先让 LLM 生成一版初始结果（代码），再由 LLM 扮演严格的评审专家给出反馈（Reflect），最后根据反馈改写优化（Refine）。整个过程用 <code>Memory</code> 记录 execution &#x2F; reflection 两类轨迹，直到反思者认为”无需改进”或达到最大迭代次数。</p>
+<h2 id="流程-2"><a href="#流程-2" class="headerlink" title="流程"></a>流程</h2><pre><code class=" mermaid">flowchart TD
+    A[输入任务 Task] --&gt; B[初始生成&lt;br/&gt;INITIAL_PROMPT]
+    B --&gt; C[存入 Memory&lt;br/&gt;execution 记录]
+    C --&gt; D[反思 REFLECT_PROMPT&lt;br/&gt;LLM 评审代码, 找算法瓶颈]
+    D --&gt; E[存入 Memory&lt;br/&gt;reflection 记录]
+    E --&gt; F&#123;反馈包含&lt;br/&gt;&#x27;无需改进&#x27;?&#125;
+    F -- 是 --&gt; G[输出最终代码&lt;br/&gt;get_last_execution]
+    F -- 否 --&gt; H[优化 REFINE_PROMPT&lt;br/&gt;根据反馈改写代码]
+    H --&gt; C
+    E -- 达到 max_iterations --&gt; G
+</code></pre>
+
+<h2 id="关键代码-2"><a href="#关键代码-2" class="headerlink" title="关键代码"></a>关键代码</h2><p>三套提示词模板分别对应「生成 &#x2F; 反思 &#x2F; 优化」三个角色（程序员 &#x2F; 评审专家 &#x2F; 程序员）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">INITIAL_PROMPT_TEMPLATE = <span class="hljs-string">&quot;你是一位资深的Python程序员。请根据要求编写代码: &#123;task&#125;&quot;</span><br>REFLECT_PROMPT_TEMPLATE = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">你是一位极其严格的代码评审专家... 请分析该代码的时间复杂度，</span><br><span class="hljs-string">并思考是否存在一种算法上更优的解决方案...</span><br><span class="hljs-string">如果代码在算法层面已经达到最优，才能回答&#x27;无需改进&#x27;。</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br>REFINE_PROMPT_TEMPLATE = <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">请根据评审员的反馈，生成一个优化后的新版本代码。</span><br><span class="hljs-string"># 你上一轮尝试的代码: &#123;last_code_attempt&#125;</span><br><span class="hljs-string"># 评审员的反馈: &#123;feedback&#125;</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>核心迭代循环（<code>reflectionAgent.py</code>）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">run</span>(<span class="hljs-params">self, task: <span class="hljs-built_in">str</span></span>):<br>    <span class="hljs-comment"># 1. 初始执行</span><br>    initial_code = <span class="hljs-variable language_">self</span>._get_llm_response(INITIAL_PROMPT_TEMPLATE.<span class="hljs-built_in">format</span>(task=task))<br>    <span class="hljs-variable language_">self</span>.memory.add_record(<span class="hljs-string">&quot;execution&quot;</span>, initial_code)<br><br>    <span class="hljs-comment"># 2. 迭代: 反思与优化</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.max_iterations):<br>        last_code = <span class="hljs-variable language_">self</span>.memory.get_last_execution()<br><br>        feedback = <span class="hljs-variable language_">self</span>._get_llm_response(REFLECT_PROMPT_TEMPLATE.<span class="hljs-built_in">format</span>(task=task, code=last_code))<br>        <span class="hljs-variable language_">self</span>.memory.add_record(<span class="hljs-string">&quot;reflection&quot;</span>, feedback)<br><br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;无需改进&quot;</span> <span class="hljs-keyword">in</span> feedback:          <span class="hljs-comment"># 反思者认为已最优 → 停止</span><br>            <span class="hljs-keyword">break</span><br><br>        refined_code = <span class="hljs-variable language_">self</span>._get_llm_response(<br>            REFINE_PROMPT_TEMPLATE.<span class="hljs-built_in">format</span>(task=task, last_code_attempt=last_code, feedback=feedback))<br>        <span class="hljs-variable language_">self</span>.memory.add_record(<span class="hljs-string">&quot;execution&quot;</span>, refined_code)<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.memory.get_last_execution()   <span class="hljs-comment"># 取最近一次执行结果</span><br></code></pre></td></tr></table></figure>
+
+<p>Memory 是一个简单的短时记忆模块，区分两种记录类型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Memory</span>:<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">add_record</span>(<span class="hljs-params">self, record_type, content</span>):   <span class="hljs-comment"># &#x27;execution&#x27; 或 &#x27;reflection&#x27;</span><br>        <span class="hljs-variable language_">self</span>.records.append(&#123;<span class="hljs-string">&quot;type&quot;</span>: record_type, <span class="hljs-string">&quot;content&quot;</span>: content&#125;)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_last_execution</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">for</span> record <span class="hljs-keyword">in</span> <span class="hljs-built_in">reversed</span>(<span class="hljs-variable language_">self</span>.records):<br>            <span class="hljs-keyword">if</span> record[<span class="hljs-string">&#x27;type&#x27;</span>] == <span class="hljs-string">&#x27;execution&#x27;</span>:<br>                <span class="hljs-keyword">return</span> record[<span class="hljs-string">&#x27;content&#x27;</span>]<br></code></pre></td></tr></table></figure>
+
+<h2 id="设计要点-2"><a href="#设计要点-2" class="headerlink" title="设计要点"></a>设计要点</h2><ul>
+<li><strong>反馈来自自我</strong>：评审者与生成者同为 LLM，无外部环境介入。</li>
+<li><strong>以”质量收敛”为目标</strong>：终止条件由反思者判定（”无需改进”），而非任务步骤完成。</li>
+<li><strong>适合打磨型任务</strong>：代码生成、文章写作等需要迭代优化的场景。</li>
+</ul>
+<h1 id="三种范式的异同"><a href="#三种范式的异同" class="headerlink" title="三种范式的异同"></a>三种范式的异同</h1><h2 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h2><ol>
+<li><strong>同一 LLM 客户端与消息封装</strong>：均通过 <code>HelloAgentsLLM.think([&#123;&quot;roles&quot;: &quot;user&quot;, &quot;content&quot;: prompt&#125;])</code> 调用，流式返回。</li>
+<li><strong>多轮迭代的单一智能体结构</strong>：没有多智能体协作，全靠同一模型反复调用推进任务。</li>
+<li><strong>都维护一份历史&#x2F;记忆</strong>：ReAct 的 Action&#x2F;Observation 列表、Plan-and-Solve 的步骤结果字符串、Reflection 的 Memory 记录。</li>
+<li><strong>都有明确的终止条件</strong>：ReAct 为 <code>Finish</code> 或 <code>max_steps</code>；Plan-and-Solve 为计划执行完毕；Reflection 为”无需改进”或 <code>max_iterations</code>。</li>
+<li><strong>都依赖提示词约束输出格式</strong>：Thought&#x2F;Action 格式、<code>```python [...]</code> 列表格式、代码&#x2F;反馈格式，并配套解析逻辑（正则 &#x2F; <code>ast.literal_eval</code> &#x2F; 直接取文本）。</li>
+</ol>
+<h2 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>ReAct</th>
+<th>Plan-and-Solve</th>
+<th>Reflection</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>核心思想</td>
+<td>推理与行动交替</td>
+<td>先规划再执行</td>
+<td>生成—反思—改进</td>
+</tr>
+<tr>
+<td>决策时机</td>
+<td>每步动态决策</td>
+<td>计划一次性生成</td>
+<td>迭代打磨同一产出</td>
+</tr>
+<tr>
+<td>工具调用</td>
+<td>✅ 动态调用（ToolExecutor）</td>
+<td>❌ 纯 LLM 推理</td>
+<td>❌ 无外部环境</td>
+</tr>
+<tr>
+<td>反馈来源</td>
+<td>环境观察（工具结果）</td>
+<td>无闭环（结果仅作上下文）</td>
+<td>自我评审（LLM 自评）</td>
+</tr>
+<tr>
+<td>失败容错</td>
+<td>强：同工具&#x2F;累计失败计数 + 提示纠偏</td>
+<td>弱：计划解析失败即终止</td>
+<td>中：反思反馈决定是否继续</td>
+</tr>
+<tr>
+<td>历史记录</td>
+<td>Action &#x2F; Observation 交替</td>
+<td>步骤与结果的顺序拼接</td>
+<td>execution &#x2F; reflection 分类存储</td>
+</tr>
+<tr>
+<td>终止条件</td>
+<td>Finish 动作 &#x2F; 最大步数</td>
+<td>计划步骤执行完毕</td>
+<td>“无需改进” &#x2F; 最大迭代</td>
+</tr>
+<tr>
+<td>擅长场景</td>
+<td>需与外部世界交互（搜索、计算、调 API）</td>
+<td>长链路、可拆解的顺序任务</td>
+<td>单一产物需要高质量（代码、写作）</td>
+</tr>
+</tbody></table>
+<h2 id="深入理解"><a href="#深入理解" class="headerlink" title="深入理解"></a>深入理解</h2><ul>
+<li><strong>ReAct 的”行动”导向</strong>：它解决的痛点是<strong>模型不知道外部世界发生了什么</strong>，通过”想一步、做一步、看结果”把环境反馈引入推理闭环，是三种范式中唯一真正调用工具、也唯一具备错误恢复机制的。</li>
+<li><strong>Plan-and-Solve 的”全局”导向</strong>：它解决的痛点是**单轮推理在长链路上会”走着走着丢了目标”**，因此先用一次全局规划锁定方向，再用独立步骤逐步逼近；代价是计划一旦生成就固定，灵活性最低。</li>
+<li><strong>Reflection 的”质量”导向</strong>：它解决的痛点是<strong>LLM 一次生成往往不够好</strong>，通过”生成—评审—改写”的自我博弈逼近更优解；代价是多轮迭代的额外开销，且评审质量完全依赖模型自身水平。</li>
+</ul>
+<p>三者的关系可以这样概括：**ReAct 决定”下一步做什么”，Plan-and-Solve 决定”一共做哪些事”，Reflection 决定”一件事怎么做更好”**。实际生产中的复杂 Agent 往往是将它们组合使用，例如用 Plan-and-Solve 制定计划、用 ReAct 执行单个步骤、再用 Reflection 对关键产出进行打磨。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>通过阅读 <code>paradigm</code> 目录的三个实现，可以看到：尽管三种范式共享同一套 LLM 调用基础，但各自面对的问题、设计取舍与适用场景完全不同。理解它们之间的异同，有助于在实际系统中按需组合，构建更鲁棒的 Agent 应用。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0/" class="category-chain-item">学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B9%A0/Agent/" class="category-chain-item">Agent</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Agent/" class="print-no-link">#Agent</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Agent简单研究</div>
+      <div>http://example.com/2026/08/04/Agent简单研究/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Emberff</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年8月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/04/27/%E5%AF%B9%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%8F%91%E9%80%81%E4%BA%8B%E4%BB%B6(SSE)%E7%9A%84%E7%AE%80%E5%8D%95%E7%A0%94%E7%A9%B6%E5%92%8C%E5%BA%94%E7%94%A8/" title="对服务器发送事件(SSE)的简单研究和应用">
+                        <span class="hidden-mobile">对服务器发送事件(SSE)的简单研究和应用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'emberff/blog');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', '💬utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.4.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+          <!-- 鼠标点击特效 --> <canvas class="fireworks" style="position:fixed;left:0;top:0;z-index:99999999;pointer-events:none;"> </canvas>
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <!-- fluid链接 --> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+<!-- 一言 --> <div class="statistics"> <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?c=h&c=i&c=k&encode=js&select=%23hitokoto" defer></script> </div>
+<!-- 博客上线天数 --> <div> <span id="timeDate" style="font-size:0.85em;">载入天数...</span> <span id="times" style="font-size:0.85em;">载入时分秒...</span> </div>
+<!--梦ICP备案号--> <a href="https://icp.gov.moe/?keyword=20242442" target="_blank" class="moe-icp">萌ICP备20242442号</a>
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      苏ICP备2024134417号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32050702011867"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>苏公网安备32050702011867号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+</div>
+<script>
+  // 检查是否为移动设备
+  function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
+  // 初始化 Sakana Widget
+  function initSakanaWidget() {
+    if (isMobileDevice()) {
+      // 如果是手机端，退出函数不加载 Widget
+      return;
+    }
+    
+    // 获取角色
+    const takina = SakanaWidget.getCharacter('takina');
+    takina.initialState = {
+      ...takina.initialState,
+      i: 0.001,
+    };
+
+    const chisato = SakanaWidget.getCharacter('chisato');
+    chisato.initialState = {
+      ...chisato.initialState,
+      i: 0.001
+    };
+    
+    // 随机选择角色
+    const selectedCharacter = Math.floor(Math.random() * 2) === 0 ? takina : chisato;
+    SakanaWidget.registerCharacter('custom', selectedCharacter);
+    
+    // 使用构造函数初始化 SakanaWidget
+    new SakanaWidget({
+      character: 'custom',
+      controls: false
+    }).mount('#sakana-widget');
+  }
+</script>
+
+<!-- 仅在非手机端加载样式和脚本 -->
+<script>
+  if (!isMobileDevice()) {
+    document.write(`
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/sakana-widget@2.7.0/lib/sakana.min.css" />
+      <div id="sakana-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></div>
+      <script async onload="initSakanaWidget()" src="https://fastly.jsdelivr.net/npm/sakana-widget@2.7.0/lib/sakana.min.js"><\/script>
+    `);
+  }
+</script>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/duration.js"></script>
+<script src="/js/anime.js"></script>
+<script src="/js/fireworks.js"></script>
+<script src="/js/loader.js"></script>
+<script src="/js/fishes.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
