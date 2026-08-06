@@ -1,0 +1,1180 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#475164">
+  <meta name="author" content="Emberff">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="引言本篇文章基于 travel-agent 项目，具体代码参照 https:&#x2F;&#x2F;github.com&#x2F;emberff&#x2F;travel-agent。 这是一个基于 Spring Boot 3.2 + LangChain4j 的旅游规划 Agent 应用：用户在对话框中提出旅游需求，Agent 结合长期用户画像与短期对话记忆生成个性化的旅行方案；同时在后台异步提取用户画像并持久化，让下一次对话更加”懂你">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于langchain的简单agent应用">
+<meta property="og:url" content="http://example.com/2026/08/06/%E5%9F%BA%E4%BA%8Elangchain%E7%9A%84%E7%AE%80%E5%8D%95agent%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="江上清风">
+<meta property="og:description" content="引言本篇文章基于 travel-agent 项目，具体代码参照 https:&#x2F;&#x2F;github.com&#x2F;emberff&#x2F;travel-agent。 这是一个基于 Spring Boot 3.2 + LangChain4j 的旅游规划 Agent 应用：用户在对话框中提出旅游需求，Agent 结合长期用户画像与短期对话记忆生成个性化的旅行方案；同时在后台异步提取用户画像并持久化，让下一次对话更加”懂你">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-06T07:34:53.000Z">
+<meta property="article:modified_time" content="2026-08-06T07:48:05.854Z">
+<meta property="article:author" content="Emberff">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="LangChain4j">
+<meta property="article:tag" content="SpringBoot">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>基于langchain的简单agent应用 - 江上清风</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/footer.css">
+<link rel="stylesheet" href="/css/subtitle.css">
+<link rel="stylesheet" href="/css/loader.css">
+<link rel="stylesheet" href="/css/macpanel.css">
+<link rel="stylesheet" href="/css/moeICP.css">
+<link rel="stylesheet" href="/css/fishes.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":"ccd09e3b-3cea-4660-8af1-dc4c52b803d7","domains":null,"start_time":null,"token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  <div id="loader-container">
+    <div id="loader" class="loader"></div>
+    <div class="loader-inner">
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+        <div class="loader-line-wrap">
+            <div class="loader-line"></div>
+        </div>
+    </div>
+</div>
+
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Emberffの小破站</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-books"></i>
+                <span>文章</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/archives/" target="_self">
+                    <i class="iconfont icon-archive-fill"></i>
+                    <span>归档</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/" target="_self">
+                    <i class="iconfont icon-category-fill"></i>
+                    <span>分类</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/tags/" target="_self">
+                    <i class="iconfont icon-tags-fill"></i>
+                    <span>标签</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://blog-1318796820.cos.ap-shanghai.myqcloud.com/arch.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="基于langchain的简单agent应用"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-08-06 15:34" pubdate>
+          2026年8月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          21 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">基于langchain的简单agent应用</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p>本篇文章基于 <code>travel-agent</code> 项目，具体代码参照 <a target="_blank" rel="noopener" href="https://github.com/emberff/travel-agent">https://github.com/emberff/travel-agent</a>。</p>
+<p>这是一个基于 <strong>Spring Boot 3.2 + LangChain4j</strong> 的旅游规划 Agent 应用：用户在对话框中提出旅游需求，Agent 结合<strong>长期用户画像</strong>与<strong>短期对话记忆</strong>生成个性化的旅行方案；同时在后台<strong>异步提取用户画像</strong>并持久化，让下一次对话更加”懂你”。</p>
+<p>整个项目只有 8 次提交、约 30 个源码文件，但麻雀虽小五脏俱全——覆盖了 Agent 声明、结构化输出、短期记忆、长期画像、MCP 工具接入等完整链路。本文从 <strong>Git 提交记录、实现组件、业务功能</strong> 三个维度梳理并评估该项目。</p>
+<h1 id="技术栈与项目结构"><a href="#技术栈与项目结构" class="headerlink" title="技术栈与项目结构"></a>技术栈与项目结构</h1><h2 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h2><table>
+<thead>
+<tr>
+<th>类别</th>
+<th>技术</th>
+<th>版本</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>语言</td>
+<td>Java</td>
+<td>21</td>
+<td>运行时</td>
+</tr>
+<tr>
+<td>框架</td>
+<td>Spring Boot</td>
+<td>3.2.0</td>
+<td>Web 服务、依赖注入</td>
+</tr>
+<tr>
+<td>LLM 框架</td>
+<td>LangChain4j</td>
+<td>1.7.1</td>
+<td>Agent 声明、AiServices、ChatModel</td>
+</tr>
+<tr>
+<td>模型接入</td>
+<td>langchain4j-open-ai</td>
+<td>1.7.1</td>
+<td>OpenAI 兼容接口（baseUrl 可配）</td>
+</tr>
+<tr>
+<td>工具</td>
+<td>langchain4j-mcp</td>
+<td>1.7.1-beta14</td>
+<td>高德 MCP 工具接入</td>
+</tr>
+<tr>
+<td>记忆</td>
+<td>spring-boot-starter-data-redis</td>
+<td>-</td>
+<td>短期对话记忆存储</td>
+</tr>
+<tr>
+<td>持久化</td>
+<td>MyBatis-Plus + MySQL</td>
+<td>3.5.7</td>
+<td>用户画像等长期数据</td>
+</tr>
+<tr>
+<td>工具库</td>
+<td>Hutool &#x2F; Jackson &#x2F; Lombok</td>
+<td>5.8.27</td>
+<td>工具、序列化、样板代码</td>
+</tr>
+</tbody></table>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash">travel-agent<br>├── pom.xml<br>└── src/main<br>    ├── java/test<br>    │   ├── agent/planner      <span class="hljs-comment"># TravelAgent / ProfileAgent 声明式接口</span><br>    │   ├── config             <span class="hljs-comment"># ChatModel、Agent 装配、MCP、Redis</span><br>    │   ├── controller         <span class="hljs-comment"># AgentController</span><br>    │   ├── dto / entity       <span class="hljs-comment"># 画像 DTO / 持久化实体</span><br>    │   ├── listener           <span class="hljs-comment"># ProfileAgent 响应监听器</span><br>    │   ├── mapper             <span class="hljs-comment"># MyBatis-Plus Mapper</span><br>    │   ├── mcp                <span class="hljs-comment"># MCP ToolProvider</span><br>    │   ├── memory             <span class="hljs-comment"># Redis 短期记忆实现</span><br>    │   ├── service            <span class="hljs-comment"># 编排、画像提取、提示词服务</span><br>    │   └── utils              <span class="hljs-comment"># DTO → Entity 转换</span><br>    └── resources<br>        ├── prompts            <span class="hljs-comment"># 提示词资源文件</span><br>        └── application*.yml<br></code></pre></td></tr></table></figure>
+
+<h1 id="Git-提交记录看项目演进"><a href="#Git-提交记录看项目演进" class="headerlink" title="Git 提交记录看项目演进"></a>Git 提交记录看项目演进</h1><p>项目 2026-07-22 至 07-28 共 8 次提交，演进脉络非常清晰。其中 <code>e6813da</code>（修改 key 管理方式）仅调整 API Key 的配置方式，属于纯配置变更、不改变架构，故省略。整理如下：</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>提交</th>
+<th>时间</th>
+<th>核心内容</th>
+<th>解决的问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>e0146ee &#x2F; 58f13d5</td>
+<td>07-22</td>
+<td>项目初始化 + 基础 Agent 框架（TravelAgent 接口、ChatModel、测试接口）</td>
+<td>从零搭建，打通「接口 → LLM → 返回」最小链路</td>
+</tr>
+<tr>
+<td>2</td>
+<td>89215bb</td>
+<td>07-23</td>
+<td>接入高德 MCP 工具，LLM 调用记录日志</td>
+<td>让 Agent 具备获取真实地理位置等外部能力</td>
+</tr>
+<tr>
+<td>3</td>
+<td>153c33c</td>
+<td>07-24</td>
+<td>提示词从注解改为 resource 资源文件；接入 Redis 短期记忆</td>
+<td>提示词可维护；对话不再”失忆”</td>
+</tr>
+<tr>
+<td>4</td>
+<td>9bb6b7f</td>
+<td>07-27</td>
+<td>接入 MySQL + 项目结构调整（ProfileAgent、实体、画像服务）</td>
+<td>长期画像可持久化，引入第二个 Agent</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5a319c5</td>
+<td>07-27</td>
+<td>ProfileAgent 输出监听器 + 完善 travel → profile 异步画像流程</td>
+<td>画像提取融入主对话流程</td>
+</tr>
+<tr>
+<td>6</td>
+<td>345f721</td>
+<td>07-28</td>
+<td>用户画像注入 system prompt</td>
+<td>画像真正影响推荐，形成个性化闭环</td>
+</tr>
+</tbody></table>
+<p>可以看到演进顺序本身就是架构搭建的顺序：<strong>最小框架 → 外部工具 → 短期记忆 → 长期画像 → 个性化闭环</strong>。每个阶段都只解决一个问题，逐步把”一个能聊天的接口”演进成”一个有记忆、懂用户偏好的 Agent”。</p>
+<h1 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h1><pre><code class=" mermaid">flowchart TB
+    subgraph 接入层
+        C[AgentController&lt;br/&gt;GET /agent/chat]
+    end
+
+    subgraph Agent层
+        TA[TravelAgent&lt;br/&gt;旅游规划主Agent]
+        PA[ProfileAgent&lt;br/&gt;画像提取Agent]
+    end
+
+    subgraph 装配层
+        LC[LangChainConfig&lt;br/&gt;ChatModel]
+        TC[TravelAgentConfig&lt;br/&gt;AiServices 组装]
+        PC[ProfileAgentConfig]
+        MC[McpConfig + MCPProvider&lt;br/&gt;高德MCP]
+    end
+
+    subgraph 记忆与画像
+        M[TravelMemoryProvider&lt;br/&gt;Redis 短期记忆]
+        U[UserProfileService&lt;br/&gt;MySQL 长期画像]
+        P[PromptService&lt;br/&gt;提示词资源]
+    end
+
+    subgraph 持久化
+        R[(Redis)]
+        DB[(MySQL)]
+    end
+
+    C --&gt; TA
+    C --&gt; TC
+    TA --&gt; TC
+    PA --&gt; PC
+    TC --&gt; LC
+    PC --&gt; LC
+    TC --&gt; M --&gt; R
+    TC --&gt; U --&gt; DB
+    PA --&gt; P
+    TA --&gt; MC
+</code></pre>
+
+<p>架构上呈明显的分层：<strong>Controller（接入）→ Service（编排）→ Agent（AI 能力）→ 配置装配层（依赖注入）→ 记忆&#x2F;持久化</strong>。Agent 本身只是接口，真正的组装逻辑全部收敛在 Config 类中，业务代码与框架代码解耦得比较干净。</p>
+<h1 id="核心组件解析"><a href="#核心组件解析" class="headerlink" title="核心组件解析"></a>核心组件解析</h1><h2 id="双-Agent-设计"><a href="#双-Agent-设计" class="headerlink" title="双 Agent 设计"></a>双 Agent 设计</h2><p>项目定义了两种 <code>AiService</code> 接口，一个管”对话与规划”，一个管”画像提取”：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// agent/planner/TravelAgent.java —— 主Agent，带记忆</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">TravelAgent</span> &#123;<br>    String <span class="hljs-title function_">travelChat</span><span class="hljs-params">(<span class="hljs-meta">@MemoryId</span> String userId, <span class="hljs-meta">@UserMessage</span> String userMessage)</span>;<br>&#125;<br><br><span class="hljs-comment">// agent/planner/ProfileAgent.java —— 画像提取，结构化输出</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ProfileAgent</span> &#123;<br>    <span class="hljs-meta">@SystemMessage(fromResource = &quot;prompts/profile-extractor.txt&quot;)</span><br>    UserProfilePatchDTO <span class="hljs-title function_">extract</span><span class="hljs-params">(<span class="hljs-meta">@UserMessage</span> String message)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>TravelAgent</th>
+<th>ProfileAgent</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>职责</td>
+<td>旅游规划与对话</td>
+<td>从聊天中提取长期偏好</td>
+</tr>
+<tr>
+<td>输入</td>
+<td><code>@MemoryId userId</code> + 用户消息</td>
+<td>用户消息</td>
+</tr>
+<tr>
+<td>输出</td>
+<td><code>String</code>（自然语言方案）</td>
+<td><code>UserProfilePatchDTO</code>（结构化 JSON）</td>
+</tr>
+<tr>
+<td>记忆</td>
+<td>MessageWindowChatMemory（Redis）</td>
+<td>无</td>
+</tr>
+<tr>
+<td>系统提示词</td>
+<td>动态注入（画像 JSON）</td>
+<td>静态 resource 文件</td>
+</tr>
+<tr>
+<td>数据落库</td>
+<td>间接（经画像链路）</td>
+<td>直接（异步保存画像）</td>
+</tr>
+</tbody></table>
+<p>两个 Agent 用同一个 <code>ChatModel</code>，通过 <code>AiServices</code> 动态代理装配。<code>TravelAgentConfig</code> 是核心，它做了三件事：注入模型、绑定 Redis 记忆、<strong>按用户动态拼接系统提示词</strong>（把画像 JSON 注入 prompt）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// config/TravelAgentConfig.java —— AiServices 组装</span><br><span class="hljs-keyword">return</span> AiServices.builder(TravelAgent.class)<br>        .chatModel(chatModel)<br>        .chatMemoryProvider(memoryProvider)      <span class="hljs-comment">// Redis 短期记忆</span><br>        .systemMessageProvider(userId -&gt; &#123;<br>            <span class="hljs-type">UserProfile</span> <span class="hljs-variable">profile</span> <span class="hljs-operator">=</span> userProfileService.getByUserId(userId.toString());<br>            <span class="hljs-type">String</span> <span class="hljs-variable">profileJson</span> <span class="hljs-operator">=</span> objectMapper.writeValueAsString(profile);<br>            <span class="hljs-type">String</span> <span class="hljs-variable">finalPrompt</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;%s\n=====\n用户历史画像:\n%s&quot;</span><br>                    .formatted(promptService.loadTravelPrompt(), profileJson);<br>            <span class="hljs-keyword">return</span> finalPrompt;<br>        &#125;)<br>        .build();<br></code></pre></td></tr></table></figure>
+
+<h2 id="记忆系统：Redis-短期记忆"><a href="#记忆系统：Redis-短期记忆" class="headerlink" title="记忆系统：Redis 短期记忆"></a>记忆系统：Redis 短期记忆</h2><p>短期记忆采用 LangChain4j 的 <code>MessageWindowChatMemory</code>，按 <code>userId</code> 隔离、保留最近 20 条，底层存储自定义实现 <code>RedisChatMemoryStore</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// memory/TravelMemoryProvider.java</span><br><span class="hljs-keyword">return</span> MessageWindowChatMemory.builder()<br>        .id(memoryId)                <span class="hljs-comment">// 用户唯一ID</span><br>        .maxMessages(<span class="hljs-number">20</span>)             <span class="hljs-comment">// 保留最近20条</span><br>        .chatMemoryStore(store)      <span class="hljs-comment">// Redis 存储</span><br>        .build();<br></code></pre></td></tr></table></figure>
+
+<pre><code class=" mermaid">flowchart LR
+    A[对话请求] --&gt; B[MessageWindowChatMemory&lt;br/&gt;maxMessages=20]
+    B --&gt; C&#123;chatMemoryStore&#125;
+    C --&gt; D[Redis&lt;br/&gt;travel:memory:&#123;userId&#125;]
+    D --&gt; E[序列化 MemoryMessage&lt;br/&gt;type: USER/AI/TOOL]
+    E --&gt; F[过滤 SystemMessage&lt;br/&gt;@SystemMessage 自动注入]
+</code></pre>
+
+<p>序列化时做了一层<strong>消息类型映射</strong>，避免直接把 LangChain4j 的消息对象写进 Redis：</p>
+<table>
+<thead>
+<tr>
+<th>存储方向</th>
+<th>LangChain4j 消息</th>
+<th>Redis 中的形态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>写</td>
+<td>SystemMessage</td>
+<td>过滤，不保存</td>
+</tr>
+<tr>
+<td>写</td>
+<td>UserMessage</td>
+<td><code>&#123;type:&quot;USER&quot;, content&#125;</code></td>
+</tr>
+<tr>
+<td>写</td>
+<td>AiMessage（含文本）</td>
+<td><code>&#123;type:&quot;AI&quot;, content&#125;</code></td>
+</tr>
+<tr>
+<td>写</td>
+<td>ToolExecutionResultMessage</td>
+<td><code>&#123;type:&quot;TOOL&quot;, content&#125;</code></td>
+</tr>
+<tr>
+<td>读</td>
+<td><code>&#123;type:&quot;TOOL&quot;, content&#125;</code></td>
+<td>还原为 <code>SystemMessage</code>（见评估）</td>
+</tr>
+</tbody></table>
+<h2 id="画像系统：MySQL-长期画像"><a href="#画像系统：MySQL-长期画像" class="headerlink" title="画像系统：MySQL 长期画像"></a>画像系统：MySQL 长期画像</h2><p><code>UserProfile</code> 实体承载 8 个画像字段（预算、交通、偏好、目的地、风格、避雷、饮食、同行人）外加一个 <code>profileJson</code> 扩展字段。更新采用<strong>增量合并</strong>策略：无记录则插入，有记录则用 <code>BeanUtil.copyProperties</code> 忽略 null 字段做局部覆盖——这样每次提取只更新本次对话新发现的信息，不覆盖旧画像：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// service/impl/UserProfileServiceImpl.java</span><br><span class="hljs-keyword">if</span> (old == <span class="hljs-literal">null</span>) &#123;<br>    profile.setUserId(userId);<br>    save(profile);<br>    <span class="hljs-keyword">return</span>;<br>&#125;<br>BeanUtil.copyProperties(profile, old, CopyOptions.create().setIgnoreNullValue(<span class="hljs-literal">true</span>));<br>updateById(old);<br></code></pre></td></tr></table></figure>
+
+<h2 id="提示词工程"><a href="#提示词工程" class="headerlink" title="提示词工程"></a>提示词工程</h2><p><code>profile-extractor.txt</code> 是画像提取 Agent 的提示词，规则设计得比较严谨：</p>
+<ul>
+<li><strong>不猜测</strong>：用户没说的信息不提取（”我要去西藏” ≠ 提取 travelStyle&#x3D;自驾）</li>
+<li><strong>只存长期偏好</strong>：一次性旅行计划不保存（”下个月去杭州”不提取目的地）</li>
+<li><strong>缺失字段置 null</strong>：没有对应信息时必须输出 null</li>
+<li><strong>只返回 JSON</strong>：输出格式被 <code>ProfileAgent</code> 直接反序列化为 <code>UserProfilePatchDTO</code></li>
+</ul>
+<h2 id="MCP-工具接入（高德）"><a href="#MCP-工具接入（高德）" class="headerlink" title="MCP 工具接入（高德）"></a>MCP 工具接入（高德）</h2><p><code>McpConfig</code> 通过高德的 Streamable HTTP MCP 端点建立客户端，<code>MCPProvider</code> 把它包装成 <code>ToolProvider</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// config/McpConfig.java</span><br><span class="hljs-type">McpTransport</span> <span class="hljs-variable">transport</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StreamableHttpMcpTransport</span>.Builder()<br>        .url(<span class="hljs-string">&quot;https://mcp.amap.com/mcp?key=&quot;</span> + amapKey)<br>        .build();<br><span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DefaultMcpClient</span>.Builder().transport(transport).build();<br></code></pre></td></tr></table></figure>
+
+<p>值得注意：<code>TravelAgentConfig</code> 中 <code>toolProvider(mcpToolProvider)</code> 这一行目前被注释掉了，即<strong>高德工具已接入、但未在装配时启用</strong>（详见评估章节）。</p>
+<h1 id="关键业务流程"><a href="#关键业务流程" class="headerlink" title="关键业务流程"></a>关键业务流程</h1><pre><code class=" mermaid">sequenceDiagram
+    participant U as 用户
+    participant C as AgentController
+    participant S as TravelChatService
+    participant TA as TravelAgent
+    participant R as Redis(短期记忆)
+    participant PS as PromptService/画像
+    participant PE as ProfileExtractorService
+    participant PA as ProfileAgent
+    participant DB as MySQL(长期画像)
+
+    U-&gt;&gt;C: GET /agent/chat?userId=&amp;message=
+    C-&gt;&gt;S: chat(userId, message)
+    S-&gt;&gt;TA: travelChat(@MemoryId, @UserMessage)
+    TA-&gt;&gt;R: 读取该用户最近20条历史
+    TA-&gt;&gt;PS: 加载系统提示词 + 用户画像JSON
+    TA--&gt;&gt;S: 返回个性化旅行方案
+    S--&gt;&gt;U: 应答(同步返回)
+    S-&gt;&gt;PE: 异步 extractAndSave(userId, message)
+    PE-&gt;&gt;PA: extract(message)
+    PA--&gt;&gt;PE: UserProfilePatchDTO(结构化)
+    PE-&gt;&gt;DB: updateProfile(增量合并)
+    Note over TA,DB: 下次对话 systemMessageProvider 重新注入最新画像
+</code></pre>
+
+<p>主链路是<strong>同步对话</strong>：<code>TravelChatService</code> 先调 TravelAgent 出方案，再<strong>异步</strong>（<code>@Async</code>，<code>@EnableAsync</code>）触发画像提取，两步互不阻塞；画像写入 MySQL 后，会在下一次对话时通过 <code>systemMessageProvider</code> 注入 prompt，形成”越聊越懂你”的闭环。</p>
+<h1 id="项目评估"><a href="#项目评估" class="headerlink" title="项目评估"></a>项目评估</h1><h2 id="设计亮点"><a href="#设计亮点" class="headerlink" title="设计亮点"></a>设计亮点</h2><ol>
+<li><strong>声明式 Agent</strong>：业务只需写接口 + 注解，<code>AiServices</code> 动态代理生成实现，样板代码极少。</li>
+<li><strong>记忆分层清晰</strong>：Redis 管短期会话记忆（窗口 20 条），MySQL 管长期画像，各司其职。</li>
+<li><strong>提示词资源外置</strong>：系统提示词从注解硬编码改为 <code>resources/prompts/*.txt</code>，可独立迭代无需重新编译。</li>
+<li><strong>结构化输出</strong>：画像 Agent 直接产出 <code>UserProfilePatchDTO</code>，避免了”生成 JSON 再自己解析”的脆弱链路。</li>
+<li><strong>异步解耦</strong>：画像提取不影响主对话响应速度。</li>
+</ol>
+<h2 id="不足与改进建议"><a href="#不足与改进建议" class="headerlink" title="不足与改进建议"></a>不足与改进建议</h2><table>
+<thead>
+<tr>
+<th>问题</th>
+<th>影响</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>高德 MCP 工具已配置但未启用（<code>toolProvider</code> 被注释）</td>
+<td>Agent 拿不到真实位置&#x2F;天气&#x2F;攻略，只能纯文本规划</td>
+<td>启用装配，配置 amap key，按 prompt 中”必要时调用工具”执行</td>
+</tr>
+<tr>
+<td><code>TravelPlan</code> &#x2F; <code>ToolCallLog</code> &#x2F; <code>ConversationRecord</code> 实体已建但未接线</td>
+<td>生成的规划、工具调用、会话记录都不落库</td>
+<td>接入 Service 持久化，沉淀数据</td>
+</tr>
+<tr>
+<td><code>ProfileService</code> 与 <code>ProfileExtractorService</code> 职责重复，留有 TODO 注释</td>
+<td>维护成本、双链路歧义</td>
+<td>统一到异步链路，删除冗余实现</td>
+</tr>
+<tr>
+<td><code>RedisChatMemoryStore</code> 读取时把 <code>TOOL</code> 消息还原为 <code>SystemMessage</code></td>
+<td>工具结果被当成系统消息，历史语义错乱，影响多轮效果</td>
+<td>恢复为 <code>ToolExecutionResultMessage</code>，或明确降级策略</td>
+</tr>
+<tr>
+<td>无测试、无 README</td>
+<td>无法回归，他人难以上手</td>
+<td>补充单元测试与使用文档</td>
+</tr>
+<tr>
+<td>接口为 GET 同步返回 String</td>
+<td>长任务等待阻塞，体验差</td>
+<td>改为 SSE &#x2F; WebFlux 流式输出</td>
+</tr>
+</tbody></table>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>这个项目用最小的代码量演示了一条完整的 Agent 应用落地路径：<strong>声明式 Agent + 短期记忆 + 长期画像 + 工具接入</strong>。它最大的价值在于把 LangChain4j 的 <code>AiServices</code>、<code>ChatMemoryStore</code>、结构化输出、MCP 等能力串成了一条可运行的业务闭环——从”一个能聊天的接口”演进到”一个懂用户、能落库、可扩展的 Agent”。</p>
+<p>如果要在生产中使用，重点是补上被注释的 MCP 工具、接通未落库的实体，并修正消息序列化的语义问题。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://docs.langchain4j.dev/">LangChain4j</a></li>
+<li><a target="_blank" rel="noopener" href="https://baomidou.com/">MyBatis-Plus</a></li>
+<li><a target="_blank" rel="noopener" href="https://mcp.amap.com/">高德开放平台 MCP</a></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0/" class="category-chain-item">学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%AD%A6%E4%B9%A0/Agent/" class="category-chain-item">Agent</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Agent/" class="print-no-link">#Agent</a>
+      
+        <a href="/tags/LangChain4j/" class="print-no-link">#LangChain4j</a>
+      
+        <a href="/tags/SpringBoot/" class="print-no-link">#SpringBoot</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>基于langchain的简单agent应用</div>
+      <div>http://example.com/2026/08/06/基于langchain的简单agent应用/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Emberff</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年8月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by-nc/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-cc-nc"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/08/04/Agent%E7%AE%80%E5%8D%95%E7%A0%94%E7%A9%B6/" title="Agent简单研究">
+                        <span class="hidden-mobile">Agent简单研究</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'emberff/blog');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', '💬utterances');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/10.4.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+          <!-- 鼠标点击特效 --> <canvas class="fireworks" style="position:fixed;left:0;top:0;z-index:99999999;pointer-events:none;"> </canvas>
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+      <!-- fluid链接 --> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>
+<!-- 博客上线天数 --> <div> <span id="timeDate" style="font-size:0.85em;">载入天数...</span> <span id="times" style="font-size:0.85em;">载入时分秒...</span> </div>
+<!--梦ICP备案号--> <a href="https://icp.gov.moe/?keyword=20242442" target="_blank" class="moe-icp">萌ICP备20242442号</a>
+    </div>
+  
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      苏ICP备2024134417号-1
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32050702011867"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>苏公网安备32050702011867号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+</div>
+<script>
+  // 检查是否为移动设备
+  function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
+  // 初始化 Sakana Widget
+  function initSakanaWidget() {
+    if (isMobileDevice()) {
+      // 如果是手机端，退出函数不加载 Widget
+      return;
+    }
+    
+    // 获取角色
+    const takina = SakanaWidget.getCharacter('takina');
+    takina.initialState = {
+      ...takina.initialState,
+      i: 0.001,
+    };
+
+    const chisato = SakanaWidget.getCharacter('chisato');
+    chisato.initialState = {
+      ...chisato.initialState,
+      i: 0.001
+    };
+    
+    // 随机选择角色
+    const selectedCharacter = Math.floor(Math.random() * 2) === 0 ? takina : chisato;
+    SakanaWidget.registerCharacter('custom', selectedCharacter);
+    
+    // 使用构造函数初始化 SakanaWidget
+    new SakanaWidget({
+      character: 'custom',
+      controls: false
+    }).mount('#sakana-widget');
+  }
+</script>
+
+<!-- 仅在非手机端加载样式和脚本 -->
+<script>
+  if (!isMobileDevice()) {
+    document.write(`
+      <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/sakana-widget@2.7.0/lib/sakana.min.css" />
+      <div id="sakana-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"></div>
+      <script async onload="initSakanaWidget()" src="https://fastly.jsdelivr.net/npm/sakana-widget@2.7.0/lib/sakana.min.js"><\/script>
+    `);
+  }
+</script>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/duration.js"></script>
+<script src="/js/anime.js"></script>
+<script src="/js/fireworks.js"></script>
+<script src="/js/loader.js"></script>
+<script src="/js/fishes.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
