@@ -88,7 +88,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":"ccd09e3b-3cea-4660-8af1-dc4c52b803d7","domains":null,"start_time":null,"token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":"ccd09e3b-3cea-4660-8af1-dc4c52b803d7","domains":null,"start_time":null,"token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -101,7 +101,7 @@
 
 
   
-<meta name="generator" content="Hexo 7.3.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 
 
 <body>
@@ -143,7 +143,7 @@
       <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
 
-    <!-- Collapsible content -->
+    <!-- Collapsible content (desktop) -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto text-center">
         
@@ -231,6 +231,115 @@
   </div>
 </nav>
 
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            
+            <div class="col-12 mobile-grid-group-header">
+              <i class="iconfont icon-books"></i>
+              <span>文章</span>
+            </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="/archives/" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-archive-fill"></i>
+                    <span>归档</span>
+                  </div>
+                </a>
+              </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="/categories/" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-category-fill"></i>
+                    <span>分类</span>
+                  </div>
+                </a>
+              </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="/tags/" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-tags-fill"></i>
+                    <span>标签</span>
+                  </div>
+                </a>
+              </div>
+            
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
   
 
 <div id="banner" class="banner" parallax=true
@@ -263,7 +372,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k 字
+          7.1k 字
         
       </span>
     
@@ -274,7 +383,7 @@
         
         
         
-          17 分钟
+          60 分钟
         
       </span>
     
@@ -291,6 +400,8 @@
     </div>
   </div>
 </div>
+
+
 
 </div>
 
@@ -337,8 +448,9 @@
 <ul>
 <li>返回的类必须是 <code>SseEmitter</code>, 不可以再用其他包装类包装返回 </li>
 <li><code>Thread.sleep(10000)</code> 表示返回数据的事件间隔</li>
-<li>在 <code>SseEmitter.event().data()</code> 中的是需要返回的对象  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServletSseController</span> &#123;<br>    <span class="hljs-meta">@GetMapping(&quot;/sse-blocking&quot;)</span><br>    <span class="hljs-keyword">public</span> SseEmitter <span class="hljs-title function_">ServletSse</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">SseEmitter</span> <span class="hljs-variable">emitter</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SseEmitter</span>();<br>    <br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(() -&gt; &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">while</span> (!Thread.currentThread().isInterrupted()) &#123;<br>                    Thread.sleep(<span class="hljs-number">10000</span>);<br>                    emitter.send(SseEmitter.event().data(<span class="hljs-string">&quot;Data&quot;</span>));<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>                emitter.completeWithError(e);<br>            &#125;<br>        &#125;).start();<br>        <span class="hljs-keyword">return</span> emitter;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li>在 <code>SseEmitter.event().data()</code> 中的是需要返回的对象</li>
 </ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServletSseController</span> &#123;<br>    <span class="hljs-meta">@GetMapping(&quot;/sse-blocking&quot;)</span><br>    <span class="hljs-keyword">public</span> SseEmitter <span class="hljs-title function_">ServletSse</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">SseEmitter</span> <span class="hljs-variable">emitter</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SseEmitter</span>();<br>    <br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(() -&gt; &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">while</span> (!Thread.currentThread().isInterrupted()) &#123;<br>                    Thread.sleep(<span class="hljs-number">10000</span>);<br>                    emitter.send(SseEmitter.event().data(<span class="hljs-string">&quot;Data&quot;</span>));<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>                emitter.completeWithError(e);<br>            &#125;<br>        &#125;).start();<br>        <span class="hljs-keyword">return</span> emitter;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 <h3 id="测试接口返回"><a href="#测试接口返回" class="headerlink" title="测试接口返回"></a>测试接口返回</h3><p><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/SSE202505021345928.png" srcset="/img/loading.gif" lazyload alt="Servlet SSE"><br>至此, 一个 <code>SSE</code> 的接口就完成了接下来是对性能方面的探究</p>
 <h2 id="接口性能"><a href="#接口性能" class="headerlink" title="接口性能"></a>接口性能</h2><p><code>Servlet</code> 下的 <code>SSE</code> 接口是 <strong>阻塞式</strong> 的, 这就意味着在高并发下它很容易触发 <strong>OOM</strong>, 因为 <code>Servlet</code> 本身的同步模式<sup id="fnref:1" class="footnote-ref"><a href="#fn:1" rel="footnote"><span class="hint--top hint--rounded" aria-label="[Servlet特性研究之异步模式](https://www.cnblogs.com/chen943354/p/16598898.html)">[1]</span></a></sup>。 直到3.0版本开始才引入了异步机制!<br>在实际开发过程中, 向上面编写的每次直接 new 一个线程显然是不合适的, 按照一般方式引入线程池, 设置主要参数: <code>CorePoolSize</code>, <code>MaxPoolSize</code>, <code>QueueCapacity</code>, <code>RejectedExecutionHandler</code>等, 由此引发的问题是: 在这个线程池提供的线程数量固定, 而接口又是阻塞式的情况下, 并发量貌似低的有点离谱…<br>使用 <code>ThreadPoolExecutor.CallerRunsPolicy()</code>(提交任务的线程（也就是调用 execute() 的线程）自己来执行这个任务) 的拒绝策略会让被拒绝的任务由容器 <code>tomcat</code> 的工作线程执行…这是不能接受的! 由此, 设想使用异步的框架 <code>WebFlux</code></p>
 <h2 id="WebFlux-实现-SSE-接口"><a href="#WebFlux-实现-SSE-接口" class="headerlink" title="WebFlux 实现 SSE 接口"></a>WebFlux 实现 SSE 接口</h2><p><code>Spring WebFlux</code> 是 <code>Spring Framework 5.0</code> 中引入的新的响应式web框架。与Spring MVC不同，它不需要Servlet API，是<strong>完全异步且非阻塞</strong>的，并且通过Reactor项目实现了Reactive Streams规范<sup id="fnref:2" class="footnote-ref"><a href="#fn:2" rel="footnote"><span class="hint--top hint--rounded" aria-label="[Spring WebFlux 入门](https://www.cnblogs.com/cjsblog/p/12580518.html)">[2]</span></a></sup>。使用也很简单<br>依赖:</p>
@@ -391,7 +503,7 @@
     Tomcat-&gt;&gt;Client: 响应完成
 </code></pre>
 
-<section class="footnotes"><h1>参考资料</h1><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chen943354/p/16598898.html">Servlet特性研究之异步模式</a>
+<section class="footnotes"><h1 id="参考资料">参考资料</h1><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chen943354/p/16598898.html">Servlet特性研究之异步模式</a>
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cjsblog/p/12580518.html">Spring WebFlux 入门</a>
 <a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
                 
@@ -806,7 +918,63 @@
     var boardCtn = jQuery('#board-ctn');
     var boardTop = boardCtn.offset().top;
 
-    window.tocbot.init(Object.assign({
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
       tocSelector     : '#toc-body',
       contentSelector : '.markdown-body',
       linkClass       : 'tocbot-link',
@@ -817,10 +985,16 @@
       scrollSmooth    : true,
       includeTitleTags: true,
       headingsOffset  : -boardTop,
-    }, CONFIG.toc));
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
     if (toc.find('.toc-list-item').length > 0) {
       toc.css('visibility', 'visible');
     }
+    expandAllToc();
+    bindTocToggle();
 
     Fluid.events.registerRefreshCallback(function() {
       if ('tocbot' in window) {
@@ -832,6 +1006,8 @@
         if (toc.find('.toc-list-item').length > 0) {
           toc.css('visibility', 'visible');
         }
+        expandAllToc();
+        bindTocToggle();
       }
     });
   });

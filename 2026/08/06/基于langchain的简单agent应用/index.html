@@ -29,7 +29,7 @@
 <meta property="og:description" content="引言本篇文章基于 travel-agent 项目，具体代码参照 https:&#x2F;&#x2F;github.com&#x2F;emberff&#x2F;travel-agent。 这是一个基于 Spring Boot 3.2 + LangChain4j 的旅游规划 Agent 应用：用户在对话框中提出旅游需求，Agent 结合长期用户画像与短期对话记忆生成个性化的旅行方案；同时在后台异步提取用户画像并持久化，让下一次对话更加”懂你">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-08-06T07:34:53.000Z">
-<meta property="article:modified_time" content="2026-08-06T07:48:05.854Z">
+<meta property="article:modified_time" content="2026-08-06T07:55:14.709Z">
 <meta property="article:author" content="Emberff">
 <meta property="article:tag" content="Agent">
 <meta property="article:tag" content="LangChain4j">
@@ -85,7 +85,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":"ccd09e3b-3cea-4660-8af1-dc4c52b803d7","domains":null,"start_time":null,"token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":"ccd09e3b-3cea-4660-8af1-dc4c52b803d7","domains":null,"start_time":null,"token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -98,7 +98,7 @@
 
 
   
-<meta name="generator" content="Hexo 7.3.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 
 
 <body>
@@ -140,7 +140,7 @@
       <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
 
-    <!-- Collapsible content -->
+    <!-- Collapsible content (desktop) -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto text-center">
         
@@ -228,6 +228,115 @@
   </div>
 </nav>
 
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            
+            <div class="col-12 mobile-grid-group-header">
+              <i class="iconfont icon-books"></i>
+              <span>文章</span>
+            </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="/archives/" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-archive-fill"></i>
+                    <span>归档</span>
+                  </div>
+                </a>
+              </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="/categories/" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-category-fill"></i>
+                    <span>分类</span>
+                  </div>
+                </a>
+              </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="/tags/" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-tags-fill"></i>
+                    <span>标签</span>
+                  </div>
+                </a>
+              </div>
+            
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
   
 
 <div id="banner" class="banner" parallax=true
@@ -260,7 +369,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.5k 字
+          7.2k 字
         
       </span>
     
@@ -271,7 +380,7 @@
         
         
         
-          21 分钟
+          61 分钟
         
       </span>
     
@@ -288,6 +397,8 @@
     </div>
   </div>
 </div>
+
+
 
 </div>
 
@@ -521,11 +632,11 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// memory/TravelMemoryProvider.java</span><br><span class="hljs-keyword">return</span> MessageWindowChatMemory.builder()<br>        .id(memoryId)                <span class="hljs-comment">// 用户唯一ID</span><br>        .maxMessages(<span class="hljs-number">20</span>)             <span class="hljs-comment">// 保留最近20条</span><br>        .chatMemoryStore(store)      <span class="hljs-comment">// Redis 存储</span><br>        .build();<br></code></pre></td></tr></table></figure>
 
 <pre><code class=" mermaid">flowchart LR
-    A[对话请求] --&gt; B[MessageWindowChatMemory&lt;br/&gt;maxMessages=20]
-    B --&gt; C&#123;chatMemoryStore&#125;
-    C --&gt; D[Redis&lt;br/&gt;travel:memory:&#123;userId&#125;]
-    D --&gt; E[序列化 MemoryMessage&lt;br/&gt;type: USER/AI/TOOL]
-    E --&gt; F[过滤 SystemMessage&lt;br/&gt;@SystemMessage 自动注入]
+    A[&quot;对话请求&quot;] --&gt; B[&quot;MessageWindowChatMemory&lt;br/&gt;maxMessages=20&quot;]
+    B --&gt; C&#123;&quot;chatMemoryStore&quot;&#125;
+    C --&gt; D[&quot;Redis&lt;br/&gt;travel:memory:&#123;userId&#125;&quot;]
+    D --&gt; E[&quot;序列化 MemoryMessage&lt;br/&gt;type: USER/AI/TOOL&quot;]
+    E --&gt; F[&quot;过滤 SystemMessage&lt;br/&gt;@SystemMessage 自动注入&quot;]
 </code></pre>
 
 <p>序列化时做了一层<strong>消息类型映射</strong>，避免直接把 LangChain4j 的消息对象写进 Redis：</p>
@@ -545,21 +656,21 @@
 <tr>
 <td>写</td>
 <td>UserMessage</td>
-<td><code>&#123;type:&quot;USER&quot;, content&#125;</code></td>
+<td><code>{type:&quot;USER&quot;, content}</code></td>
 </tr>
 <tr>
 <td>写</td>
 <td>AiMessage（含文本）</td>
-<td><code>&#123;type:&quot;AI&quot;, content&#125;</code></td>
+<td><code>{type:&quot;AI&quot;, content}</code></td>
 </tr>
 <tr>
 <td>写</td>
 <td>ToolExecutionResultMessage</td>
-<td><code>&#123;type:&quot;TOOL&quot;, content&#125;</code></td>
+<td><code>{type:&quot;TOOL&quot;, content}</code></td>
 </tr>
 <tr>
 <td>读</td>
-<td><code>&#123;type:&quot;TOOL&quot;, content&#125;</code></td>
+<td><code>{type:&quot;TOOL&quot;, content}</code></td>
 <td>还原为 <code>SystemMessage</code>（见评估）</td>
 </tr>
 </tbody></table>
@@ -1067,7 +1178,63 @@
     var boardCtn = jQuery('#board-ctn');
     var boardTop = boardCtn.offset().top;
 
-    window.tocbot.init(Object.assign({
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
       tocSelector     : '#toc-body',
       contentSelector : '.markdown-body',
       linkClass       : 'tocbot-link',
@@ -1078,10 +1245,16 @@
       scrollSmooth    : true,
       includeTitleTags: true,
       headingsOffset  : -boardTop,
-    }, CONFIG.toc));
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
     if (toc.find('.toc-list-item').length > 0) {
       toc.css('visibility', 'visible');
     }
+    expandAllToc();
+    bindTocToggle();
 
     Fluid.events.registerRefreshCallback(function() {
       if ('tocbot' in window) {
@@ -1093,6 +1266,8 @@
         if (toc.find('.toc-list-item').length > 0) {
           toc.css('visibility', 'visible');
         }
+        expandAllToc();
+        bindTocToggle();
       }
     });
   });

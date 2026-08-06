@@ -32,8 +32,8 @@
 <meta property="article:published_time" content="2024-11-18T10:05:55.000Z">
 <meta property="article:modified_time" content="2025-04-22T13:55:00.599Z">
 <meta property="article:author" content="Emberff">
-<meta property="article:tag" content="Hexo">
 <meta property="article:tag" content="Fluid">
+<meta property="article:tag" content="Hexo">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411181848240.gif">
   
@@ -86,7 +86,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":"ccd09e3b-3cea-4660-8af1-dc4c52b803d7","domains":null,"start_time":null,"token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":"ccd09e3b-3cea-4660-8af1-dc4c52b803d7","domains":null,"start_time":null,"token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -99,7 +99,7 @@
 
 
   
-<meta name="generator" content="Hexo 7.3.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 
 
 <body>
@@ -141,7 +141,7 @@
       <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
 
-    <!-- Collapsible content -->
+    <!-- Collapsible content (desktop) -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto text-center">
         
@@ -229,6 +229,115 @@
   </div>
 </nav>
 
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            
+            <div class="col-12 mobile-grid-group-header">
+              <i class="iconfont icon-books"></i>
+              <span>文章</span>
+            </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="/archives/" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-archive-fill"></i>
+                    <span>归档</span>
+                  </div>
+                </a>
+              </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="/categories/" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-category-fill"></i>
+                    <span>分类</span>
+                  </div>
+                </a>
+              </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="/tags/" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-tags-fill"></i>
+                    <span>标签</span>
+                  </div>
+                </a>
+              </div>
+            
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
   
 
 <div id="banner" class="banner" parallax=true
@@ -261,7 +370,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          576 字
+          1.9k 字
         
       </span>
     
@@ -272,7 +381,7 @@
         
         
         
-          5 分钟
+          16 分钟
         
       </span>
     
@@ -289,6 +398,8 @@
     </div>
   </div>
 </div>
+
+
 
 </div>
 
@@ -315,7 +426,7 @@
               <div class="markdown-body">
                 
                 <div class="note note-success">
-            <p>博客里没有看板娘的博主不是合格的二次元!</p>
+            <p>博客里没有看板娘的博主不是合格的二次元!</p> 
           </div>
 
 <blockquote>
@@ -325,10 +436,11 @@
 <ol>
 <li>首先使用 <code>CDN</code> 直接引入或者通过 <code>NPM</code> 包的形式安装, 我选择了 <code>CDN</code> 引入的方式。</li>
 <li>由于为了博客在手机浏览器上不被立牌组件影响, 为组件的加载添加了一个是否为移动端的判断, 若为移动端则取消加载组件。</li>
-<li>文档中有提到挂载前可以创建角色并进行配置, 那么我们可以在挂载前先随机选择一个角色(<code>takina</code> 或 <code>chisato</code>)并创建,配置然后挂载到 <code>id</code> 为 <code>sakana-widget</code> 的元素上。最后对元素样式进行修改, 将其放到网页右下角。<br>具体编码如下 <code>sakana.html</code>:<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">  <span class="hljs-comment">// 检查是否为移动设备</span></span><br><span class="language-javascript">  <span class="hljs-keyword">function</span> <span class="hljs-title function_">isMobileDevice</span>(<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">    <span class="hljs-keyword">return</span> <span class="hljs-regexp">/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i</span>.<span class="hljs-title function_">test</span>(navigator.<span class="hljs-property">userAgent</span>);</span><br><span class="language-javascript">  &#125;</span><br><span class="language-javascript"></span><br><span class="language-javascript">  <span class="hljs-comment">// 初始化 Sakana Widget</span></span><br><span class="language-javascript">  <span class="hljs-keyword">function</span> <span class="hljs-title function_">initSakanaWidget</span>(<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isMobileDevice</span>()) &#123;</span><br><span class="language-javascript">      <span class="hljs-comment">// 如果是手机端，退出函数不加载 Widget</span></span><br><span class="language-javascript">      <span class="hljs-keyword">return</span>;</span><br><span class="language-javascript">    &#125;</span><br><span class="language-javascript">    </span><br><span class="language-javascript">    <span class="hljs-comment">// 获取角色</span></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> takina = <span class="hljs-title class_">SakanaWidget</span>.<span class="hljs-title function_">getCharacter</span>(<span class="hljs-string">&#x27;takina&#x27;</span>);</span><br><span class="language-javascript">    takina.<span class="hljs-property">initialState</span> = &#123;</span><br><span class="language-javascript">      ...takina.<span class="hljs-property">initialState</span>,</span><br><span class="language-javascript">      <span class="hljs-attr">i</span>: <span class="hljs-number">0.001</span>,</span><br><span class="language-javascript">    &#125;;</span><br><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> chisato = <span class="hljs-title class_">SakanaWidget</span>.<span class="hljs-title function_">getCharacter</span>(<span class="hljs-string">&#x27;chisato&#x27;</span>);</span><br><span class="language-javascript">    chisato.<span class="hljs-property">initialState</span> = &#123;</span><br><span class="language-javascript">      ...chisato.<span class="hljs-property">initialState</span>,</span><br><span class="language-javascript">      <span class="hljs-attr">i</span>: <span class="hljs-number">0.001</span></span><br><span class="language-javascript">    &#125;;</span><br><span class="language-javascript">    </span><br><span class="language-javascript">    <span class="hljs-comment">// 随机选择角色</span></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> selectedCharacter = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * <span class="hljs-number">2</span>) === <span class="hljs-number">0</span> ? takina : chisato;</span><br><span class="language-javascript">    <span class="hljs-title class_">SakanaWidget</span>.<span class="hljs-title function_">registerCharacter</span>(<span class="hljs-string">&#x27;custom&#x27;</span>, selectedCharacter);</span><br><span class="language-javascript">    </span><br><span class="language-javascript">    <span class="hljs-comment">// 使用构造函数初始化 SakanaWidget</span></span><br><span class="language-javascript">    <span class="hljs-keyword">new</span> <span class="hljs-title class_">SakanaWidget</span>(&#123;</span><br><span class="language-javascript">      <span class="hljs-attr">character</span>: <span class="hljs-string">&#x27;custom&#x27;</span>,</span><br><span class="language-javascript">      <span class="hljs-attr">controls</span>: <span class="hljs-literal">false</span></span><br><span class="language-javascript">    &#125;).<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#sakana-widget&#x27;</span>);</span><br><span class="language-javascript">  &#125;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-comment">&lt;!-- 仅在非手机端加载样式和脚本 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-handlebars"><span class="language-xml"></span></span><br><span class="language-xml"><span class="language-handlebars">  if (!isMobileDevice()) &#123;</span></span><br><span class="language-xml"><span class="language-handlebars">    document.write(`</span></span><br><span class="language-xml"><span class="language-handlebars">      <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://fastly.jsdelivr.net/npm/sakana-widget@2.7.0/lib/sakana.min.css&quot;</span> /&gt;</span></span></span><br><span class="language-xml"><span class="language-handlebars">      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;sakana-widget&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;position: fixed; bottom: 20px; right: 20px; z-index: 1000;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></span><br><span class="language-xml"><span class="language-handlebars">      <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">async</span> <span class="hljs-attr">onload</span>=<span class="hljs-string">&quot;initSakanaWidget()&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://fastly.jsdelivr.net/npm/sakana-widget@2.7.0/lib/sakana.min.js&quot;</span>&gt;</span>&lt;\/script&gt;</span></span><br><span class="language-xml"><span class="language-handlebars">    `);</span></span><br><span class="language-xml"><span class="language-handlebars">  &#125;</span></span><br><span class="language-xml"><span class="language-handlebars"></span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
-<img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411181848240.gif" srcset="/img/loading.gif" lazyload alt="效果图"></li>
+<li>文档中有提到挂载前可以创建角色并进行配置, 那么我们可以在挂载前先随机选择一个角色(<code>takina</code> 或 <code>chisato</code>)并创建,配置然后挂载到 <code>id</code> 为 <code>sakana-widget</code> 的元素上。最后对元素样式进行修改, 将其放到网页右下角。<br>具体编码如下 <code>sakana.html</code>:</li>
 </ol>
-<section class="footnotes"><h1>参考资料</h1><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://github.com/stevenjoezhang/live2d-widget">Live2D Widget</a>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">  <span class="hljs-comment">// 检查是否为移动设备</span></span><br><span class="language-javascript">  <span class="hljs-keyword">function</span> <span class="hljs-title function_">isMobileDevice</span>(<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">    <span class="hljs-keyword">return</span> <span class="hljs-regexp">/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i</span>.<span class="hljs-title function_">test</span>(navigator.<span class="hljs-property">userAgent</span>);</span><br><span class="language-javascript">  &#125;</span><br><span class="language-javascript"></span><br><span class="language-javascript">  <span class="hljs-comment">// 初始化 Sakana Widget</span></span><br><span class="language-javascript">  <span class="hljs-keyword">function</span> <span class="hljs-title function_">initSakanaWidget</span>(<span class="hljs-params"></span>) &#123;</span><br><span class="language-javascript">    <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isMobileDevice</span>()) &#123;</span><br><span class="language-javascript">      <span class="hljs-comment">// 如果是手机端，退出函数不加载 Widget</span></span><br><span class="language-javascript">      <span class="hljs-keyword">return</span>;</span><br><span class="language-javascript">    &#125;</span><br><span class="language-javascript">    </span><br><span class="language-javascript">    <span class="hljs-comment">// 获取角色</span></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> takina = <span class="hljs-title class_">SakanaWidget</span>.<span class="hljs-title function_">getCharacter</span>(<span class="hljs-string">&#x27;takina&#x27;</span>);</span><br><span class="language-javascript">    takina.<span class="hljs-property">initialState</span> = &#123;</span><br><span class="language-javascript">      ...takina.<span class="hljs-property">initialState</span>,</span><br><span class="language-javascript">      <span class="hljs-attr">i</span>: <span class="hljs-number">0.001</span>,</span><br><span class="language-javascript">    &#125;;</span><br><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> chisato = <span class="hljs-title class_">SakanaWidget</span>.<span class="hljs-title function_">getCharacter</span>(<span class="hljs-string">&#x27;chisato&#x27;</span>);</span><br><span class="language-javascript">    chisato.<span class="hljs-property">initialState</span> = &#123;</span><br><span class="language-javascript">      ...chisato.<span class="hljs-property">initialState</span>,</span><br><span class="language-javascript">      <span class="hljs-attr">i</span>: <span class="hljs-number">0.001</span></span><br><span class="language-javascript">    &#125;;</span><br><span class="language-javascript">    </span><br><span class="language-javascript">    <span class="hljs-comment">// 随机选择角色</span></span><br><span class="language-javascript">    <span class="hljs-keyword">const</span> selectedCharacter = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>() * <span class="hljs-number">2</span>) === <span class="hljs-number">0</span> ? takina : chisato;</span><br><span class="language-javascript">    <span class="hljs-title class_">SakanaWidget</span>.<span class="hljs-title function_">registerCharacter</span>(<span class="hljs-string">&#x27;custom&#x27;</span>, selectedCharacter);</span><br><span class="language-javascript">    </span><br><span class="language-javascript">    <span class="hljs-comment">// 使用构造函数初始化 SakanaWidget</span></span><br><span class="language-javascript">    <span class="hljs-keyword">new</span> <span class="hljs-title class_">SakanaWidget</span>(&#123;</span><br><span class="language-javascript">      <span class="hljs-attr">character</span>: <span class="hljs-string">&#x27;custom&#x27;</span>,</span><br><span class="language-javascript">      <span class="hljs-attr">controls</span>: <span class="hljs-literal">false</span></span><br><span class="language-javascript">    &#125;).<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#sakana-widget&#x27;</span>);</span><br><span class="language-javascript">  &#125;</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br><br><span class="hljs-comment">&lt;!-- 仅在非手机端加载样式和脚本 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-handlebars"><span class="language-xml"></span></span><br><span class="language-xml"><span class="language-handlebars">  if (!isMobileDevice()) &#123;</span></span><br><span class="language-xml"><span class="language-handlebars">    document.write(`</span></span><br><span class="language-xml"><span class="language-handlebars">      <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">&quot;stylesheet&quot;</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;https://fastly.jsdelivr.net/npm/sakana-widget@2.7.0/lib/sakana.min.css&quot;</span> /&gt;</span></span></span><br><span class="language-xml"><span class="language-handlebars">      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;sakana-widget&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;position: fixed; bottom: 20px; right: 20px; z-index: 1000;&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span></span><br><span class="language-xml"><span class="language-handlebars">      <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">async</span> <span class="hljs-attr">onload</span>=<span class="hljs-string">&quot;initSakanaWidget()&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://fastly.jsdelivr.net/npm/sakana-widget@2.7.0/lib/sakana.min.js&quot;</span>&gt;</span>&lt;\/script&gt;</span></span><br><span class="language-xml"><span class="language-handlebars">    `);</span></span><br><span class="language-xml"><span class="language-handlebars">  &#125;</span></span><br><span class="language-xml"><span class="language-handlebars"></span></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202411181848240.gif" srcset="/img/loading.gif" lazyload alt="效果图"></p>
+<section class="footnotes"><h1 id="参考资料">参考资料</h1><div class="footnote-list"><ol><li><span id="fn:1" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://github.com/stevenjoezhang/live2d-widget">Live2D Widget</a>
 <a href="#fnref:1" rev="footnote" class="footnote-backref"> ↩</a></span></span></li><li><span id="fn:2" class="footnote-text"><span><a target="_blank" rel="noopener" href="https://github.com/dsrkafuu/sakana-widget">sakana-widget</a>
 <a href="#fnref:2" rev="footnote" class="footnote-backref"> ↩</a></span></span></li></ol></div></section>
                 
@@ -745,7 +857,63 @@
     var boardCtn = jQuery('#board-ctn');
     var boardTop = boardCtn.offset().top;
 
-    window.tocbot.init(Object.assign({
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
       tocSelector     : '#toc-body',
       contentSelector : '.markdown-body',
       linkClass       : 'tocbot-link',
@@ -756,10 +924,16 @@
       scrollSmooth    : true,
       includeTitleTags: true,
       headingsOffset  : -boardTop,
-    }, CONFIG.toc));
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
     if (toc.find('.toc-list-item').length > 0) {
       toc.css('visibility', 'visible');
     }
+    expandAllToc();
+    bindTocToggle();
 
     Fluid.events.registerRefreshCallback(function() {
       if ('tocbot' in window) {
@@ -771,6 +945,8 @@
         if (toc.find('.toc-list-item').length > 0) {
           toc.css('visibility', 'visible');
         }
+        expandAllToc();
+        bindTocToggle();
       }
     });
   });

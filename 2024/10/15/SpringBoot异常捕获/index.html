@@ -88,7 +88,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":"ccd09e3b-3cea-4660-8af1-dc4c52b803d7","domains":null,"start_time":null,"token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":false,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":"ccd09e3b-3cea-4660-8af1-dc4c52b803d7","domains":null,"start_time":null,"token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -101,7 +101,7 @@
 
 
   
-<meta name="generator" content="Hexo 7.3.0"></head>
+<meta name="generator" content="Hexo 8.1.2"></head>
 
 
 <body>
@@ -143,7 +143,7 @@
       <div class="animated-icon"><span></span><span></span><span></span></div>
     </button>
 
-    <!-- Collapsible content -->
+    <!-- Collapsible content (desktop) -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto text-center">
         
@@ -231,6 +231,115 @@
   </div>
 </nav>
 
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            
+            <div class="col-12 mobile-grid-group-header">
+              <i class="iconfont icon-books"></i>
+              <span>文章</span>
+            </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="/archives/" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-archive-fill"></i>
+                    <span>归档</span>
+                  </div>
+                </a>
+              </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="/categories/" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-category-fill"></i>
+                    <span>分类</span>
+                  </div>
+                </a>
+              </div>
+            
+              
+              
+              
+              <div class="col-4 mobile-grid-cell">
+                <a href="/tags/" target="_self">
+                  <div class="mobile-grid-item">
+                    <i class="iconfont icon-tags-fill"></i>
+                    <span>标签</span>
+                  </div>
+                </a>
+              </div>
+            
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
   
 
 <div id="banner" class="banner" parallax=true
@@ -263,7 +372,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          5.7k 字
         
       </span>
     
@@ -274,7 +383,7 @@
         
         
         
-          12 分钟
+          48 分钟
         
       </span>
     
@@ -291,6 +400,8 @@
     </div>
   </div>
 </div>
+
+
 
 </div>
 
@@ -317,7 +428,7 @@
               <div class="markdown-body">
                 
                 <div class="note note-success">
-            <p>记录一下在学习 <a target="_blank" rel="noopener" href="https://github.com/zongzibinbin/MallChat">MallChat</a> 项目过程中学习到的几种异常捕获</p>
+            <p>记录一下在学习 <a target="_blank" rel="noopener" href="https://github.com/zongzibinbin/MallChat">MallChat</a> 项目过程中学习到的几种异常捕获</p> 
           </div>
 <h1 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h1><p>众所周知，默认情况下，<code>ThreadPoolTaskExecutor</code> 中的线程在执行过程中如果出现未捕获的异常，异常信息不会自动输出到日志中，这会使得排查错误变得困难。为了增强对线程池中未捕获异常的处理，可以通过实现 <code>Thread.UncaughtExceptionHandler</code> 来捕获异常，并将异常日志记录下来</p>
 <h2 id="实现自定义异常处理器"><a href="#实现自定义异常处理器" class="headerlink" title="实现自定义异常处理器"></a>实现自定义异常处理器</h2><p>自定义一个 <code>UncaughtExceptionHandler</code>，用于捕获并记录线程中的未捕获的异常:</p>
@@ -341,8 +452,9 @@
 <h2 id="捕获异常"><a href="#捕获异常" class="headerlink" title="捕获异常"></a>捕获异常</h2><p>在 <code>log</code> 中可以看到抛出异常的类<br><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410151946927.png" srcset="/img/loading.gif" lazyload><br>新建一个异常捕获的处理类, 其中</p>
 <ul>
 <li><code>@RestControllerAdvice</code> 用于标记 <code>GlobalExceptionHandler</code> 类为全局异常处理类，专门处理 REST 控制器中的异常，并以 JSON 格式返回响应;</li>
-<li><code>@ExceptionHandler</code> 注解用于指定捕获特定类型的异常<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@RestControllerAdvice</span><br><span class="hljs-variable">@Slf4j</span><br>public class GlobalExceptionHandler &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 前端传参数据据格式错误的异常捕获</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-variable">@ExceptionHandler</span>(value = MethodArgumentNotValidException.class)<br>    public ApiResult&lt;?&gt; <span class="hljs-built_in">methodArgumentNotValidException</span>(MethodArgumentNotValidException e) &#123;<br>        <span class="hljs-selector-tag">System</span><span class="hljs-selector-class">.out</span><span class="hljs-selector-class">.println</span>();<br>        <span class="hljs-selector-tag">return</span> <span class="hljs-selector-tag">ApiResult</span><span class="hljs-selector-class">.fail</span>(null, null);<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure></li>
+<li><code>@ExceptionHandler</code> 注解用于指定捕获特定类型的异常</li>
 </ul>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs less"><span class="hljs-variable">@RestControllerAdvice</span><br><span class="hljs-variable">@Slf4j</span><br>public class GlobalExceptionHandler &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 前端传参数据据格式错误的异常捕获</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-variable">@ExceptionHandler</span>(value = MethodArgumentNotValidException.class)<br>    public ApiResult&lt;?&gt; <span class="hljs-built_in">methodArgumentNotValidException</span>(MethodArgumentNotValidException e) &#123;<br>        <span class="hljs-selector-tag">System</span><span class="hljs-selector-class">.out</span><span class="hljs-selector-class">.println</span>();<br>        <span class="hljs-selector-tag">return</span> <span class="hljs-selector-tag">ApiResult</span><span class="hljs-selector-class">.fail</span>(null, null);<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="查看异常数据"><a href="#查看异常数据" class="headerlink" title="查看异常数据"></a>查看异常数据</h2><p>进行断点查看抛出异常时的数据:<br><img src="https://blog-1318796820.cos.ap-shanghai.myqcloud.com/blog/202410151956645.png" srcset="/img/loading.gif" lazyload alt="报错断点"><br>可以看到, 异常的信息在 <code>bindingResult</code> 下的 <code>errors</code> 中, 其中 <code>field</code> 时发生错误的字段, <code>defaultMessage</code> 是在 <code>vo类</code> 中设置的错误信息.<br>在 <code>Handler类</code> 中对这些信息进行处理。其中, 不同属性的报错以逗号隔开:</p>
 <figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs gml">@ExceptionHandler(value = MethodArgumentNotValidException.class)<br>public ApiResult&lt;?&gt; methodArgumentNotValidException(MethodArgumentNotValidException e) &#123;<br>    StringBuilder errorMsg = <span class="hljs-keyword">new</span> StringBuilder();<br>    e.getBindingResult().getFieldErrors().forEach(<span class="hljs-variable language_">x</span> -&gt; errorMsg.append(<span class="hljs-variable language_">x</span>.getField()).append(<span class="hljs-variable language_">x</span>.getDefaultMessage()).append(<span class="hljs-string">&quot;,&quot;</span>));<br>    String <span class="hljs-variable language_">message</span> = errorMsg.toString();<br>    <span class="hljs-keyword">return</span> ApiResult.fail(CommonErrorEnum.PARAM_INVALID.getCode(), <span class="hljs-variable language_">message</span>.substring(<span class="hljs-number">0</span>, <span class="hljs-variable language_">message</span>.length() - <span class="hljs-number">1</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
 <h2 id="接口返回结果"><a href="#接口返回结果" class="headerlink" title="接口返回结果"></a>接口返回结果</h2><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">false</span></span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;errCode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">-2</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;errMsg&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;name用户名过长&quot;</span><span class="hljs-punctuation">,</span><br>    <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">null</span></span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
@@ -766,7 +878,63 @@
     var boardCtn = jQuery('#board-ctn');
     var boardTop = boardCtn.offset().top;
 
-    window.tocbot.init(Object.assign({
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
       tocSelector     : '#toc-body',
       contentSelector : '.markdown-body',
       linkClass       : 'tocbot-link',
@@ -777,10 +945,16 @@
       scrollSmooth    : true,
       includeTitleTags: true,
       headingsOffset  : -boardTop,
-    }, CONFIG.toc));
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
     if (toc.find('.toc-list-item').length > 0) {
       toc.css('visibility', 'visible');
     }
+    expandAllToc();
+    bindTocToggle();
 
     Fluid.events.registerRefreshCallback(function() {
       if ('tocbot' in window) {
@@ -792,6 +966,8 @@
         if (toc.find('.toc-list-item').length > 0) {
           toc.css('visibility', 'visible');
         }
+        expandAllToc();
+        bindTocToggle();
       }
     });
   });
