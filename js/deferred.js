@@ -1,0 +1,1 @@
+(()=>{var e=["/js/anime.js","/js/fireworks.js","/js/fishes.js","/js/duration.js"];function n(){e.forEach(function(e){var n=document.createElement("script");n.src=e,n.async=!1,document.body.appendChild(n)})}"complete"===document.readyState?n():window.addEventListener("load",n)})();

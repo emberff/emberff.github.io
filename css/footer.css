@@ -1,4 +1,1 @@
-a, .statistics, #timeDate, #times {
-    font-size: 0.95em;
-  }
-  
+#timeDate,#times,.statistics,a{font-size:.95em}
