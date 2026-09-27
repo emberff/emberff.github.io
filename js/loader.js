@@ -1,0 +1,1 @@
+(()=>{function e(){var e=document.getElementById("loader-container");e&&e.classList.add("loader-hidden")}"complete"===document.readyState||"interactive"===document.readyState?e():(document.addEventListener("DOMContentLoaded",e),window.addEventListener("load",e)),setTimeout(e,3e3)})();
