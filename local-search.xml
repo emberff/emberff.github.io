@@ -22,6 +22,8 @@
     
     <tags>
       
+      <tag>AI辅助编写</tag>
+      
       <tag>SpringBoot</tag>
       
       <tag>微信小程序</tag>
@@ -56,6 +58,8 @@
     
     
     <tags>
+      
+      <tag>AI辅助编写</tag>
       
       <tag>Let&#39;s Encrypt</tag>
       
@@ -100,6 +104,8 @@
       
       <tag>AI</tag>
       
+      <tag>AI辅助编写</tag>
+      
     </tags>
     
   </entry>
@@ -126,6 +132,8 @@
     <tags>
       
       <tag>Agent</tag>
+      
+      <tag>AI辅助编写</tag>
       
       <tag>LangChain4j</tag>
       
